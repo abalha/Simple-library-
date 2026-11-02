@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA VITABU{% endblock %}{% block content %}<h1>Thibitisha kufuta</h1><div class="card">
+{% if has_loans %}<p><strong>{{ book.title }}</strong> cha {{ book.author }} kina historia ya mikopo; hakiwezi kufutwa.</p><div class="actions"><a href="{{ url_for('index') }}">Rudi</a></div>
+{% else %}<p>Unataka kufuta <strong>{{ book.title }}</strong> cha {{ book.author }}?</p><p>Kitendo hiki hakiwezi kurudishwa.</p><form method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><div class="actions"><button class="delete">Ndiyo, futa</button><a href="{{ url_for('index') }}">Ghairi</a></div></form>{% endif %}
+</div>{% endblock %}

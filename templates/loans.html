@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA MIKOPO{% endblock %}{% block content %}
+<div class="heading"><div><h1>Mikopo ya vitabu</h1><p>Kopesha na pokea vitabu vilivyorejeshwa.</p></div><a class="button" href="{{ url_for('new_loan') }}">+ Kopesha kitabu</a></div>
+<div class="stats"><div><strong>{{ active_count }}</strong><span>Mikopo iliyo kwenye mikono</span></div><div><strong>{{ overdue_count }}</strong><span>Mikopo iliyochelewa</span></div></div>
+<div class="table"><table><thead><tr><th>Kitabu</th><th>Mwanachama</th><th>Tarehe ya kukopa</th><th>Tarehe ya mwisho</th><th>Hali</th><th>Faini (TZS)</th><th>Vitendo</th></tr></thead><tbody>
+{% for loan in loans %}<tr><td>{{ loan.book_title }}</td><td>{{ loan.member_name }} ({{ loan.member_number }})</td><td>{{ loan.borrowed_at }}</td><td>{{ loan.due_date }}</td>
+<td>{% if loan.returned_at %}Imerejeshwa {{ loan.returned_at }}{% if loan.overdue_days > 0 %} (kilichelewa siku {{ loan.overdue_days }}){% endif %}{% elif loan.overdue_days > 0 %}Imechelewa siku {{ loan.overdue_days }}{% else %}Kwenye mikono{% endif %}</td>
+<td>{{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not loan.returned_at and loan.overdue_days > 0 %} (inayokadiriwa){% endif %}</td>
+<td>{% if not loan.returned_at %}<a href="{{ url_for('return_loan', loan_id=loan.id) }}">Rejesha</a>{% endif %}</td></tr>
+{% else %}<tr><td colspan="7">Hakuna mikopo bado. Anza kwa kukopesha kitabu.</td></tr>{% endfor %}
+</tbody></table></div>
+<p>Faini ni TZS {{ fine_per_day }} kwa siku ya kuchelewa. Mwanachama mwenye mkopo uliochelewa hawezi kukopa kitabu kingine mpaka arejeshe. Faini ya mikopo bado iliyo kwenye mikono ni makadirio tu — inahesabiwa kamili siku ya kurejesha; mfumo huu bado hauhifadhi malipo.</p>
+{% endblock %}

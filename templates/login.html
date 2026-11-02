@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block eyebrow %}INGIA{% endblock %}{% block content %}<h1>Ingia kama mhudumu</h1>
+{% if error %}<div class="errors" role="alert"><p>{{ error }}</p></div>{% endif %}
+<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<label for="password">Password</label><input id="password" name="password" type="password" required autofocus>
+<div class="actions"><button>Ingia</button></div></form>{% endblock %}
