@@ -1,10 +1,29 @@
-{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA MIKOPO{% endblock %}{% block content %}<h1>Kopesha kitabu</h1>
-{% if errors %}<div class="errors" role="alert"><ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul></div>{% endif %}
-<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<label for="member_number">Namba ya mwanachama</label><input id="member_number" name="member_number" value="{{ values.get('member_number', '') }}" required maxlength="50" placeholder="Mfano: ST001">
-<label for="book_id">Kitabu</label><select id="book_id" name="book_id" required>
-<option value="">-- Chagua kitabu --</option>
-{% for book in books %}<option value="{{ book.id }}" {{ 'selected' if values.get('book_id') == book.id|string }}>{{ book.title }} &mdash; nakala {{ book.available }} zinazopatikana</option>{% endfor %}
-</select>
-<p>Muda wa kukopa ni siku {{ loan_days }} kuanzia leo.</p>
-<div class="actions"><button>Kopesha</button><a href="{{ url_for('loans') }}">Ghairi</a></div></form>{% endblock %}
+{% extends 'base.html' %}
+{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}
+{% block content %}
+<h1>{{ t('Kopesha kitabu') }}</h1>
+
+{% if errors %}
+<div class="errors" role="alert">
+  <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<form class="card" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+  <label for="member_number">{{ t('Namba ya mwanachama') }}</label>
+  <input id="member_number" name="member_number" value="{{ values.get('member_number', '') }}" required maxlength="50" placeholder="Mfano: ST001">
+
+  <label for="book_id">{{ t('Kitabu') }}</label>
+  <select id="book_id" name="book_id" required>
+    <option value="">-- {{ t('Chagua kitabu') }} --</option>
+    {% for book in books %}
+    <option value="{{ book.id }}" {{ 'selected' if values.get('book_id') == book.id|string }}>{{ book.title }} &mdash; nakala {{ book.available }} zinazopatikana</option>
+    {% endfor %}
+  </select>
+
+  <p>{{ t('Muda wa kuazima ni siku') }} {{ loan_days }}.</p>
+  <div class="actions"><button>{{ t('Azima kitabu') }}</button><a href="{{ url_for('loans') }}">{{ t('Ghairi') }}</a></div>
+</form>
+{% endblock %}

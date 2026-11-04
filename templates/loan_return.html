@@ -1,3 +1,28 @@
-{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA MIKOPO{% endblock %}{% block content %}<h1>Thibitisha kurejesha</h1><div class="card"><p>Mwanachama <strong>{{ member.full_name }}</strong> ({{ member.member_number }}) anarejesha <strong>{{ book.title }}</strong> cha {{ book.author }}?</p><p>Alikopa tarehe {{ loan.borrowed_at }}, tarehe ya mwisho ilikuwa {{ loan.due_date }}.</p>
-{% if days_late > 0 %}<div class="errors" role="alert"><p>Mkopo huu umechelewa kwa siku {{ days_late }}. Faini ni TZS {{ fine }}.</p></div>{% endif %}
-<form method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><div class="actions"><button>Ndiyo, imerejeshwa</button><a href="{{ url_for('loans') }}">Ghairi</a></div></form></div>{% endblock %}
+{% extends 'base.html' %}{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}{%
+block content %}
+<h1>{{ t('Thibitisha kurejesha') }}</h1>
+<div class="card">
+  <p>
+    Mwanachama <strong>{{ member.full_name }}</strong> ({{ member.member_number
+    }}) anarejesha <strong>{{ book.title }}</strong> cha {{ book.author }}?
+  </p>
+  <p>
+    Alikopa tarehe {{ loan.borrowed_at|display_date }}, tarehe ya mwisho ilikuwa
+    {{ loan.due_date|display_date }}.
+  </p>
+  {% if days_late > 0 %}
+  <div class="errors" role="alert">
+    <p>
+      Kitabu hiki kimechelewa kwa siku {{ days_late }}. Faini ni TZS {{ fine }}.
+    </p>
+  </div>
+  {% endif %}
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <div class="actions">
+      <button>{{ t('Ndiyo, imerejeshwa') }}</button
+      ><a href="{{ url_for('loans') }}">{{ t('Ghairi') }}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

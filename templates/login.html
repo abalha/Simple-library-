@@ -1,5 +1,78 @@
-{% extends 'base.html' %}{% block eyebrow %}INGIA{% endblock %}{% block content %}<h1>Ingia kama mhudumu</h1>
-{% if error %}<div class="errors" role="alert"><p>{{ error }}</p></div>{% endif %}
-<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<label for="password">Password</label><input id="password" name="password" type="password" required autofocus>
-<div class="actions"><button>Ingia</button></div></form>{% endblock %}
+{% extends 'base.html' %} {% block eyebrow %}{{ t('INGIA') }}{% endblock %} {% block
+content %}
+<section class="login-screen" aria-labelledby="login-title">
+  <form class="card login-card" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <img
+      class="login-logo"
+      src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
+      alt="Library MIS logo"
+    />
+    <h1 id="login-title">{{ t('Karibu tena') }}</h1>
+    <p class="login-intro">{{ t('Ingia kwenye mfumo wa usimamizi wa maktaba.') }}</p>
+
+    {% if error %}
+    <div class="errors login-error" role="alert" aria-live="assertive">
+      {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="field-group">
+      <label for="username">{{ t('Jina la mtumiaji') }}</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        value="{{ username }}"
+        autocomplete="username"
+        autocapitalize="none"
+        spellcheck="false"
+        required
+        autofocus
+        aria-invalid="{{ 'true' if error else 'false' }}"
+        aria-describedby="username-help"
+      />
+      <p id="username-help" class="field-help">
+        {{ t('Tumia jina ulilopewa na msimamizi.') }}
+      </p>
+    </div>
+
+    <div class="field-group">
+      <label for="password">{{ t('Nenosiri') }}</label>
+      <div class="password-control">
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          aria-invalid="{{ 'true' if error else 'false' }}"
+        />
+        <button
+          class="password-toggle"
+          type="button"
+          aria-controls="password"
+          aria-pressed="false"
+        >
+          {{ t('Onyesha') }}
+        </button>
+      </div>
+    </div>
+
+    <button class="login-submit" type="submit">{{ t('Ingia kwenye mfumo') }}</button>
+    <p class="login-note">
+      {{ t('Una shida kuingia? Wasiliana na msimamizi wa maktaba.') }}
+    </p>
+  </form>
+</section>
+<script>
+  const passwordInput = document.getElementById("password");
+  const passwordToggle = document.querySelector(".password-toggle");
+  passwordToggle.addEventListener("click", () => {
+    const showing = passwordInput.type === "text";
+    passwordInput.type = showing ? "password" : "text";
+    passwordToggle.textContent = showing ? "{{ t('Onyesha') }}" : "{{ t('Ficha') }}";
+    passwordToggle.setAttribute("aria-pressed", String(!showing));
+  });
+</script>
+{% endblock %}

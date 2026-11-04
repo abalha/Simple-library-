@@ -1,18 +1,21 @@
-# Maendeleo — 26 Oktoba 2026
+# Maendeleo — 4 Novemba 2026
 
 Deadline: 20 Novemba 2026. Delivery: Presentation.
 
 ## Maamuzi ya kazi
+
 - Mada inayofanyiwa kazi: Library Management Information System ya taasisi.
 - Python + Flask + SQLite + HTML/CSS; setup ya kwanza kwenye Windows ya msimamizi.
 - Mwanafunzi ashiriki kuingiza data, kupima, kueleza na kufanya mabadiliko madogo.
 - Roadmap ya fullstack ni lengo tofauti.
 
 ## Imekamilika katika hatua ya kwanza
+
 - CRUD ya vitabu, utafutaji, validation na jumla za vitabu/nakala.
 - Maelekezo ya setup na mazoezi.
 
 ## Imekamilika katika hatua ya pili
+
 - Jedwali la `members`: id, member_number (hadi herufi 50, UNIQUE bila kujali uppercase/lowercase,
   huhifadhiwa kwa herufi kubwa), full_name (hadi herufi 150), member_type (student/teacher pekee),
   status (active/inactive pekee, default active).
@@ -22,6 +25,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   inaonyesha ujumbe rafiki badala ya server error, kwenye create na update.
 
 ## Imekamilika katika hatua ya tatu
+
 - Jedwali la `loans`: id, book_id, member_id, borrowed_at, due_date, returned_at (NULL
   wakati bado kwenye mikono). `LOAN_DAYS = 30` na `MAX_ACTIVE_LOANS = 5` ni constants
   juu ya app.py — maamuzi ya mwanzo, yanaweza kubadilishwa pindi sheria rasmi itakapojulikana.
@@ -35,6 +39,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   kunazuiwa kupungua chini ya idadi inayokopeshwa kwa sasa.
 
 ## Imekamilika katika hatua ya nne — Overdue na faini
+
 - Maamuzi ya mtumiaji: faini TZS 1000 kwa siku ya kuchelewa (`FINE_PER_DAY` juu ya app.py);
   mwanachama mwenye mkopo uliochelewa azuiwe kukopa kingine mpaka arejeshe.
 - `overdue_days(loan, today)`: siku za kuchelewa zinazokokotolewa kutoka due_date mpaka
@@ -56,6 +61,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   uliochelewa (kwa kuiga due_date ya zamani moja kwa moja kwenye test database).
 
 ## Bado haijathibitishwa
+
 - Kozi ya mwanafunzi na uhusiano wa mada na field yake.
 - Akaunti ya mhudumu pekee ni pendekezo, si hitaji lililothibitishwa.
 - Kanuni rasmi za muda wa kuazima (kwa sasa siku 30), kikomo cha mikopo (kwa sasa 5), na
@@ -64,13 +70,38 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Kama faini zinahitaji kurekodiwa kama zimelipwa/hazijalipwa bado haijathibitishwa.
 - OS/vifaa vya mwanafunzi na muda wake wa kujifunza.
 
+## Imekamilika katika hatua ya tano — Login na ripoti
+
+- Login ya mhudumu mmoja inalinda kurasa za vitabu, wanachama, mikopo na ripoti; route ya
+  `/logout` huondoa session.
+- Taarifa za majaribio ni username `admin` na password `maktaba2026`; zinaweza kubadilishwa
+  kwa environment variables `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD` kabla ya kuendesha app.
+- Route ya `/reports/books` huonyesha rekodi za vitabu, jumla ya nakala na nakala
+  zinazopatikana, na ina kitufe cha kuchapisha kupitia browser.
+- Route ya `/reports/loans` huonyesha vitabu vilivyoazimwa, hali zake, overdue na makadirio ya faini;
+  pia inaweza kuchapishwa.
+- Route ya `/reports/members` huonyesha wanachama, aina zao na hali ya uanachama;
+  pia inaweza kuchapishwa.
+- Majaribio ya moja kwa moja sasa ni tests 5; yanajumuisha login, vitabu, wanachama,
+  mikopo, overdue na faini.
+
 ## Hatua zinazofuata
-1. Login ya mhudumu, ripoti zinazochapishwa, majaribio na presentation.
+
+1. Kufanya walkthrough ya presentation kwa kutumia sample data, kisha kuthibitisha kanuni
+   za muda wa uazimaji, kikomo cha vitabu na faini na msimamizi/mwalimu.
+
+## Maandalizi ya presentation
+
+- `seed_data.py` huweka sample data kwenye database tupu pekee: vitabu 6, wanachama 5,
+  mikopo 4, na mifano ya mkopo wa kawaida, uliochelewa na uliorejeshwa.
+- Code imepangwa kwa modules: `database.py` kwa SQLite, `config.py` kwa constants, na
+  `routes/` kwa authentication, vitabu, wanachama, vitabu vilivyoazimwa na ripoti.
 
 Mhudumu ndiye anayehakiki kitambulisho kabla ya usajili; hakuna integration ya moja
 kwa moja na mfumo wa chuo. Historia ya mikopo isifutwe baadaye.
 
 ## Kumbuko la kiufundi
+
 Wakati wa majaribio ya hatua ya tatu, process ya zamani ya `python app.py` ilikuwa
 bado inaendesha kwenye port 5000 kutoka kwenye terminal nyingine (bila routes mpya za
 mikopo), jambo lililosababisha matokeo ya 404 ya muda kwenye smoke test. Ikiwa browser

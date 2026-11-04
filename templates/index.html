@@ -1,5 +1,115 @@
-{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA VITABU{% endblock %}{% block content %}
-<div class="heading"><div><h1>Vitabu vya maktaba</h1><p>Ongeza na simamia taarifa za vitabu.</p></div><a class="button" href="{{ url_for('edit_book') }}">+ Ongeza kitabu</a></div>
-<div class="stats"><div><strong>{{ totals.titles }}</strong><span>Rekodi za vitabu</span></div><div><strong>{{ totals.copies }}</strong><span>Jumla ya nakala</span></div></div>
-<form class="search" method="get"><label for="q">Tafuta kwa jina la kitabu au mwandishi</label><div><input id="q" name="q" value="{{ query }}" placeholder="Mfano: Kiswahili"><button>Tafuta</button><a href="{{ url_for('index') }}">Onyesha vyote</a></div></form>
-<div class="table"><table><thead><tr><th>Kitabu</th><th>Mwandishi</th><th>Aina</th><th>Mwaka</th><th>Nakala</th><th>Zinazopatikana</th><th>Vitendo</th></tr></thead><tbody>{% for book in books %}<tr><td>{{ book.title }}</td><td>{{ book.author }}</td><td>{{ book.category }}</td><td>{{ book.publication_year }}</td><td>{{ book.copies }}</td><td>{{ book.available }}</td><td><a href="{{ url_for('edit_book', book_id=book.id) }}">Badilisha</a> <a class="danger" href="{{ url_for('delete_book', book_id=book.id) }}">Futa</a></td></tr>{% else %}<tr><td colspan="7">{{ 'Hakuna matokeo ya utafutaji.' if query else 'Hakuna vitabu bado. Anza kwa kuongeza kitabu.' }}</td></tr>{% endfor %}</tbody></table></div>{% endblock %}
+{% extends 'base.html' %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
+block content %}
+<div class="heading">
+  <div>
+    <h1>{{ t('Vitabu vya maktaba') }}</h1>
+    <p>{{ t('Ongeza na simamia taarifa za vitabu.') }}</p>
+  </div>
+  <a class="button" href="{{ url_for('edit_book') }}">{{ t('+ Ongeza kitabu') }}</a>
+</div>
+<section class="dashboard-summary" aria-labelledby="summary-title">
+  <h2 id="summary-title">{{ t('Muhtasari wa maktaba') }}</h2>
+  <div class="stats dashboard-stats">
+    <div><strong>{{ totals.titles }}</strong><span>{{ t('Rekodi za vitabu') }}</span></div>
+    <div><strong>{{ totals.copies }}</strong><span>{{ t('Jumla ya nakala') }}</span></div>
+    <div>
+      <strong>{{ summary.active_members }}</strong
+      ><span>Wanachama hai ({{ summary.members }} wote)</span>
+    </div>
+    <div>
+      <strong>{{ summary.active_loans }}</strong
+      ><span>{{ t('Vitabu vilivyoazimwa') }}</span>
+    </div>
+    <div>
+      <strong>{{ summary.overdue_loans }}</strong><span>{{ t('Vilivyochelewa') }}</span>
+    </div>
+    <div>
+      <strong>TZS {{ summary.estimated_fines }}</strong
+      ><span>{{ t('Makadirio ya faini') }}</span>
+    </div>
+  </div>
+</section>
+<form class="search" method="get">
+  <label for="q">Tafuta kwa jina la kitabu au mwandishi</label>
+  <div>
+    <input
+      id="q"
+      name="q"
+      value="{{ query }}"
+      placeholder="Mfano: Kiswahili"
+    /><button>{{ t('Tafuta') }}</button><a href="{{ url_for('index') }}">{{ t('Onyesha vyote') }}</a>
+  </div>
+</form>
+<div class="table">
+  <table>
+    <thead>
+      <tr>
+        <th>{{ t('Kitabu') }}</th><th>{{ t('Mwandishi') }}</th><th>{{ t('Aina') }}</th><th>{{ t('Mwaka') }}</th><th>{{ t('Nakala') }}</th><th>{{ t('Zinazopatikana') }}</th><th>{{ t('Vitendo') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.category }}</td>
+        <td>{{ book.publication_year }}</td>
+        <td>{{ book.copies }}</td>
+        <td>{{ book.available }}</td>
+        <td>
+          <a href="{{ url_for('edit_book', book_id=book.id) }}">{{ t('Badilisha') }}</a>
+          <button
+            class="link-button danger delete-trigger"
+            type="button"
+            data-delete-url="{{ url_for('delete_book', book_id=book.id) }}"
+            data-book-title="{{ book.title }}"
+          >
+            {{ t('Futa') }}
+          </button>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7">
+          {{ 'Hakuna matokeo ya utafutaji.' if query else 'Hakuna vitabu bado.
+          Anza kwa kuongeza kitabu.' }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<dialog
+  class="confirm-dialog"
+  id="delete-dialog"
+  aria-labelledby="delete-dialog-title"
+>
+  <form method="post" id="delete-form">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <h2 id="delete-dialog-title">Thibitisha kufuta</h2>
+    <p>Unataka kufuta <strong id="delete-book-title"></strong>?</p>
+    <p class="dialog-warning">Kitendo hiki hakiwezi kurudishwa.</p>
+    <div class="actions">
+      <button class="delete" type="submit">Ndiyo, futa</button
+      ><button class="secondary-button" type="button" id="delete-cancel">
+        Ghairi
+      </button>
+    </div>
+  </form>
+</dialog>
+<script>
+  const deleteDialog = document.getElementById("delete-dialog");
+  const deleteForm = document.getElementById("delete-form");
+  const deleteTitle = document.getElementById("delete-book-title");
+  document.querySelectorAll(".delete-trigger").forEach((button) => {
+    button.addEventListener("click", () => {
+      deleteForm.action = button.dataset.deleteUrl;
+      deleteTitle.textContent = button.dataset.bookTitle;
+      deleteDialog.showModal();
+    });
+  });
+  document
+    .getElementById("delete-cancel")
+    .addEventListener("click", () => deleteDialog.close());
+</script>
+{% endblock %}

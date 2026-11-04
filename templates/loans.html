@@ -1,12 +1,78 @@
-{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA MIKOPO{% endblock %}{% block content %}
-<div class="heading"><div><h1>Mikopo ya vitabu</h1><p>Kopesha na pokea vitabu vilivyorejeshwa.</p></div><a class="button" href="{{ url_for('new_loan') }}">+ Kopesha kitabu</a></div>
-<div class="stats"><div><strong>{{ active_count }}</strong><span>Mikopo iliyo kwenye mikono</span></div><div><strong>{{ overdue_count }}</strong><span>Mikopo iliyochelewa</span></div></div>
-<div class="table"><table><thead><tr><th>Kitabu</th><th>Mwanachama</th><th>Tarehe ya kukopa</th><th>Tarehe ya mwisho</th><th>Hali</th><th>Faini (TZS)</th><th>Vitendo</th></tr></thead><tbody>
-{% for loan in loans %}<tr><td>{{ loan.book_title }}</td><td>{{ loan.member_name }} ({{ loan.member_number }})</td><td>{{ loan.borrowed_at }}</td><td>{{ loan.due_date }}</td>
-<td>{% if loan.returned_at %}Imerejeshwa {{ loan.returned_at }}{% if loan.overdue_days > 0 %} (kilichelewa siku {{ loan.overdue_days }}){% endif %}{% elif loan.overdue_days > 0 %}Imechelewa siku {{ loan.overdue_days }}{% else %}Kwenye mikono{% endif %}</td>
-<td>{{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not loan.returned_at and loan.overdue_days > 0 %} (inayokadiriwa){% endif %}</td>
-<td>{% if not loan.returned_at %}<a href="{{ url_for('return_loan', loan_id=loan.id) }}">Rejesha</a>{% endif %}</td></tr>
-{% else %}<tr><td colspan="7">Hakuna mikopo bado. Anza kwa kukopesha kitabu.</td></tr>{% endfor %}
-</tbody></table></div>
-<p>Faini ni TZS {{ fine_per_day }} kwa siku ya kuchelewa. Mwanachama mwenye mkopo uliochelewa hawezi kukopa kitabu kingine mpaka arejeshe. Faini ya mikopo bado iliyo kwenye mikono ni makadirio tu — inahesabiwa kamili siku ya kurejesha; mfumo huu bado hauhifadhi malipo.</p>
+{% extends 'base.html' %}{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}{%
+block content %}
+<div class="heading">
+  <div>
+    <h1>{{ t('Vitabu vilivyoazimwa') }}</h1><p>{{ t('Kopesha na pokea vitabu vilivyorejeshwa.') }}</p>
+  </div>
+  <a class="button" href="{{ url_for('new_loan') }}">{{ t('+ Azima kitabu') }}</a>
+</div>
+<div class="stats">
+  <div>
+    <strong>{{ active_count }}</strong><span>{{ t('Vitabu vilivyoazimwa') }}</span>
+  </div>
+  <div>
+    <strong>{{ overdue_count }}</strong><span>{{ t('Vitabu vilivyochelewa') }}</span>
+  </div>
+</div>
+<form class="search" method="get">
+  <label for="q">Tafuta kwa kitabu, jina la mwanachama au namba</label>
+  <div>
+    <input
+      id="q"
+      name="q"
+      value="{{ query }}"
+      placeholder="Mfano: ST001 au Amina"
+    /><button>{{ t('Tafuta') }}</button><a href="{{ url_for('loans') }}">{{ t('Onyesha vyote') }}</a>
+  </div>
+</form>
+<div class="table">
+  <table>
+    <thead>
+      <tr>
+        <th>{{ t('Kitabu') }}</th><th>{{ t('Mwanachama') }}</th><th>{{ t('Tarehe ya kuazima') }}</th><th>{{ t('Tarehe ya mwisho') }}</th><th>{{ t('Hali') }}</th><th>{{ t('Faini (TZS)') }}</th><th>{{ t('Vitendo') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for loan in loans %}
+      <tr>
+        <td>{{ loan.book_title }}</td>
+        <td>{{ loan.member_name }} ({{ loan.member_number }})</td>
+        <td>{{ loan.borrowed_at|display_date }}</td>
+        <td>{{ loan.due_date|display_date }}</td>
+        <td>
+          {% if loan.returned_at %}{{ t('Imerejeshwa') }} {{ loan.returned_at|display_date
+          }}{% if loan.overdue_days > 0 %} (kilichelewa siku {{
+          loan.overdue_days }}){% endif %}{% elif loan.overdue_days > 0
+          %}{{ t('Imechelewa siku') }} {{ loan.overdue_days }}{% else %}{{ t('Kwenye mikono') }}{%
+          endif %}
+        </td>
+        <td>
+          {{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not
+          loan.returned_at and loan.overdue_days > 0 %} (inayokadiriwa){% endif
+          %}
+        </td>
+        <td>
+          {% if not loan.returned_at %}<a
+            href="{{ url_for('return_loan', loan_id=loan.id) }}"
+            >{{ t('Rejesha') }}</a
+          >{% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7">
+          {{ 'Hakuna matokeo ya utafutaji.' if query else 'Hakuna vitabu
+          vilivyoazimwa bado. Anza kwa kuazima kitabu.' }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p>
+  Faini ni TZS {{ fine_per_day }} kwa siku ya kuchelewa. Mwanachama mwenye
+  kitabu kilichochelewa hawezi kuazima kingine mpaka akirejeshe. Faini ya vitabu
+  vilivyoazimwa bado ni makadirio tu — inahesabiwa kamili siku ya kurejesha;
+  mfumo huu bado hauhifadhi malipo.
+</p>
 {% endblock %}

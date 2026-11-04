@@ -1,0 +1,67 @@
+{% extends 'base.html' %}{% block eyebrow %}{{ t('RIPOTI') }}{% endblock %}{% block content
+%}
+<div class="heading">
+  <div>
+    <h1>{{ t('Ripoti ya vitabu vilivyoazimwa') }}</h1><p>{{ t('Imetengenezwa tarehe') }} {{ generated_at|display_date }}.</p>
+  </div>
+  <div class="report-actions no-print">
+    <a class="button secondary-button" href="{{ url_for('books_report') }}"
+      >{{ t('Ripoti ya vitabu') }}</a
+    ><a class="button secondary-button" href="{{ url_for('members_report') }}"
+      >{{ t('Wanachama') }}</a
+    ><button class="button" onclick="window.print()">{{ t('Chapisha') }}</button>
+  </div>
+</div>
+<div class="stats">
+  <div>
+    <strong>{{ active_count }}</strong><span>Vitabu vilivyoazimwa</span>
+  </div>
+  <div>
+    <strong>{{ overdue_count }}</strong><span>Vitabu vilivyochelewa</span>
+  </div>
+  <div>
+    <strong>TZS {{ estimated_fines }}</strong><span>Makadirio ya faini</span>
+  </div>
+</div>
+<div class="table">
+  <table>
+    <thead>
+      <tr>
+        <th>Kitabu</th>
+        <th>Mwanachama</th>
+        <th>Alikopa</th>
+        <th>Tarehe ya mwisho</th>
+        <th>Hali</th>
+        <th>Faini (TZS)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for loan in loans %}
+      <tr>
+        <td>{{ loan.book_title }}</td>
+        <td>{{ loan.member_name }} ({{ loan.member_number }})</td>
+        <td>{{ loan.borrowed_at|display_date }}</td>
+        <td>{{ loan.due_date|display_date }}</td>
+        <td>
+          {% if loan.returned_at %}{{ t('Imerejeshwa') }} {{ loan.returned_at|display_date
+          }}{% elif loan.overdue_days > 0 %}{{ t('Imechelewa siku') }} {{ loan.overdue_days
+          }}{% else %}{{ t('Kwenye mikono') }}{% endif %}
+        </td>
+        <td>
+          {{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not
+          loan.returned_at and loan.overdue_days > 0 %} ({{ t('makadirio') }}){% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">Hakuna vitabu vilivyoazimwa bado.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p>
+  Makadirio ya faini yanahusu vitabu vilivyochelewa ambavyo havijarejeshwa.
+  Faini ya kitabu kilichorejeshwa huhesabiwa kwa tarehe yake ya kurejesha.
+</p>
+{% endblock %}

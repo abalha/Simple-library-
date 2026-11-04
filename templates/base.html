@@ -1,3 +1,87 @@
 <!doctype html>
-<html lang="sw"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maktaba · Vitabu</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
-<body><header class="no-print"><div class="wrap"><a href="{{ url_for('index') if session.logged_in else url_for('login') }}" class="brand">Maktaba</a><span>Library Management Information System</span>{% if session.logged_in %}<nav><a href="{{ url_for('index') }}">Vitabu</a><a href="{{ url_for('members') }}">Wanachama</a><a href="{{ url_for('loans') }}">Mikopo</a><a href="{{ url_for('books_report') }}">Ripoti</a><a href="{{ url_for('logout') }}">Toka</a></nav>{% endif %}</div></header><main class="wrap"><p class="eyebrow">{% block eyebrow %}{% endblock %}</p>{% for message in get_flashed_messages() %}<p class="notice" role="status">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main><footer class="wrap no-print">Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado</footer></body></html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}Maktaba{% endblock %} · Library MIS</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/library-mis-logo.png') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="no-print">
+      <div class="wrap">
+        <a
+          href="{{ url_for('index') if session.logged_in else url_for('login') }}"
+          class="brand"
+          ><img
+            src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
+            alt="Library MIS logo"
+          /><span>{{ t('Maktaba') }}</span></a
+        ><span>Library Management Information System</span>{% if
+        session.logged_in %}
+        <nav>
+          <a
+            class="{{ 'active' if request.endpoint in ('index', 'edit_book', 'delete_book') }}"
+            href="{{ url_for('index') }}"
+            >{{ t('Vitabu') }}</a
+          ><a
+            class="{{ 'active' if request.endpoint in ('members', 'edit_member') }}"
+            href="{{ url_for('members') }}"
+            >{{ t('Wanachama') }}</a
+          ><a
+            class="{{ 'active' if request.endpoint in ('loans', 'new_loan', 'return_loan') }}"
+            href="{{ url_for('loans') }}"
+            >{{ t('Vilivyoazimwa') }}</a
+          ><a
+            class="{{ 'active' if request.endpoint in ('books_report', 'loans_report', 'members_report') }}"
+            href="{{ url_for('books_report') }}"
+            >{{ t('Ripoti') }}</a
+          >
+          <form
+            class="logout-form"
+            method="post"
+            action="{{ url_for('logout') }}"
+          >
+            <input
+              type="hidden"
+              name="csrf_token"
+              value="{{ session.csrf_token }}"
+            /><button type="submit">{{ t('Toka') }}</button>
+          </form>
+          <form
+            class="language-switcher"
+            method="post"
+            action="{{ url_for('set_language', language='en' if language == 'sw' else 'sw') }}"
+          >
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <button
+              class="language-toggle"
+              type="submit"
+              aria-label="Switch to {{ languages['en' if language == 'sw' else 'sw'] }}"
+            >
+              <span class="{{ 'active' if language == 'sw' }}">SW</span>
+              <span class="{{ 'active' if language == 'en' }}">EN</span>
+            </button>
+          </form>
+        </nav>
+        {% endif %}
+      </div>
+    </header>
+    <main class="wrap">
+      <p class="eyebrow">{% block eyebrow %}{% endblock %}</p>
+      {% for message in get_flashed_messages() %}
+      <p class="notice" role="status">{{ message }}</p>
+      {% endfor %}{% block content %}{% endblock %}
+    </main>
+    <footer class="wrap no-print">
+      {{ t('Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado') }}
+    </footer>
+  </body>
+</html>

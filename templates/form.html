@@ -1,7 +1,49 @@
-{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA VITABU{% endblock %}{% block content %}<h1>{{ 'Badilisha taarifa' if editing else 'Ongeza kitabu' }}</h1>
-{% if errors %}<div class="errors" role="alert"><ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul></div>{% endif %}
-<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-{% for key,label in [('title','Jina la kitabu'),('author','Mwandishi'),('category','Aina ya kitabu')] %}<label for="{{ key }}">{{ label }}</label><input id="{{ key }}" name="{{ key }}" value="{{ values.get(key, '') }}" required maxlength="150">{% endfor %}
-<label for="publication_year">Mwaka wa kuchapishwa</label><input id="publication_year" name="publication_year" type="number" min="1" max="{{ current_year }}" value="{{ values.get('publication_year','') }}" required>
-<label for="copies">Idadi ya nakala</label><input id="copies" name="copies" type="number" min="0" max="1000000" value="{{ values.get('copies','') }}" required>
-<div class="actions"><button>Hifadhi</button><a href="{{ url_for('index') }}">Ghairi</a></div></form>{% endblock %}
+{% extends 'base.html' %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
+block content %}
+<h1>{{ t('Badilisha taarifa') if editing else t('Ongeza kitabu') }}</h1>
+{% if errors %}
+<div class="errors" role="alert">
+  <ul>
+    {% for error in errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+<form class="card" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /> {%
+  for key,label in [('title','Jina la
+  kitabu'),('author','Mwandishi'),('category','Aina ya kitabu')] %}<label
+    for="{{ key }}"
+    >{{ t(label) }}</label
+  ><input
+    id="{{ key }}"
+    name="{{ key }}"
+    value="{{ values.get(key, '') }}"
+    required
+    maxlength="150"
+  />{% endfor %} <label for="publication_year">{{ t('Mwaka wa kuchapishwa') }}</label
+  ><input
+    id="publication_year"
+    name="publication_year"
+    type="number"
+    min="1"
+    max="{{ current_year }}"
+    value="{{ values.get('publication_year','') }}"
+    required
+  />
+  <label for="copies">{{ t('Idadi ya nakala') }}</label
+  ><input
+    id="copies"
+    name="copies"
+    type="number"
+    min="0"
+    max="1000000"
+    value="{{ values.get('copies','') }}"
+    required
+  />
+  <div class="actions">
+    <button>{{ t('Hifadhi') }}</button><a href="{{ url_for('index') }}">{{ t('Ghairi') }}</a>
+  </div>
+</form>
+{% endblock %}

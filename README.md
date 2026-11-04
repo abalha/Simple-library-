@@ -1,7 +1,9 @@
-# Maktaba — Hatua ya 1, 2, 3 na 4
+# Maktaba — Hatua ya 1 hadi 5
 
 Project ya kujifunza CRUD kwa Python, Flask, SQLite na HTML/CSS.
-Hili si toleo kamili la assignment. Limekamilisha vitabu, wanachama, mikopo na overdue/faini.
+Hili ni toleo la assignment ya Library Management Information System. Limekamilisha
+vitabu, wanachama, vitabu vilivyoazimwa, overdue/faini, login ya mhudumu mmoja na
+ripoti zinazochapishika.
 
 ## Kuendesha kwenye Windows (PowerShell katika VS Code)
 
@@ -19,6 +21,27 @@ Ikiwa `py` haipatikani lakini `python --version` inafanya kazi, tumia `python -m
 Database `library.db` inajitengeneza mara ya kwanza. Data zinabaki ukizima na kuwasha app.
 Usifute database ukiwa unahitaji taarifa zake. SQLite haihitaji server tofauti.
 
+## Sample data ya presentation
+
+Kwa database tupu, unaweza kuweka vitabu, wanachama na vitabu vilivyoazimwa vya mfano
+(ikiwemo kitabu kilichochelewa) kwa command hii kabla ya kuwasha app:
+
+```powershell
+.\.venv\Scripts\python.exe seed_data.py
+```
+
+Script hukataa kufanya kazi kama tayari kuna data, ili isiharibu taarifa zako. Ili kuanza upya
+kwa sample data, hifadhi backup ya `library.db` kwanza, kisha futa database hiyo na uendeshe
+script; usifanye hivyo ukiwa unahitaji data zako halisi.
+
+## Kuingia
+
+Mfumo una login ya mhudumu mmoja. Taarifa za majaribio ni username `admin` na password
+`maktaba2026`. Kwa matumizi halisi, badilisha taarifa hizi kabla ya kuendesha app kwa kuweka
+environment variables `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD`; usitumie taarifa za
+majaribio kwenye kompyuta inayoshirikiwa.
+Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofauti ya watumiaji.
+
 ## Yaliyopo — Vitabu
 
 - Kuongeza, kuona, kubadilisha na kufuta kitabu baada ya uthibitisho.
@@ -35,9 +58,9 @@ Usifute database ukiwa unahitaji taarifa zake. SQLite haihitaji server tofauti.
 - Hakuna kufuta mwanachama; "inactive" hutumika kusimamisha uanachama bila kupoteza historia.
 - Namba ya mwanachama huhifadhiwa kwa herufi kubwa (uppercase) na ni ya kipekee
   bila kujali herufi kubwa/ndogo (ST001 na st001 ni mwanachama mmoja).
-- Hali active/inactive kwa sasa ni taarifa tu; haizuii bado kukopesha kitabu
-  kwa sababu uazimaji haujaongezwa. Mhudumu ndiye anayehakiki kitambulisho
-  kabla ya kusajili; hakuna integration na mfumo wa chuo.
+- Mwanachama `active` pekee ndiye anayeruhusiwa kukopa kitabu kipya; aliye `inactive`
+  anaweza kurejesha kitabu alichonacho, lakini hawezi kukopa kingine. Mhudumu ndiye
+  anayehakiki kitambulisho cha chuo kabla ya kusajili; hakuna integration na mfumo wa chuo.
 
 ## Yaliyopo — Mikopo (uazimaji na urejeshaji)
 
@@ -68,7 +91,18 @@ Usifute database ukiwa unahitaji taarifa zake. SQLite haihitaji server tofauti.
 - Faini kwa sasa ni hesabu tu inayoonyeshwa kwenye ukurasa; mfumo hauhifadhi kumbukumbu ya
   malipo (hakuna "imelipwa/haijalipwa"). Hiyo si sehemu ya hitaji lililothibitishwa bado.
 
-## Usalama na uhakiki (vitabu, wanachama, mikopo na faini)
+## Yaliyopo — Login na ripoti
+
+- Kurasa zote za mfumo zinalindwa kwa login ya mhudumu; mhudumu anaweza kutoka kwa kutumia
+  kiungo cha "Toka".
+- Kuna ripoti ya vitabu kwenye `/reports/books`, yenye rekodi za vitabu, nakala zote na
+  nakala zinazopatikana, ripoti ya vitabu vilivyoazimwa kwenye `/reports/loans` yenye hali na
+  faini, na ripoti ya wanachama kwenye `/reports/members`. Kila ripoti ina kitufe cha
+  "Chapisha" kinachotumia print dialog ya browser.
+- Mfumo una mhudumu mmoja mwenye username na password moja tu kwa sasa; hakuna usajili wa watumiaji,
+  reset ya password, wala roles tofauti.
+
+## Usalama na uhakiki (vitabu, wanachama, mikopo, faini na login)
 
 - POST forms zina CSRF token; SQL hutumia parameters; templates zina escape ya maandishi.
 - Database ina UNIQUE na CHECK constraints (mfano member_number ya kipekee,
@@ -76,21 +110,28 @@ Usifute database ukiwa unahitaji taarifa zake. SQLite haihitaji server tofauti.
 - Namba ya mwanachama inayojirudia inaonyesha ujumbe wa kueleweka badala ya server error.
 - Masharti ya mikopo (hali ya mwanachama, mkopo uliochelewa, nakala zinazopatikana, kikomo
   cha mikopo 5) yanahakikiwa upande wa server kabla ya kuhifadhi mkopo mpya.
+- Kurasa za mfumo zinahitaji session ya login. Username na password vinaweza kuwekwa kwa
+  `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD` badala ya taarifa za majaribio zilizopo kwenye code.
 
 ## Jinsi code inavyoungana
 
-1. Browser inatuma GET / , GET /members au GET /loans kupata orodha.
-2. Route kwenye app.py inasoma SQLite (ikiwemo JOIN kati ya loans, books na members) na kutuma data kwenye template.
-3. Mtumiaji anafungua /books/new, /members/new au /loans/new na kujaza fomu.
-4. POST inakaguliwa; ikiwa sahihi INSERT/UPDATE inahifadhi taarifa.
-5. Namba ya mwanachama inayojirudia inakamatwa na database (UNIQUE) na kuonyeshwa kama ujumbe rafiki.
-6. Kukopesha kunaandika borrowed_at na due_date (leo + siku 30); kurejesha kunaweka returned_at.
-7. Kabla ya kukopesha, server inahakiki due_date za mikopo isiyorejeshwa ya mwanachama dhidi ya
+1. Mhudumu huingia kwanza kwenye `/login`; session yake ndiyo huruhusu kufungua kurasa za mfumo.
+2. Browser inatuma GET `/`, `/members` au `/loans` kupata orodha.
+3. Route kwenye `app.py` inasoma SQLite (ikiwemo JOIN kati ya loans, books na members) na kutuma data kwenye template.
+4. Mtumiaji anafungua `/books/new`, `/members/new` au `/loans/new` na kujaza fomu.
+5. POST inakaguliwa; ikiwa sahihi INSERT/UPDATE inahifadhi taarifa.
+6. Namba ya mwanachama inayojirudia inakamatwa na database (UNIQUE) na kuonyeshwa kama ujumbe rafiki.
+7. Kukopesha kunaandika borrowed_at na due_date (leo + siku 30); kurejesha kunaweka returned_at.
+8. Kabla ya kukopesha, server inahakiki due_date za mikopo isiyorejeshwa ya mwanachama dhidi ya
    tarehe ya leo (string za ISO format zinalinganishwa moja kwa moja) kuamua kama ana mkopo uliochelewa.
-8. Redirect inarudisha orodha. UPDATE hubadilisha; DELETE ni kwa vitabu pekee (na inazuiwa kama kitabu kina historia ya mikopo).
+9. `/reports/books` husoma jumla na upatikanaji wa vitabu, kisha huonyesha ripoti inayoweza kuchapishwa.
+10. Redirect inarudisha orodha. UPDATE hubadilisha; DELETE ni kwa vitabu pekee (na inazuiwa kama kitabu kina historia ya mikopo).
 
-`app.py`: routes, validation na database (vitabu, wanachama, mikopo na faini). `templates/`: HTML na Jinja.
-`static/style.css`: muonekano. `requirements.txt`: dependency ya moja kwa moja.
+`app.py`: app factory na configuration. `database.py`: SQLite connection na schema.
+`routes/auth.py`, `routes/books.py`, `routes/members.py`, `routes/loans.py` na `routes/reports.py`:
+routes na sheria za kila sehemu ya mfumo. `config.py`: constants za mfumo kama siku za uazimaji,
+kikomo cha vitabu na faini. `templates/`: HTML na Jinja. `static/style.css`: muonekano.
+`requirements.txt`: dependency ya moja kwa moja.
 `test_app.py`: majaribio ya moja kwa moja ya vitabu, wanachama, mikopo na overdue/faini (`python -m unittest test_app`).
 
 ## Jaribio la mwanafunzi
@@ -115,6 +156,6 @@ Eleza tofauti kati ya rekodi moja ya kitabu na nakala zake, na tofauti kati ya "
 
 ## Mipaka
 
-Hili ni toleo la local kwenye PC moja, bila login wala ruhusa. Usiweke kwenye internet.
+Hili ni toleo la local kwenye PC moja, lenye login ya mhudumu mmoja tu. Usiweke kwenye internet.
 Wanachama hawafutwi kabisa — "inactive" pekee. Faini ni hesabu ya kuonyesha tu, si mfumo wa
-malipo; hakuna login ya mhudumu wala ripoti bado. Hakuna sample data ya kujifanya taarifa halisi.
+malipo; hakuna akaunti nyingi, roles, wala historia ya malipo. Sample data ipo kupitia `seed_data.py`.

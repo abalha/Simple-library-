@@ -1,8 +1,50 @@
-{% extends 'base.html' %}{% block eyebrow %}RIPOTI{% endblock %}{% block content %}
-<div class="heading"><div><h1>Ripoti ya vitabu</h1><p>Imetengenezwa tarehe {{ generated_at }}.</p></div><button class="button no-print" onclick="window.print()">Chapisha</button></div>
-<div class="stats"><div><strong>{{ totals.titles }}</strong><span>Rekodi za vitabu</span></div><div><strong>{{ totals.copies }}</strong><span>Jumla ya nakala</span></div><div><strong>{{ totals.available }}</strong><span>Zinazopatikana</span></div></div>
-<div class="table"><table><thead><tr><th>Kitabu</th><th>Mwandishi</th><th>Aina</th><th>Mwaka</th><th>Nakala</th><th>Zinazopatikana</th></tr></thead><tbody>
-{% for book in books %}<tr><td>{{ book.title }}</td><td>{{ book.author }}</td><td>{{ book.category }}</td><td>{{ book.publication_year }}</td><td>{{ book.copies }}</td><td>{{ book.available }}</td></tr>
-{% else %}<tr><td colspan="6">Hakuna vitabu bado.</td></tr>{% endfor %}
-</tbody></table></div>
+{% extends 'base.html' %}{% block eyebrow %}{{ t('RIPOTI') }}{% endblock %}{% block content
+%}
+<div class="heading">
+  <div>
+    <h1>{{ t('Ripoti ya vitabu') }}</h1><p>{{ t('Imetengenezwa tarehe') }} {{ generated_at|display_date }}.</p>
+  </div>
+  <div class="report-actions no-print">
+    <a class="button secondary-button" href="{{ url_for('loans_report') }}"
+      >{{ t('Vilivyoazimwa') }}</a
+    ><a class="button secondary-button" href="{{ url_for('members_report') }}"
+      >{{ t('Wanachama') }}</a
+    ><button class="button" onclick="window.print()">{{ t('Chapisha') }}</button>
+  </div>
+</div>
+<div class="stats">
+  <div><strong>{{ totals.titles }}</strong><span>Rekodi za vitabu</span></div>
+  <div><strong>{{ totals.copies }}</strong><span>Jumla ya nakala</span></div>
+  <div><strong>{{ totals.available }}</strong><span>Zinazopatikana</span></div>
+</div>
+<div class="table">
+  <table>
+    <thead>
+      <tr>
+        <th>Kitabu</th>
+        <th>Mwandishi</th>
+        <th>Aina</th>
+        <th>Mwaka</th>
+        <th>Nakala</th>
+        <th>Zinazopatikana</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.category }}</td>
+        <td>{{ book.publication_year }}</td>
+        <td>{{ book.copies }}</td>
+        <td>{{ book.available }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">Hakuna vitabu bado.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

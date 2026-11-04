@@ -1,15 +1,38 @@
-{% extends 'base.html' %}{% block eyebrow %}USIMAMIZI WA WANACHAMA{% endblock %}{% block content %}<h1>{{ 'Badilisha taarifa' if editing else 'Sajili mwanachama' }}</h1>
-{% if errors %}<div class="errors" role="alert"><ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul></div>{% endif %}
-<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<label for="member_number">Namba ya mwanachama</label><input id="member_number" name="member_number" value="{{ values.get('member_number', '') }}" required maxlength="50">
-<label for="full_name">Jina kamili</label><input id="full_name" name="full_name" value="{{ values.get('full_name', '') }}" required maxlength="150">
-<label for="member_type">Aina ya mwanachama</label><select id="member_type" name="member_type" required>
-<option value="">-- Chagua --</option>
-<option value="student" {{ 'selected' if values.get('member_type') == 'student' }}>Mwanafunzi</option>
-<option value="teacher" {{ 'selected' if values.get('member_type') == 'teacher' }}>Mwalimu</option>
-</select>
-{% if editing %}<label for="status">Hali ya uanachama</label><select id="status" name="status" required>
-<option value="active" {{ 'selected' if values.get('status') == 'active' }}>Hai</option>
-<option value="inactive" {{ 'selected' if values.get('status') == 'inactive' }}>Haifanyi kazi</option>
-</select>{% endif %}
-<div class="actions"><button>Hifadhi</button><a href="{{ url_for('members') }}">Ghairi</a></div></form>{% endblock %}
+{% extends 'base.html' %}
+{% block eyebrow %}{{ t('USIMAMIZI WA WANACHAMA') }}{% endblock %}
+{% block content %}
+<h1>{{ t('Badilisha taarifa') if editing else t('Sajili mwanachama') }}</h1>
+
+{% if errors %}
+<div class="errors" role="alert">
+  <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<form class="card" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+  <label for="member_number">{{ t('Namba ya mwanachama') }}</label>
+  <input id="member_number" name="member_number" value="{{ values.get('member_number', '') }}" required maxlength="50">
+
+  <label for="full_name">{{ t('Jina kamili') }}</label>
+  <input id="full_name" name="full_name" value="{{ values.get('full_name', '') }}" required maxlength="150">
+
+  <label for="member_type">{{ t('Aina ya mwanachama') }}</label>
+  <select id="member_type" name="member_type" required>
+    <option value="">-- Chagua --</option>
+    <option value="student" {{ 'selected' if values.get('member_type') == 'student' }}>{{ t('Mwanafunzi') }}</option>
+    <option value="teacher" {{ 'selected' if values.get('member_type') == 'teacher' }}>{{ t('Mwalimu') }}</option>
+  </select>
+
+  {% if editing %}
+  <label for="status">{{ t('Hali ya uanachama') }}</label>
+  <select id="status" name="status" required>
+    <option value="active" {{ 'selected' if values.get('status') == 'active' }}>{{ t('Hai') }}</option>
+    <option value="inactive" {{ 'selected' if values.get('status') == 'inactive' }}>{{ t('Haifanyi kazi') }}</option>
+  </select>
+  {% endif %}
+
+  <div class="actions"><button>{{ t('Hifadhi') }}</button><a href="{{ url_for('members') }}">{{ t('Ghairi') }}</a></div>
+</form>
+{% endblock %}
