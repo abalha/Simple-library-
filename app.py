@@ -30,10 +30,23 @@ __all__ = [
 ]
 
 
+def load_or_create_secret_key():
+    # key ileile kila uzinduzi ili session ya mhudumu isikufee restart
+    key_file = Path(__file__).with_name(".secret_key")
+    if key_file.is_file():
+        key = key_file.read_text().strip()
+        if key:
+            return key
+    key = secrets.token_hex(32)
+    key_file.write_text(key)
+    key_file.chmod(0o600)
+    return key
+
+
 def create_app(database=None):
     app = Flask(__name__)
     app.config.update(
-        SECRET_KEY=os.environ.get("SECRET_KEY") or secrets.token_hex(32),
+        SECRET_KEY=os.environ.get("SECRET_KEY") or load_or_create_secret_key(),
         DATABASE=str(database or Path(__file__).with_name("library.db")),
         MAX_CONTENT_LENGTH=64 * 1024,
         LIBRARIAN_USERNAME=os.environ.get("LIBRARIAN_USERNAME")

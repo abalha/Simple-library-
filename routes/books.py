@@ -7,6 +7,7 @@ from flask import abort, flash, redirect, render_template, request, url_for
 from config import FINE_PER_DAY
 from database import get_db
 from i18n import translate
+from routes.loans import active_loans_for_book
 
 
 def book_or_404(book_id):
@@ -14,17 +15,6 @@ def book_or_404(book_id):
     if book is None:
         abort(404)
     return book
-
-
-def active_loans_for_book(book_id):
-    return (
-        get_db()
-        .execute(
-            "SELECT count(*) FROM loans WHERE book_id = ? AND returned_at IS NULL",
-            (book_id,),
-        )
-        .fetchone()[0]
-    )
 
 
 def register(app):

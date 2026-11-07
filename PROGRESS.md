@@ -102,6 +102,12 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   hai tena haituwi lugha uliyochagua (session.clear inahifadhi "language").
 - README: maelekezo ya macOS/Linux yameongezwa, na maelezo ya kikomo cha mikopo yamesasishwa.
 - Test ya mikopo sasa inathibitisha kikomo cha mwanafunzi (3) kando ya cha mwalimu (5).
+- `active_loans_for_book` imeunganishwa mahali pamoja kwenye routes/loans.py — ilikuwa
+  imeandikwa mara mbili (books.py na loans.py) na ingeweza kutofautiana siku moja.
+- SECRET_KEY sasa inahifadhiwa kwenye `.secret_key` (git-ignored) badala ya kuzalishwa
+  upya kila uzinduzi — mhudumu habude kuingia tena kila app ikizimwa na kuwashwa.
+- Test mpya ya sita (LanguageTest) inalinda tafsiri ya English: switcher kwenye login,
+  lugha isipotee kwenye login, kurasa kuu zote, error ya validation, na kurudi Kiswahili.
 
 ## Hatua zinazofuata
 

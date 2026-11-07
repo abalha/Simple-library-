@@ -123,6 +123,9 @@ Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofau
   cha mikopo kwa aina) yanahakikiwa upande wa server kabla ya kuhifadhi mkopo mpya.
 - Kurasa za mfumo zinahitaji session ya login. Username na password vinaweza kuwekwa kwa
   `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD` badala ya taarifa za majaribio zilizopo kwenye code.
+- Session key (SECRET_KEY) inahifadhiwa kwenye faili `.secret_key` karibu na app (halitumwi
+  kwenye git), hivyo kufunga na kufungua app hakumulizi mhudumu kuingia tena. Env var
+  `SECRET_KEY` inapita zaidi ya faili hili.
 
 ## Jinsi code inavyoungana
 

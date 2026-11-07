@@ -489,5 +489,72 @@ class LoansTest(unittest.TestCase):
             )
 
 
+class LanguageTest(unittest.TestCase):
+    def test_english_mode_survives_login_and_translations(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "test.db"
+            app = create_app(path)
+            app.testing = True
+            client = app.test_client()
+            # switcher ya lugha ipo kwenye ukurasa wa login kabla ya kuingia
+            self.assertIn(b"language-switcher", client.get("/login").data)
+            with client.session_transaction() as session:
+                token = session["csrf_token"]
+            self.assertEqual(
+                client.post("/language/en", data={"csrf_token": token}).status_code,
+                302,
+            )
+            self.assertEqual(
+                client.post(
+                    "/login",
+                    data={
+                        "username": DEFAULT_LIBRARIAN_USERNAME,
+                        "password": DEFAULT_LIBRARIAN_PASSWORD,
+                        "csrf_token": token,
+                    },
+                ).status_code,
+                302,
+            )
+            # login haianguki lugha uliyochagua
+            with client.session_transaction() as session:
+                token = session["csrf_token"]
+            self.assertIn(b"Library summary", client.get("/").data)
+            for url in (
+                "/members",
+                "/loans",
+                "/reports/books",
+                "/reports/loans",
+                "/reports/members",
+                "/books/new",
+                "/members/new",
+                "/loans/new",
+            ):
+                self.assertEqual(client.get(url).status_code, 200)
+            self.assertIn(
+                b"No members yet. Start by registering a member.",
+                client.get("/members").data,
+            )
+            # error ya validation kwa EN
+            response = client.post(
+                "/books/new",
+                data={
+                    "title": "",
+                    "author": "",
+                    "category": "",
+                    "publication_year": "x",
+                    "copies": "x",
+                    "csrf_token": token,
+                },
+            )
+            self.assertIn(b"Name: enter 1 to 150 characters", response.data)
+            self.assertIn(b"Year: enter a whole number between 1 and", response.data)
+            # kurudi Kiswahili
+            self.assertEqual(
+                client.post("/language/sw", data={"csrf_token": token}).status_code,
+                302,
+            )
+            self.assertIn(b"Muhtasari wa maktaba", client.get("/").data)
+
+
 if __name__ == "__main__":
     unittest.main()
