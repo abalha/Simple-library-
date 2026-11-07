@@ -112,6 +112,7 @@ ENGLISH = {
     "Kitabu kimekopeshwa.": "Book has been lent.",
     "Kitabu kimerejeshwa.": "Book has been returned.",
     "Kitabu hiki tayari kimerejeshwa.": "This book has already been returned.",
+    "Menyu": "Menu",
     "Kopesha kitabu": "Lend a book",
     "nakala": "copies",
     "zinazopatikana": "available",

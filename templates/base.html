@@ -20,40 +20,23 @@
         <a
           href="{{ url_for('index') if session.logged_in else url_for('login') }}"
           class="brand"
-          ><img
+        >
+          <img
             src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
             alt="Library MIS logo"
-          /><span>{{ t('Maktaba') }}</span></a
-        ><span>Library Management Information System</span>
+          />
+          <span>{{ t('Maktaba') }}</span>
+        </a>
+        <span class="tagline">Library Management Information System</span>
         <nav>
           {% if session.logged_in %}
-          <a
-            class="{{ 'active' if request.endpoint in ('index', 'edit_book', 'delete_book') }}"
-            href="{{ url_for('index') }}"
-            >{{ t('Vitabu') }}</a
-          ><a
-            class="{{ 'active' if request.endpoint in ('members', 'edit_member') }}"
-            href="{{ url_for('members') }}"
-            >{{ t('Wanachama') }}</a
-          ><a
-            class="{{ 'active' if request.endpoint in ('loans', 'new_loan', 'return_loan') }}"
-            href="{{ url_for('loans') }}"
-            >{{ t('Vilivyoazimwa') }}</a
-          ><a
-            class="{{ 'active' if request.endpoint in ('books_report', 'loans_report', 'members_report') }}"
-            href="{{ url_for('books_report') }}"
-            >{{ t('Ripoti') }}</a
-          >
-          <form
-            class="logout-form"
-            method="post"
-            action="{{ url_for('logout') }}"
-          >
+          <form class="logout-form" method="post" action="{{ url_for('logout') }}">
             <input
               type="hidden"
               name="csrf_token"
               value="{{ session.csrf_token }}"
-            /><button type="submit">{{ t('Toka') }}</button>
+            />
+            <button type="submit">{{ t('Toka') }}</button>
           </form>
           {% endif %}
           <form
@@ -74,14 +57,47 @@
         </nav>
       </div>
     </header>
-    <main class="wrap">
-      <p class="eyebrow">{% block eyebrow %}{% endblock %}</p>
-      {% for message in get_flashed_messages() %}
-      <p class="notice" role="status">{{ message }}</p>
-      {% endfor %}{% block content %}{% endblock %}
-    </main>
+    <div class="shell">
+      {% if session.logged_in %}
+      <aside class="sidebar no-print">
+        <p class="sidebar-label">{{ t('Menyu') }}</p>
+        <nav>
+          <a
+            class="{{ 'active' if request.endpoint in ('index', 'edit_book', 'delete_book') }}"
+            href="{{ url_for('index') }}"
+            >{{ t('Vitabu') }}</a
+          >
+          <a
+            class="{{ 'active' if request.endpoint in ('members', 'edit_member') }}"
+            href="{{ url_for('members') }}"
+            >{{ t('Wanachama') }}</a
+          >
+          <a
+            class="{{ 'active' if request.endpoint in ('loans', 'new_loan', 'return_loan') }}"
+            href="{{ url_for('loans') }}"
+            >{{ t('Vilivyoazimwa') }}</a
+          >
+          <a
+            class="{{ 'active' if request.endpoint in ('books_report', 'loans_report', 'members_report') }}"
+            href="{{ url_for('books_report') }}"
+            >{{ t('Ripoti') }}</a
+          >
+        </nav>
+      </aside>
+      {% endif %}
+      <main class="wrap">
+        <p class="eyebrow">{% block eyebrow %}{% endblock %}</p>
+        {% for message in get_flashed_messages() %}
+        <p class="notice" role="status">{{ message }}</p>
+        {% endfor %}{% block content %}{% endblock %}
+      </main>
+    </div>
     <footer class="wrap no-print">
-      {{ t('Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado') }}
+      <span class="footer-brand">Maktaba — Library MIS</span>
+      <span>
+        · {{ t('Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado') }} ·
+        © {{ current_year }}</span
+      >
     </footer>
   </body>
 </html>

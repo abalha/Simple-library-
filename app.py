@@ -64,7 +64,12 @@ def create_app(database=None):
 
     @app.context_processor
     def inject_i18n():
-        return {"t": translate, "language": current_language(), "languages": LANGUAGES}
+        return {
+            "t": translate,
+            "language": current_language(),
+            "languages": LANGUAGES,
+            "current_year": date.today().year,
+        }
 
     app.teardown_appcontext(close_db)
     with app.app_context():

@@ -72,7 +72,7 @@ header .wrap {
   background: white;
   padding: 3px;
 }
-header span {
+header .tagline {
   font-size: 13px;
   color: #c9ded8;
 }
@@ -100,6 +100,61 @@ header nav a.active {
 }
 header nav a.active:hover {
   text-decoration: none;
+}
+
+/* ---- Shell: sidebar + maudhui ---- */
+.shell {
+  display: flex;
+  align-items: stretch;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.sidebar {
+  width: 218px;
+  flex-shrink: 0;
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  padding: 24px 14px;
+}
+.sidebar-label {
+  margin: 0 12px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.sidebar nav a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sidebar nav a:hover {
+  background: var(--wash);
+  color: var(--ink);
+}
+.sidebar nav a.active {
+  background: var(--wash);
+  color: var(--brand-strong);
+  box-shadow: inset 3px 0 0 var(--brand);
+}
+main.wrap {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 24px 28px 44px;
 }
 
 /* ---- Vichwa ---- */
@@ -345,6 +400,10 @@ footer {
   padding-top: 16px;
   margin-top: 30px !important;
 }
+.footer-brand {
+  font-weight: 700;
+  color: var(--ink);
+}
 :focus-visible {
   outline: 3px solid #b77d12;
   outline-offset: 3px;
@@ -502,17 +561,19 @@ footer {
 .logout-form button {
   appearance: none;
   background: transparent;
-  padding: 0;
+  border: 1px solid #62928a;
+  border-radius: 999px;
+  padding: 6px 16px;
   min-height: 0;
   box-shadow: none;
-  color: rgb(255 255 255 / 88%);
-  font-size: 14px;
-  font-weight: 600;
+  color: #e6f2ef;
+  font-size: 13px;
+  font-weight: 700;
 }
 .logout-form button:hover {
-  background: transparent;
+  background: #1c5148;
   color: #fff;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .logout-form button:active {
   transform: none;
@@ -578,16 +639,48 @@ footer {
 }
 
 /* ---- Skrini ndogo ---- */
+@media (max-width: 860px) {
+  .shell {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 16px;
+  }
+  .sidebar-label {
+    display: none;
+  }
+  .sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sidebar nav a {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  .sidebar nav a.active {
+    box-shadow: none;
+  }
+}
 @media (max-width: 640px) {
   .heading,
   header .wrap {
     align-items: flex-start;
     flex-direction: column;
   }
+  header .tagline {
+    display: none;
+  }
   header nav {
     margin-left: 0;
     flex-wrap: wrap;
     gap: 14px;
+  }
+  main.wrap {
+    padding: 18px 16px 32px;
   }
   .stats {
     gap: 10px;
@@ -636,6 +729,13 @@ footer {
   }
   body {
     background: #fff;
+  }
+  .shell {
+    display: block;
+  }
+  main.wrap {
+    max-width: none;
+    padding: 0;
   }
   .table,
   .stats div,
