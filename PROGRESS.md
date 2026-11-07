@@ -27,20 +27,20 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 ## Imekamilika katika hatua ya tatu
 
 - Jedwali la `loans`: id, book_id, member_id, borrowed_at, due_date, returned_at (NULL
-  wakati bado kwenye mikono). `LOAN_DAYS = 30` na `MAX_ACTIVE_LOANS = 5` ni constants
-  juu ya app.py — maamuzi ya mwanzo, yanaweza kubadilishwa pindi sheria rasmi itakapojulikana.
+  wakati bado kwenye mikono). `LOAN_DAYS = 30` na kikomo cha mikopo ni constants
+  kwenye `config.py` — maamuzi ya mwanzo, yanaweza kubadilishwa pindi sheria rasmi itakapojulikana.
 - Routes: GET /loans (orodha yenye hali Kwenye mikono/Imechelewa/Imerejeshwa),
   GET+POST /loans/new (kukopesha), GET+POST /loans/<id>/return (kurejesha).
 - Masharti ya kukopa yanayohakikiwa server-side: mwanachama awe active; kitabu kiwe na
-  nakala zinazopatikana (copies jumla minus zinazokopeshwa); mwanachama asivuke mikopo 5
-  isiyorejeshwa. Mwanachama inactive bado anaweza kurejesha mkopo wake uliopo.
+  nakala zinazopatikana (copies jumla minus zinazokopeshwa); mwanachama asivuke kikomo
+  cha mikopo isiyorejeshwa. Mwanachama inactive bado anaweza kurejesha mkopo wake uliopo.
 - Ukurasa wa vitabu (`/`) sasa unaonyesha safu "Zinazopatikana" kando ya "Nakala" za jumla.
 - Kufuta kitabu kunazuiwa kama kina historia ya mikopo; kubadilisha nakala za kitabu
   kunazuiwa kupungua chini ya idadi inayokopeshwa kwa sasa.
 
 ## Imekamilika katika hatua ya nne — Overdue na faini
 
-- Maamuzi ya mtumiaji: faini TZS 1000 kwa siku ya kuchelewa (`FINE_PER_DAY` juu ya app.py);
+- Maamuzi ya mtumiaji: faini TZS 1000 kwa siku ya kuchelewa (`FINE_PER_DAY` kwenye config.py);
   mwanachama mwenye mkopo uliochelewa azuiwe kukopa kingine mpaka arejeshe.
 - `overdue_days(loan, today)`: siku za kuchelewa zinazokokotolewa kutoka due_date mpaka
   returned_at (kama tayari amerejesha) au mpaka leo (kama bado kwenye mikono — makadirio).
@@ -48,7 +48,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   mikopo bado iliyo kwenye mikono inaonyeshwa kama "inayokadiriwa" kwa sababu bado
   haijarejeshwa rasmi.
 - /loans/new inazuia mkopo mpya kama mwanachama ana angalau mkopo mmoja uliochelewa
-  (returned_at tupu na due_date < leo), kabla hata ya kuangalia kikomo cha mikopo 5.
+  (returned_at tupu na due_date < leo), kabla hata ya kuangalia kikomo cha mikopo.
 - /loans/<id>/return inaonyesha onyo la siku zilizochelewa na faini kabla ya kuthibitisha,
   na baada ya kurejesha inaarifu faini ya mwisho (iliyohesabiwa kwa tarehe halisi ya kurejesha).
 - Faini ni hesabu ya kuonyesha tu kwa sasa — hakuna jedwali la malipo/kumbukumbu ya
@@ -64,9 +64,10 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 
 - Kozi ya mwanafunzi na uhusiano wa mada na field yake.
 - Akaunti ya mhudumu pekee ni pendekezo, si hitaji lililothibitishwa.
-- Kanuni rasmi za muda wa kuazima (kwa sasa siku 30), kikomo cha mikopo (kwa sasa 5), na
-  kiwango cha faini (kwa sasa TZS 1000/siku) ni maamuzi ya mwanzo ya mwanafunzi/msimamizi,
-  si kanuni rasmi za taasisi — zinaweza kubadilishwa kirahisi kwenye constants za app.py.
+- Kanuni rasmi za muda wa kuazima (kwa sasa siku 30), kikomo cha mikopo (kwa sasa
+  mwanafunzi 3, mwalimu 5), na kiwango cha faini (kwa sasa TZS 1000/siku) ni maamuzi ya
+  mwanzo ya mwanafunzi/msimamizi, si kanuni rasmi za taasisi — zinaweza kubadilishwa
+  kirahisi kwenye constants za config.py.
 - Kama faini zinahitaji kurekodiwa kama zimelipwa/hazijalipwa bado haijathibitishwa.
 - OS/vifaa vya mwanafunzi na muda wake wa kujifunza.
 
@@ -84,6 +85,23 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   pia inaweza kuchapishwa.
 - Majaribio ya moja kwa moja sasa ni tests 5; yanajumuisha login, vitabu, wanachama,
   mikopo, overdue na faini.
+
+## Imekamilika katika hatua ya sita — kikomo kwa aina, tafsiri kamili, na usafi wa git
+
+- Kikomo cha mikopo sasa kinatofautishwa kwa aina ya mwanachama: mwanafunzi vitabu 3
+  (`MAX_STUDENT_LOANS`), mwalimu vitabu 5 (`MAX_TEACHER_LOANS`) — constants kwenye
+  config.py, zimebadilishwa kutoka `MAX_ACTIVE_LOANS` moja ya awali.
+- seed_data.py ilirekebishwa: wanachama walikuwa wame-comment out hivyo kuweka sample data
+  kuliangukia na FOREIGN KEY constraint; sasa inaweka vitabu 6, wanachama 5, mikopo 4
+  kama ilivyoahidiwa.
+- Backup za database (`library.db.backup_*`) zimeondolewa kwenye git tracking (files
+  zimebaki kwenye kompyuta); .gitignore sasa inalinda `*.db` na `library.db.backup_*`.
+- Tafsiri ya English imekamilika: error messages zote za validation na sheria za mikopo,
+  ukurasa wa kurejesha, dialogs za kufuta, ripoti tatu, na search labels — sasa zote zina
+  tafsiri kwenye i18n.py. Language switcher ipo pia kwenye ukurasa wa login, na login
+  hai tena haituwi lugha uliyochagua (session.clear inahifadhi "language").
+- README: maelekezo ya macOS/Linux yameongezwa, na maelezo ya kikomo cha mikopo yamesasishwa.
+- Test ya mikopo sasa inathibitisha kikomo cha mwanafunzi (3) kando ya cha mwalimu (5).
 
 ## Hatua zinazofuata
 

@@ -4,12 +4,12 @@ block content %}
 <div class="card">
   {% if has_loans %}
   <p>
-    <strong>{{ book.title }}</strong> cha {{ book.author }} kina historia ya
-    uazimaji; hakiwezi kufutwa.
+    <strong>{{ book.title }}</strong> {{ t('cha') }} {{ book.author }}
+    {{ t('kina historia ya uazimaji; hakiwezi kufutwa.') }}
   </p>
-  <div class="actions"><a href="{{ url_for('index') }}">Rudi</a></div>
+  <div class="actions"><a href="{{ url_for('index') }}">{{ t('Rudi') }}</a></div>
   {% else %}
-  <p>Unataka kufuta <strong>{{ book.title }}</strong> cha {{ book.author }}?</p>
+  <p>{{ t('Unataka kufuta') }} <strong>{{ book.title }}</strong> {{ t('cha') }} {{ book.author }}?</p>
   <p>{{ t('Kitendo hiki hakiwezi kurudishwa.') }}</p>
   <form method="post">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

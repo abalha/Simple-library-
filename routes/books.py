@@ -85,7 +85,9 @@ def register(app):
                 ("category", "Aina"),
             ):
                 if not values[key] or len(values[key]) > 150:
-                    errors.append(f"{label}: jaza herufi 1 hadi 150.")
+                    errors.append(
+                        f"{translate(label)}: {translate('jaza herufi 1 hadi 150')}."
+                    )
             numbers = {}
             for key, label, minimum, maximum in (
                 ("publication_year", "Mwaka", 1, date.today().year),
@@ -97,13 +99,13 @@ def register(app):
                         raise ValueError
                 except ValueError:
                     errors.append(
-                        f"{label}: jaza namba kamili kati ya {minimum} na {maximum}."
+                        f"{translate(label)}: {translate('jaza namba kamili kati ya')} {minimum} {translate('na')} {maximum}."
                     )
             if book_id is not None and "copies" in numbers:
                 borrowed = active_loans_for_book(book_id)
                 if numbers["copies"] < borrowed:
                     errors.append(
-                        f"Nakala: haziwezi kupungua chini ya {borrowed}, idadi inayokopeshwa kwa sasa."
+                        f"{translate('Nakala')}: {translate('haziwezi kupungua chini ya')} {borrowed}, {translate('idadi inayokopeshwa kwa sasa')}."
                     )
             if not errors:
                 data = (
@@ -145,7 +147,11 @@ def register(app):
         )
         if request.method == "POST":
             if has_loans:
-                flash("Kitabu hiki kina historia ya uazimaji; hakiwezi kufutwa.")
+                flash(
+                    translate(
+                        "Kitabu hiki kina historia ya uazimaji; hakiwezi kufutwa."
+                    )
+                )
             else:
                 get_db().execute("DELETE FROM books WHERE id=?", (book_id,))
                 get_db().commit()

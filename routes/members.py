@@ -56,13 +56,21 @@ def register(app):
             if not editing:
                 values["status"] = "active"
             if not values["member_number"] or len(values["member_number"]) > 50:
-                errors.append("Namba ya mwanachama: jaza herufi 1 hadi 50.")
+                errors.append(
+                    f"{translate('Namba ya mwanachama')}: {translate('jaza herufi 1 hadi 50')}."
+                )
             if not values["full_name"] or len(values["full_name"]) > 150:
-                errors.append("Jina kamili: jaza herufi 1 hadi 150.")
+                errors.append(
+                    f"{translate('Jina kamili')}: {translate('jaza herufi 1 hadi 150')}."
+                )
             if values["member_type"] not in ("student", "teacher"):
-                errors.append("Aina ya mwanachama: chagua mwanafunzi au mwalimu.")
+                errors.append(
+                    f"{translate('Aina ya mwanachama')}: {translate('chagua mwanafunzi au mwalimu')}."
+                )
             if values["status"] not in ("active", "inactive"):
-                errors.append("Hali: chagua active au inactive.")
+                errors.append(
+                    f"{translate('Hali')}: {translate('chagua')} active {translate('au')} inactive."
+                )
             if not errors:
                 data = (
                     values["member_number"],
@@ -86,7 +94,9 @@ def register(app):
                     return redirect(url_for("members"))
                 except sqlite3.IntegrityError:
                     errors.append(
-                        "Namba ya mwanachama hii tayari inatumika na mwanachama mwingine."
+                        translate(
+                            "Namba ya mwanachama hii tayari inatumika na mwanachama mwingine."
+                        )
                     )
         return render_template(
             "member_form.html", values=values, errors=errors, editing=editing

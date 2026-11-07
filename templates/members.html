@@ -13,7 +13,7 @@
   <div><strong>{{ totals.active }}</strong><span>{{ t('Wanachama hai') }}</span></div>
 </div>
 <form class="search" method="get">
-  <label for="q">Tafuta kwa namba ya mwanachama au jina</label>
+  <label for="q">{{ t('Tafuta kwa namba ya mwanachama au jina') }}</label>
   <div>
     <input
       id="q"
@@ -48,8 +48,7 @@
       {% else %}
       <tr>
         <td colspan="5">
-          {{ 'Hakuna matokeo ya utafutaji.' if query else 'Hakuna wanachama
-          bado. Anza kwa kusajili mwanachama.' }}
+          {{ t('Hakuna matokeo ya utafutaji.') if query else t('Hakuna wanachama bado. Anza kwa kusajili mwanachama.') }}
         </td>
       </tr>
       {% endfor %}

@@ -309,7 +309,7 @@ class LoansTest(unittest.TestCase):
                 302,
             )
             # nakala 2 za kitabu A zote zimekopeshwa; mwanachama mwingine hawezi kukopa hicho kitabu
-            new_member("st004", "Khamis")
+            new_member("st004", "Khamis", kind="teacher")
             response = client.post(
                 "/loans/new",
                 data=dict(member_number="st004", book_id="1", csrf_token=token),
@@ -333,6 +333,26 @@ class LoansTest(unittest.TestCase):
             response = client.post(
                 "/loans/new",
                 data=dict(member_number="st004", book_id="7", csrf_token=token),
+            )
+            self.assertIn("hawezi kuazima kingine".encode(), response.data)
+
+            # kikomo cha mwanafunzi ni 3: st002 ana mkopo 1, ongeza 2 zaidi, ya nne inakataliwa
+            for extra in range(8, 10):
+                new_book(f"Kitabu {extra}", 1)  # ids 8, 9
+            for book_id in (8, 9):
+                self.assertEqual(
+                    client.post(
+                        "/loans/new",
+                        data=dict(
+                            member_number="st002", book_id=str(book_id), csrf_token=token
+                        ),
+                    ).status_code,
+                    302,
+                )
+            new_book("Kitabu 10", 1)  # id 10
+            response = client.post(
+                "/loans/new",
+                data=dict(member_number="st002", book_id="10", csrf_token=token),
             )
             self.assertIn("hawezi kuazima kingine".encode(), response.data)
 

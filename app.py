@@ -12,7 +12,8 @@ from config import (
     DEFAULT_LIBRARIAN_USERNAME,
     FINE_PER_DAY,
     LOAN_DAYS,
-    MAX_ACTIVE_LOANS,
+    MAX_STUDENT_LOANS,
+    MAX_TEACHER_LOANS,
 )
 from database import close_db, init_db
 from i18n import LANGUAGES, current_language, translate
@@ -24,7 +25,8 @@ __all__ = [
     "DEFAULT_LIBRARIAN_USERNAME",
     "FINE_PER_DAY",
     "LOAN_DAYS",
-    "MAX_ACTIVE_LOANS",
+    "MAX_STUDENT_LOANS",
+    "MAX_TEACHER_LOANS",
 ]
 
 

@@ -3,17 +3,18 @@ block content %}
 <h1>{{ t('Thibitisha kurejesha') }}</h1>
 <div class="card">
   <p>
-    Mwanachama <strong>{{ member.full_name }}</strong> ({{ member.member_number
-    }}) anarejesha <strong>{{ book.title }}</strong> cha {{ book.author }}?
+    {{ t('Mwanachama') }} <strong>{{ member.full_name }}</strong> ({{ member.member_number
+    }}) {{ t('anarejesha') }} <strong>{{ book.title }}</strong> {{ t('cha') }} {{ book.author }}?
   </p>
   <p>
-    Alikopa tarehe {{ loan.borrowed_at|display_date }}, tarehe ya mwisho ilikuwa
+    {{ t('Alikopa tarehe') }} {{ loan.borrowed_at|display_date }},
+    {{ t('tarehe ya mwisho ilikuwa') }}
     {{ loan.due_date|display_date }}.
   </p>
   {% if days_late > 0 %}
   <div class="errors" role="alert">
     <p>
-      Kitabu hiki kimechelewa kwa siku {{ days_late }}. Faini ni TZS {{ fine }}.
+      {{ t('Kitabu hiki kimechelewa kwa siku') }} {{ days_late }}. {{ t('Faini ni TZS') }} {{ fine }}.
     </p>
   </div>
   {% endif %}

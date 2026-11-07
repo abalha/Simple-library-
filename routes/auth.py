@@ -19,7 +19,9 @@ def register(app):
 
     @app.before_request
     def require_login():
-        if request.endpoint in (None, "login", "static") or session.get("logged_in"):
+        if request.endpoint in (None, "login", "static", "set_language") or session.get(
+            "logged_in"
+        ):
             return
         return redirect(url_for("login"))
 
@@ -37,8 +39,11 @@ def register(app):
                 password, app.config["LIBRARIAN_PASSWORD"]
             )
             if username_ok and password_ok:
+                language = session.get("language")
                 session.clear()
                 session["logged_in"] = True
+                if language:
+                    session["language"] = language
                 session["csrf_token"] = secrets.token_hex(32)
                 flash(translate("Umeingia."))
                 return redirect(url_for("index"))

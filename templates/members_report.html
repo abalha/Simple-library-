@@ -12,19 +12,19 @@
 </div>
 <div class="stats">
   <div>
-    <strong>{{ totals.members }}</strong><span>Jumla ya wanachama</span>
+    <strong>{{ totals.members }}</strong><span>{{ t('Jumla ya wanachama') }}</span>
   </div>
-  <div><strong>{{ totals.active }}</strong><span>Wanachama hai</span></div>
-  <div><strong>{{ totals.inactive }}</strong><span>Wasio hai</span></div>
+  <div><strong>{{ totals.active }}</strong><span>{{ t('Wanachama hai') }}</span></div>
+  <div><strong>{{ totals.inactive }}</strong><span>{{ t('Wasio hai') }}</span></div>
 </div>
 <div class="table">
   <table>
     <thead>
       <tr>
-        <th>Namba</th>
-        <th>Jina kamili</th>
-        <th>Aina</th>
-        <th>Hali</th>
+        <th>{{ t('Namba') }}</th>
+        <th>{{ t('Jina kamili') }}</th>
+        <th>{{ t('Aina') }}</th>
+        <th>{{ t('Hali') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -33,13 +33,13 @@
         <td>{{ member.member_number }}</td>
         <td>{{ member.full_name }}</td>
         <td>
-          {{ 'Mwanafunzi' if member.member_type == 'student' else 'Mwalimu' }}
+          {{ t('Mwanafunzi') if member.member_type == 'student' else t('Mwalimu') }}
         </td>
-        <td>{{ 'Hai' if member.status == 'active' else 'Haifanyi kazi' }}</td>
+        <td>{{ t('Hai') if member.status == 'active' else t('Haifanyi kazi') }}</td>
       </tr>
       {% else %}
       <tr>
-        <td colspan="4">Hakuna wanachama bado.</td>
+        <td colspan="4">{{ t('Hakuna wanachama bado.') }}</td>
       </tr>
       {% endfor %}
     </tbody>

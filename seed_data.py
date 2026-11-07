@@ -40,11 +40,11 @@ def main():
             ("Environmental Studies", "Hassan Mwinyi", "Sayansi", 2022, 3),
         ]
         members = [
-            # ("ST001", "Amina Said", "student", "active"),
-            # ("ST002", "Juma Hassan", "student", "active"),
-            # ("ST003", "Zainab Omar", "student", "active"),
-            # ("TC001", "Neema Mally", "teacher", "active"),
-            # ("ST004", "Bakari Musa", "student", "inactive"),
+            ("ST001", "Amina Said", "student", "active"),
+            ("ST002", "Juma Hassan", "student", "active"),
+            ("ST003", "Zainab Omar", "student", "active"),
+            ("TC001", "Neema Mally", "teacher", "active"),
+            ("ST004", "Bakari Musa", "student", "inactive"),
         ]
         connection.executemany(
             "INSERT INTO books (title, author, category, publication_year, copies) VALUES (?, ?, ?, ?, ?)",

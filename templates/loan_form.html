@@ -19,7 +19,7 @@
   <select id="book_id" name="book_id" required>
     <option value="">-- {{ t('Chagua kitabu') }} --</option>
     {% for book in books %}
-    <option value="{{ book.id }}" {{ 'selected' if values.get('book_id') == book.id|string }}>{{ book.title }} &mdash; nakala {{ book.available }} zinazopatikana</option>
+    <option value="{{ book.id }}" {{ 'selected' if values.get('book_id') == book.id|string }}>{{ book.title }} &mdash; {{ t('nakala') }} {{ book.available }} {{ t('zinazopatikana') }}</option>
     {% endfor %}
   </select>
 

@@ -14,7 +14,7 @@ block content %}
     <div><strong>{{ totals.copies }}</strong><span>{{ t('Jumla ya nakala') }}</span></div>
     <div>
       <strong>{{ summary.active_members }}</strong
-      ><span>Wanachama hai ({{ summary.members }} wote)</span>
+      ><span>{{ t('Wanachama hai') }} ({{ summary.members }} {{ t('wote') }})</span>
     </div>
     <div>
       <strong>{{ summary.active_loans }}</strong
@@ -30,7 +30,7 @@ block content %}
   </div>
 </section>
 <form class="search" method="get">
-  <label for="q">Tafuta kwa jina la kitabu au mwandishi</label>
+  <label for="q">{{ t('Tafuta kwa jina la kitabu au mwandishi') }}</label>
   <div>
     <input
       id="q"
@@ -71,8 +71,7 @@ block content %}
       {% else %}
       <tr>
         <td colspan="7">
-          {{ 'Hakuna matokeo ya utafutaji.' if query else 'Hakuna vitabu bado.
-          Anza kwa kuongeza kitabu.' }}
+          {{ t('Hakuna matokeo ya utafutaji.') if query else t('Hakuna vitabu bado. Anza kwa kuongeza kitabu.') }}
         </td>
       </tr>
       {% endfor %}
@@ -86,13 +85,13 @@ block content %}
 >
   <form method="post" id="delete-form">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <h2 id="delete-dialog-title">Thibitisha kufuta</h2>
-    <p>Unataka kufuta <strong id="delete-book-title"></strong>?</p>
-    <p class="dialog-warning">Kitendo hiki hakiwezi kurudishwa.</p>
+    <h2 id="delete-dialog-title">{{ t('Thibitisha kufuta') }}</h2>
+    <p>{{ t('Unataka kufuta') }} <strong id="delete-book-title"></strong>?</p>
+    <p class="dialog-warning">{{ t('Kitendo hiki hakiwezi kurudishwa.') }}</p>
     <div class="actions">
-      <button class="delete" type="submit">Ndiyo, futa</button
+      <button class="delete" type="submit">{{ t('Ndiyo, futa') }}</button
       ><button class="secondary-button" type="button" id="delete-cancel">
-        Ghairi
+        {{ t('Ghairi') }}
       </button>
     </div>
   </form>

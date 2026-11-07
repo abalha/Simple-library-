@@ -15,7 +15,7 @@ block content %}
   </div>
 </div>
 <form class="search" method="get">
-  <label for="q">Tafuta kwa kitabu, jina la mwanachama au namba</label>
+  <label for="q">{{ t('Tafuta kwa kitabu, jina la mwanachama au namba') }}</label>
   <div>
     <input
       id="q"
@@ -41,14 +41,14 @@ block content %}
         <td>{{ loan.due_date|display_date }}</td>
         <td>
           {% if loan.returned_at %}{{ t('Imerejeshwa') }} {{ loan.returned_at|display_date
-          }}{% if loan.overdue_days > 0 %} (kilichelewa siku {{
+          }}{% if loan.overdue_days > 0 %} ({{ t('kilichelewa siku') }} {{
           loan.overdue_days }}){% endif %}{% elif loan.overdue_days > 0
           %}{{ t('Imechelewa siku') }} {{ loan.overdue_days }}{% else %}{{ t('Kwenye mikono') }}{%
           endif %}
         </td>
         <td>
           {{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not
-          loan.returned_at and loan.overdue_days > 0 %} (inayokadiriwa){% endif
+          loan.returned_at and loan.overdue_days > 0 %} ({{ t('inayokadiriwa') }}){% endif
           %}
         </td>
         <td>
@@ -61,8 +61,7 @@ block content %}
       {% else %}
       <tr>
         <td colspan="7">
-          {{ 'Hakuna matokeo ya utafutaji.' if query else 'Hakuna vitabu
-          vilivyoazimwa bado. Anza kwa kuazima kitabu.' }}
+          {{ t('Hakuna matokeo ya utafutaji.') if query else t('Hakuna vitabu vilivyoazimwa bado. Anza kwa kuazima kitabu.') }}
         </td>
       </tr>
       {% endfor %}
@@ -70,9 +69,8 @@ block content %}
   </table>
 </div>
 <p>
-  Faini ni TZS {{ fine_per_day }} kwa siku ya kuchelewa. Mwanachama mwenye
-  kitabu kilichochelewa hawezi kuazima kingine mpaka akirejeshe. Faini ya vitabu
-  vilivyoazimwa bado ni makadirio tu — inahesabiwa kamili siku ya kurejesha;
-  mfumo huu bado hauhifadhi malipo.
+  {{ t('Faini ni TZS') }} {{ fine_per_day }} {{ t('kwa siku ya kuchelewa') }}.
+  {{ t('Mwanachama mwenye kitabu kilichochelewa hawezi kuazima kingine mpaka akirejeshe.') }}
+  {{ t('Faini ya vitabu vilivyoazimwa bado ni makadirio tu — inahesabiwa kamili siku ya kurejesha; mfumo huu bado hauhifadhi malipo.') }}
 </p>
 {% endblock %}

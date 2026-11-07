@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 from flask import abort, flash, redirect, render_template, request, url_for
 
-from config import FINE_PER_DAY, LOAN_DAYS, MAX_ACTIVE_LOANS
+from config import FINE_PER_DAY, LOAN_DAYS, MAX_STUDENT_LOANS, MAX_TEACHER_LOANS
 from database import get_db
 from i18n import translate
 
@@ -53,6 +53,12 @@ def member_has_overdue(member_id):
         )
         .fetchone()[0]
         > 0
+    )
+
+
+def loan_limit_for(member):
+    return (
+        MAX_TEACHER_LOANS if member["member_type"] == "teacher" else MAX_STUDENT_LOANS
     )
 
 
@@ -141,24 +147,30 @@ def register(app):
             )
             if member is None:
                 errors.append(
-                    "Namba ya mwanachama haipo. Hakiki namba au msajili mwanachama kwanza."
+                    translate(
+                        "Namba ya mwanachama haipo. Hakiki namba au msajili mwanachama kwanza."
+                    )
                 )
             elif member["status"] != "active":
                 errors.append(
-                    "Mwanachama huyu si hai (inactive); hawezi kuazima kitabu."
+                    translate("Mwanachama huyu si hai (inactive); hawezi kuazima kitabu.")
                 )
             elif member_has_overdue(member["id"]):
                 errors.append(
-                    "Mwanachama huyu ana kitabu kilichochelewa ambacho bado hajarejesha; hawezi kuazima kingine mpaka akirejeshe."
+                    translate(
+                        "Mwanachama huyu ana kitabu kilichochelewa ambacho bado hajarejesha; hawezi kuazima kingine mpaka akirejeshe."
+                    )
                 )
-            elif active_loans_for_member(member["id"]) >= MAX_ACTIVE_LOANS:
+            elif active_loans_for_member(member["id"]) >= loan_limit_for(member):
                 errors.append(
-                    f"Mwanachama huyu ana vitabu {MAX_ACTIVE_LOANS} ambavyo bado hajarejesha; hawezi kuazima kingine."
+                    f"{translate('Mwanachama huyu ana vitabu')} {loan_limit_for(member)} {translate('ambavyo bado hajarejesha; hawezi kuazima kingine')}."
                 )
             if book is None:
-                errors.append("Chagua kitabu halali.")
+                errors.append(translate("Chagua kitabu halali."))
             elif active_loans_for_book(book["id"]) >= book["copies"]:
-                errors.append("Hakuna nakala za kitabu hiki zilizobaki kwa sasa.")
+                errors.append(
+                    translate("Hakuna nakala za kitabu hiki zilizobaki kwa sasa.")
+                )
             if not errors:
                 borrowed_at = date.today()
                 due_date = borrowed_at + timedelta(days=LOAN_DAYS)
@@ -207,7 +219,7 @@ def register(app):
             )
             get_db().commit()
             flash(
-                f"{translate('Kitabu kimerejeshwa.')} {translate('Kimechelewa siku')} {days_late}; faini TZS {days_late * FINE_PER_DAY}."
+                f"{translate('Kitabu kimerejeshwa.')} {translate('Kimechelewa siku')} {days_late}; {translate('faini')} TZS {days_late * FINE_PER_DAY}."
                 if days_late
                 else translate("Kitabu kimerejeshwa.")
             )

@@ -14,25 +14,25 @@
 </div>
 <div class="stats">
   <div>
-    <strong>{{ active_count }}</strong><span>Vitabu vilivyoazimwa</span>
+    <strong>{{ active_count }}</strong><span>{{ t('Vitabu vilivyoazimwa') }}</span>
   </div>
   <div>
-    <strong>{{ overdue_count }}</strong><span>Vitabu vilivyochelewa</span>
+    <strong>{{ overdue_count }}</strong><span>{{ t('Vitabu vilivyochelewa') }}</span>
   </div>
   <div>
-    <strong>TZS {{ estimated_fines }}</strong><span>Makadirio ya faini</span>
+    <strong>TZS {{ estimated_fines }}</strong><span>{{ t('Makadirio ya faini') }}</span>
   </div>
 </div>
 <div class="table">
   <table>
     <thead>
       <tr>
-        <th>Kitabu</th>
-        <th>Mwanachama</th>
-        <th>Alikopa</th>
-        <th>Tarehe ya mwisho</th>
-        <th>Hali</th>
-        <th>Faini (TZS)</th>
+        <th>{{ t('Kitabu') }}</th>
+        <th>{{ t('Mwanachama') }}</th>
+        <th>{{ t('Alikopa') }}</th>
+        <th>{{ t('Tarehe ya mwisho') }}</th>
+        <th>{{ t('Hali') }}</th>
+        <th>{{ t('Faini (TZS)') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -54,14 +54,14 @@
       </tr>
       {% else %}
       <tr>
-        <td colspan="6">Hakuna vitabu vilivyoazimwa bado.</td>
+        <td colspan="6">{{ t('Hakuna vitabu vilivyoazimwa bado.') }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
 <p>
-  Makadirio ya faini yanahusu vitabu vilivyochelewa ambavyo havijarejeshwa.
-  Faini ya kitabu kilichorejeshwa huhesabiwa kwa tarehe yake ya kurejesha.
+  {{ t('Makadirio ya faini yanahusu vitabu vilivyochelewa ambavyo havijarejeshwa.') }}
+  {{ t('Faini ya kitabu kilichorejeshwa huhesabiwa kwa tarehe yake ya kurejesha.') }}
 </p>
 {% endblock %}

@@ -21,6 +21,16 @@ Ikiwa `py` haipatikani lakini `python --version` inafanya kazi, tumia `python -m
 Database `library.db` inajitengeneza mara ya kwanza. Data zinabaki ukizima na kuwasha app.
 Usifute database ukiwa unahitaji taarifa zake. SQLite haihitaji server tofauti.
 
+## Kuendesha kwenye macOS au Linux (Terminal)
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python app.py
+```
+
+Majaribio: `.venv/bin/python -m unittest test_app`. Sample data: `.venv/bin/python seed_data.py`.
+
 ## Sample data ya presentation
 
 Kwa database tupu, unaweza kuweka vitabu, wanachama na vitabu vilivyoazimwa vya mfano
@@ -68,24 +78,25 @@ Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofau
   mwisho (due date) huwekwa kiotomatiki siku 30 kutoka tarehe ya kukopa.
 - Masharti ya kukopa: mwanachama awe "active" (inactive hawezi kukopa kipya, lakini bado
   anaweza kurejesha mkopo wake uliopo); kitabu kiwe na nakala zinazopatikana (copies za jumla
-  minus zinazokopeshwa kwa sasa); mwanachama mmoja hawezi kuwa na mikopo zaidi ya 5
-  ambayo bado hajairejesha kwa wakati mmoja.
+  minus zinazokopeshwa kwa sasa); mwanafunzi hawezi kuwa na mikopo zaidi ya 3, mwalimu
+  zaidi ya 5, ambazo bado hajairejesha kwa wakati mmoja.
 - Kurejesha kitabu baada ya uthibitisho; mkopo uliorejeshwa tayari haurejeshwi mara ya pili.
 - Ukurasa wa vitabu sasa unaonyesha "Zinazopatikana" (nakala za jumla minus zinazokopeshwa).
 - Kitabu chenye historia ya mikopo hakiwezi kufutwa; nakala za kitabu hazipunguzwi chini ya
   idadi inayokopeshwa kwa sasa.
-- Muda wa siku 30 na kikomo cha mikopo 5 ni maamuzi ya mwanzo ya mfumo; yanaweza kubadilishwa
-  (LOAN_DAYS na MAX_ACTIVE_LOANS juu ya app.py) endapo sheria rasmi ya maktaba itakuwa tofauti.
+- Muda wa siku 30 na kikomo cha mikopo (mwanafunzi 3, mwalimu 5) ni maamuzi ya mwanzo ya
+  mfumo; yanaweza kubadilishwa (LOAN_DAYS, MAX_STUDENT_LOANS na MAX_TEACHER_LOANS kwenye
+  config.py) endapo sheria rasmi ya maktaba itakuwa tofauti.
 
 ## Yaliyopo — Overdue na faini
 
-- Faini ni TZS 1000 (FINE_PER_DAY juu ya app.py) kwa kila siku ya kuchelewa baada ya due_date.
+- Faini ni TZS 1000 (FINE_PER_DAY kwenye config.py) kwa kila siku ya kuchelewa baada ya due_date.
 - Mikopo bado iliyo kwenye mikono (hazijarejeshwa) inaonyesha faini "inayokadiriwa" kwa kulinganisha
   due_date na tarehe ya leo; faini halisi huhesabiwa siku ya kurejesha kwa kutumia tarehe halisi
   ya kurejesha.
 - Mwanachama mwenye angalau mkopo mmoja uliochelewa (returned_at ni tupu na due_date imepita)
   hawezi kukopa kitabu kingine chochote mpaka arejeshe ulio nyuma — hii inazuiwa upande wa server,
-  bila kujali kama bado hajafikia kikomo cha mikopo 5.
+  bila kujali kama bado hajafikia kikomo cha mikopo (mwanafunzi 3, mwalimu 5).
 - Ukurasa wa kurejesha unaonyesha siku zilizochelewa na faini kabla ya mhudumu kuthibitisha;
   baada ya kurejesha, ujumbe unaarifu siku zilizochelewa na faini ya mwisho.
 - Faini kwa sasa ni hesabu tu inayoonyeshwa kwenye ukurasa; mfumo hauhifadhi kumbukumbu ya
@@ -109,7 +120,7 @@ Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofau
   member_type/status zinazokubalika pekee) pamoja na uhakiki upande wa server.
 - Namba ya mwanachama inayojirudia inaonyesha ujumbe wa kueleweka badala ya server error.
 - Masharti ya mikopo (hali ya mwanachama, mkopo uliochelewa, nakala zinazopatikana, kikomo
-  cha mikopo 5) yanahakikiwa upande wa server kabla ya kuhifadhi mkopo mpya.
+  cha mikopo kwa aina) yanahakikiwa upande wa server kabla ya kuhifadhi mkopo mpya.
 - Kurasa za mfumo zinahitaji session ya login. Username na password vinaweza kuwekwa kwa
   `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD` badala ya taarifa za majaribio zilizopo kwenye code.
 

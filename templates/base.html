@@ -24,9 +24,9 @@
             src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
             alt="Library MIS logo"
           /><span>{{ t('Maktaba') }}</span></a
-        ><span>Library Management Information System</span>{% if
-        session.logged_in %}
+        ><span>Library Management Information System</span>
         <nav>
+          {% if session.logged_in %}
           <a
             class="{{ 'active' if request.endpoint in ('index', 'edit_book', 'delete_book') }}"
             href="{{ url_for('index') }}"
@@ -55,6 +55,7 @@
               value="{{ session.csrf_token }}"
             /><button type="submit">{{ t('Toka') }}</button>
           </form>
+          {% endif %}
           <form
             class="language-switcher"
             method="post"
@@ -71,7 +72,6 @@
             </button>
           </form>
         </nav>
-        {% endif %}
       </div>
     </header>
     <main class="wrap">

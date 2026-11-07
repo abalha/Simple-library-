@@ -20,7 +20,7 @@
 
   <label for="member_type">{{ t('Aina ya mwanachama') }}</label>
   <select id="member_type" name="member_type" required>
-    <option value="">-- Chagua --</option>
+    <option value="">-- {{ t('Chagua') }} --</option>
     <option value="student" {{ 'selected' if values.get('member_type') == 'student' }}>{{ t('Mwanafunzi') }}</option>
     <option value="teacher" {{ 'selected' if values.get('member_type') == 'teacher' }}>{{ t('Mwalimu') }}</option>
   </select>

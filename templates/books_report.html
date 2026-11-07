@@ -13,20 +13,20 @@
   </div>
 </div>
 <div class="stats">
-  <div><strong>{{ totals.titles }}</strong><span>Rekodi za vitabu</span></div>
-  <div><strong>{{ totals.copies }}</strong><span>Jumla ya nakala</span></div>
-  <div><strong>{{ totals.available }}</strong><span>Zinazopatikana</span></div>
+  <div><strong>{{ totals.titles }}</strong><span>{{ t('Rekodi za vitabu') }}</span></div>
+  <div><strong>{{ totals.copies }}</strong><span>{{ t('Jumla ya nakala') }}</span></div>
+  <div><strong>{{ totals.available }}</strong><span>{{ t('Zinazopatikana') }}</span></div>
 </div>
 <div class="table">
   <table>
     <thead>
       <tr>
-        <th>Kitabu</th>
-        <th>Mwandishi</th>
-        <th>Aina</th>
-        <th>Mwaka</th>
-        <th>Nakala</th>
-        <th>Zinazopatikana</th>
+        <th>{{ t('Kitabu') }}</th>
+        <th>{{ t('Mwandishi') }}</th>
+        <th>{{ t('Aina') }}</th>
+        <th>{{ t('Mwaka') }}</th>
+        <th>{{ t('Nakala') }}</th>
+        <th>{{ t('Zinazopatikana') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -41,7 +41,7 @@
       </tr>
       {% else %}
       <tr>
-        <td colspan="6">Hakuna vitabu bado.</td>
+        <td colspan="6">{{ t('Hakuna vitabu bado.') }}</td>
       </tr>
       {% endfor %}
     </tbody>
