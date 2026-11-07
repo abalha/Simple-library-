@@ -310,7 +310,6 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  white-space: nowrap;
 }
 th,
 td {
@@ -325,6 +324,7 @@ th {
   text-transform: uppercase;
   color: var(--ink-soft);
   border-bottom: 1px solid var(--line);
+  white-space: nowrap;
 }
 tbody tr:last-child td {
   border-bottom: 0;
