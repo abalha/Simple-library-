@@ -49,6 +49,8 @@ def create_app(database=None):
         SECRET_KEY=os.environ.get("SECRET_KEY") or load_or_create_secret_key(),
         DATABASE=str(database or Path(__file__).with_name("library.db")),
         MAX_CONTENT_LENGTH=64 * 1024,
+        # CSS/mizingo ipate ETag revalidation kila refresh — mabadiliko ya UI yaonekane bila hard refresh
+        SEND_FILE_MAX_AGE_DEFAULT=0,
         LIBRARIAN_USERNAME=os.environ.get("LIBRARIAN_USERNAME")
         or DEFAULT_LIBRARIAN_USERNAME,
         LIBRARIAN_PASSWORD=os.environ.get("LIBRARIAN_PASSWORD")
