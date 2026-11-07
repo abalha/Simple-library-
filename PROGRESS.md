@@ -64,11 +64,9 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 
 - Kozi ya mwanafunzi na uhusiano wa mada na field yake.
 - Akaunti ya mhudumu pekee ni pendekezo, si hitaji lililothibitishwa.
-- Kanuni rasmi za muda wa kuazima (kwa sasa siku 30), kikomo cha mikopo (kwa sasa
-  mwanafunzi 3, mwalimu 5), na kiwango cha faini (kwa sasa TZS 1000/siku) ni maamuzi ya
-  mwanzo ya mwanafunzi/msimamizi, si kanuni rasmi za taasisi — zinaweza kubadilishwa
-  kirahisi kwenye constants za config.py.
-- Kama faini zinahitaji kurekodiwa kama zimelipwa/hazijalipwa bado haijathibitishwa.
+- Kanuni rasmi za muda wa kuazima (kwa sasa siku 30) na kikomo cha mikopo (kwa sasa
+  mwanafunzi 3, mwalimu 5) ni maamuzi ya mwanzo ya mwanafunzi/msimamizi, si kanuni rasmi
+  za taasisi — zinaweza kubadilishwa kirahisi kwenye constants za config.py.
 - OS/vifaa vya mwanafunzi na muda wake wa kujifunza.
 
 ## Imekamilika katika hatua ya tano — Login na ripoti
@@ -108,6 +106,20 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   upya kila uzinduzi — mhudumu habude kuingia tena kila app ikizimwa na kuwashwa.
 - Test mpya ya sita (LanguageTest) inalinda tafsiri ya English: switcher kwenye login,
   lugha isipotee kwenye login, kurasa kuu zote, error ya validation, na kurudi Kiswahili.
+
+## Imekamilika katika hatua ya saba — faini zimeondolewa (7 Novemba 2026)
+
+- Maamuzi rasmi: maktaba HAINA faini. Hii inabadilisha maamuzi ya hatua ya nne
+  (faini TZS 1000/siku) — hati hii hapa juu inabaki kama kumbukumbu ya historia tu.
+- Kila kitu cha faini kimeondolewa: `FINE_PER_DAY` (config.py), safu ya "Faini (TZS)"
+  kwenye /loans na ripoti ya mikopo, "Makadirio ya faini" kwenye dashboard na ripoti,
+  onyo la faini kwenye ukurasa wa kurejesha, ujumbe wa faini baada ya kurejesha,
+  na tafsiri zake zote kwenye i18n.py.
+- Adhabu pekee ya kuchelewa ni uzuiaji: mwanachama mwenye mkopo uliochelewa hawezi
+  kukopa kitabu kingine mpaka arejeshe (`member_has_overdue` kwenye routes/loans.py).
+- Siku zilizochelewa bado zinaonyeshwa ("Imechelewa siku X") kama taarifa, si pesa.
+- Test ya overdue imesasishwa: inathibitisha kurasa hazionyeshi "TZS" yoyote, na
+  kuwa uzuiaji unaondolewa baada ya kurejesha.
 
 ## Hatua zinazofuata
 

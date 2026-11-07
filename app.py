@@ -10,7 +10,6 @@ from flask import Flask
 from config import (
     DEFAULT_LIBRARIAN_PASSWORD,
     DEFAULT_LIBRARIAN_USERNAME,
-    FINE_PER_DAY,
     LOAN_DAYS,
     MAX_STUDENT_LOANS,
     MAX_TEACHER_LOANS,
@@ -23,7 +22,6 @@ __all__ = [
     "create_app",
     "DEFAULT_LIBRARIAN_PASSWORD",
     "DEFAULT_LIBRARIAN_USERNAME",
-    "FINE_PER_DAY",
     "LOAN_DAYS",
     "MAX_STUDENT_LOANS",
     "MAX_TEACHER_LOANS",

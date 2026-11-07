@@ -35,17 +35,11 @@ def register(app):
         overdue_count = sum(
             loan["returned_at"] is None and loan["overdue_days"] > 0 for loan in loans
         )
-        estimated_fines = sum(
-            loan["fine"]
-            for loan in loans
-            if loan["returned_at"] is None and loan["overdue_days"] > 0
-        )
         return render_template(
             "loans_report.html",
             loans=loans,
             active_count=active_count,
             overdue_count=overdue_count,
-            estimated_fines=estimated_fines,
             generated_at=today.isoformat(),
         )
 

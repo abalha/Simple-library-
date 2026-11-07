@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 from flask import abort, flash, redirect, render_template, request, url_for
 
-from config import FINE_PER_DAY, LOAN_DAYS, MAX_STUDENT_LOANS, MAX_TEACHER_LOANS
+from config import LOAN_DAYS, MAX_STUDENT_LOANS, MAX_TEACHER_LOANS
 from database import get_db
 from i18n import translate
 
@@ -84,7 +84,6 @@ def enrich_loans(rows, today=None):
     for row in rows:
         loan = dict(row)
         loan["overdue_days"] = overdue_days(row, today)
-        loan["fine"] = loan["overdue_days"] * FINE_PER_DAY
         enriched.append(loan)
     return enriched
 
@@ -114,7 +113,6 @@ def register(app):
             active_count=active_count,
             overdue_count=overdue_count,
             today=today.isoformat(),
-            fine_per_day=FINE_PER_DAY,
             query=query,
         )
 
@@ -219,7 +217,7 @@ def register(app):
             )
             get_db().commit()
             flash(
-                f"{translate('Kitabu kimerejeshwa.')} {translate('Kimechelewa siku')} {days_late}; {translate('faini')} TZS {days_late * FINE_PER_DAY}."
+                f"{translate('Kitabu kimerejeshwa.')} {translate('Kimechelewa siku')} {days_late}."
                 if days_late
                 else translate("Kitabu kimerejeshwa.")
             )
@@ -230,5 +228,4 @@ def register(app):
             book=book,
             member=member,
             days_late=days_late,
-            fine=days_late * FINE_PER_DAY,
         )

@@ -4,7 +4,6 @@ from datetime import date
 
 from flask import abort, flash, redirect, render_template, request, url_for
 
-from config import FINE_PER_DAY
 from database import get_db
 from i18n import translate
 from routes.loans import active_loans_for_book
@@ -43,16 +42,11 @@ def register(app):
         overdue_count = sum(
             date.fromisoformat(loan["due_date"]) < today for loan in active_loans
         )
-        estimated_fines = sum(
-            max(0, (today - date.fromisoformat(loan["due_date"])).days) * FINE_PER_DAY
-            for loan in active_loans
-        )
         summary = {
             "members": member_totals["members"],
             "active_members": member_totals["active"],
             "active_loans": len(active_loans),
             "overdue_loans": overdue_count,
-            "estimated_fines": estimated_fines,
         }
         return render_template(
             "index.html", books=books, query=query, totals=totals, summary=summary

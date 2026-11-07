@@ -2,7 +2,7 @@
 
 Project ya kujifunza CRUD kwa Python, Flask, SQLite na HTML/CSS.
 Hili ni toleo la assignment ya Library Management Information System. Limekamilisha
-vitabu, wanachama, vitabu vilivyoazimwa, overdue/faini, login ya mhudumu mmoja na
+vitabu, wanachama, vitabu vilivyoazimwa, overdue, login ya mhudumu mmoja na
 ripoti zinazochapishika.
 
 ## Kuendesha kwenye Windows (PowerShell katika VS Code)
@@ -88,32 +88,29 @@ Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofau
   mfumo; yanaweza kubadilishwa (LOAN_DAYS, MAX_STUDENT_LOANS na MAX_TEACHER_LOANS kwenye
   config.py) endapo sheria rasmi ya maktaba itakuwa tofauti.
 
-## Yaliyopo — Overdue na faini
+## Yaliyopo — Overdue (vitabu vilivyochelewa)
 
-- Faini ni TZS 1000 (FINE_PER_DAY kwenye config.py) kwa kila siku ya kuchelewa baada ya due_date.
-- Mikopo bado iliyo kwenye mikono (hazijarejeshwa) inaonyesha faini "inayokadiriwa" kwa kulinganisha
-  due_date na tarehe ya leo; faini halisi huhesabiwa siku ya kurejesha kwa kutumia tarehe halisi
-  ya kurejesha.
+- Mfumo HAUWEKI faini — hii ni maamuzi rasmi ya maktaba (7 Novemba 2026): hakuna pesa
+  inayohesabiwa wala kurekodiwa; orodha inaonyesha siku zilizochelewa tu kama taarifa.
 - Mwanachama mwenye angalau mkopo mmoja uliochelewa (returned_at ni tupu na due_date imepita)
   hawezi kukopa kitabu kingine chochote mpaka arejeshe ulio nyuma — hii inazuiwa upande wa server,
-  bila kujali kama bado hajafikia kikomo cha mikopo (mwanafunzi 3, mwalimu 5).
-- Ukurasa wa kurejesha unaonyesha siku zilizochelewa na faini kabla ya mhudumu kuthibitisha;
-  baada ya kurejesha, ujumbe unaarifu siku zilizochelewa na faini ya mwisho.
-- Faini kwa sasa ni hesabu tu inayoonyeshwa kwenye ukurasa; mfumo hauhifadhi kumbukumbu ya
-  malipo (hakuna "imelipwa/haijalipwa"). Hiyo si sehemu ya hitaji lililothibitishwa bado.
+  bila kujali kama bado hajafikia kikomo cha mikopo (mwanafunzi 3, mwalimu 5). Hii ndiyo
+  adhabu pekee ya kuchelewa kurejesha.
+- Ukurasa wa kurejesha unaonyesha siku zilizochelewa kabla ya mhudumu kuthibitisha;
+  baada ya kurejesha, ujumbe unaarifu siku zilizochelewa.
 
 ## Yaliyopo — Login na ripoti
 
 - Kurasa zote za mfumo zinalindwa kwa login ya mhudumu; mhudumu anaweza kutoka kwa kutumia
   kiungo cha "Toka".
 - Kuna ripoti ya vitabu kwenye `/reports/books`, yenye rekodi za vitabu, nakala zote na
-  nakala zinazopatikana, ripoti ya vitabu vilivyoazimwa kwenye `/reports/loans` yenye hali na
-  faini, na ripoti ya wanachama kwenye `/reports/members`. Kila ripoti ina kitufe cha
+  nakala zinazopatikana, ripoti ya vitabu vilivyoazimwa kwenye `/reports/loans` yenye hali
+  za mikopo na siku zilizochelewa, na ripoti ya wanachama kwenye `/reports/members`. Kila ripoti ina kitufe cha
   "Chapisha" kinachotumia print dialog ya browser.
 - Mfumo una mhudumu mmoja mwenye username na password moja tu kwa sasa; hakuna usajili wa watumiaji,
   reset ya password, wala roles tofauti.
 
-## Usalama na uhakiki (vitabu, wanachama, mikopo, faini na login)
+## Usalama na uhakiki (vitabu, wanachama, mikopo na login)
 
 - POST forms zina CSRF token; SQL hutumia parameters; templates zina escape ya maandishi.
 - Database ina UNIQUE na CHECK constraints (mfano member_number ya kipekee,
@@ -143,10 +140,10 @@ Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofau
 
 `app.py`: app factory na configuration. `database.py`: SQLite connection na schema.
 `routes/auth.py`, `routes/books.py`, `routes/members.py`, `routes/loans.py` na `routes/reports.py`:
-routes na sheria za kila sehemu ya mfumo. `config.py`: constants za mfumo kama siku za uazimaji,
-kikomo cha vitabu na faini. `templates/`: HTML na Jinja. `static/style.css`: muonekano.
+routes na sheria za kila sehemu ya mfumo. `config.py`: constants za mfumo kama siku za uazimaji
+na kikomo cha vitabu. `templates/`: HTML na Jinja. `static/style.css`: muonekano.
 `requirements.txt`: dependency ya moja kwa moja.
-`test_app.py`: majaribio ya moja kwa moja ya vitabu, wanachama, mikopo na overdue/faini (`python -m unittest test_app`).
+`test_app.py`: majaribio ya moja kwa moja ya vitabu, wanachama, mikopo na overdue (`python -m unittest test_app`).
 
 ## Jaribio la mwanafunzi
 
@@ -160,10 +157,10 @@ Mikopo: Kopesha kitabu kwa ST100 (lazima iwe active); jaribu kukopesha kitabu ki
 nakala zinazopatikana (ikataliwe); rejesha mkopo na thibitisha nakala zinazopatikana zimerudi;
 jaribu kufuta kitabu chenye historia ya mikopo (ikataliwe).
 
-Overdue na faini: Kwa kuwa huwezi kusubiri siku 30 kujaribu, mwambie mwalimu/msimamizi
+Overdue: Kwa kuwa huwezi kusubiri siku 30 kujaribu, mwambie mwalimu/msimamizi
 abadilishe due_date ya mkopo mmoja kwenye database (SQLite Viewer au DB Browser for SQLite)
-kuwa tarehe iliyopita, kisha fungua /loans kuona "Imechelewa" na faini; jaribu kukopesha
-kitabu kingine kwa mwanachama huyo (ikataliwe mpaka arejeshe); rejesha na soma ujumbe wa faini.
+kuwa tarehe iliyopita, kisha fungua /loans kuona "Imechelewa siku"; jaribu kukopesha
+kitabu kingine kwa mwanachama huyo (ikataliwe mpaka arejeshe); rejesha na ona ujumbe wa siku zilizochelewa.
 
 Funga na ufungue app kuthibitisha data za vitabu, wanachama na mikopo zinabaki.
 Eleza tofauti kati ya rekodi moja ya kitabu na nakala zake, na tofauti kati ya "nakala za jumla" na "nakala zinazopatikana".
@@ -171,5 +168,5 @@ Eleza tofauti kati ya rekodi moja ya kitabu na nakala zake, na tofauti kati ya "
 ## Mipaka
 
 Hili ni toleo la local kwenye PC moja, lenye login ya mhudumu mmoja tu. Usiweke kwenye internet.
-Wanachama hawafutwi kabisa — "inactive" pekee. Faini ni hesabu ya kuonyesha tu, si mfumo wa
-malipo; hakuna akaunti nyingi, roles, wala historia ya malipo. Sample data ipo kupitia `seed_data.py`.
+Wanachama hawafutwi kabisa — "inactive" pekee. Mfumo hauweki faini: mwenye mkopo uliochelewa
+anazuiwa kukopa tu. Hakuna akaunti nyingi wala roles. Sample data ipo kupitia `seed_data.py`.

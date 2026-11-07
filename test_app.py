@@ -403,7 +403,7 @@ class LoansTest(unittest.TestCase):
                 404,
             )
 
-    def test_overdue_fine_and_blocking(self):
+    def test_overdue_blocking(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "test.db"
             app = create_app(path)
@@ -461,7 +461,7 @@ class LoansTest(unittest.TestCase):
 
             page = client.get("/loans").data
             self.assertIn(b"Imechelewa siku 5", page)
-            self.assertIn(b"5000", page)  # faini: siku 5 x TZS 1000
+            self.assertNotIn(b"TZS", page)  # faini zimeondolewa kabisa
 
             # mwanachama mwenye mkopo uliochelewa hawezi kukopa kingine, hata kitabu tofauti
             response = client.post(
@@ -470,16 +470,16 @@ class LoansTest(unittest.TestCase):
             )
             self.assertIn("kitabu kilichochelewa".encode(), response.data)
 
-            # ukurasa wa kuthibitisha kurejesha unaonyesha faini
+            # ukurasa wa kuthibitisha kurejesha unaonyesha siku zilizochelewa, bila faini
             response = client.get("/loans/1/return")
             self.assertIn(b"kimechelewa kwa siku 5", response.data)
-            self.assertIn(b"5000", response.data)
+            self.assertNotIn(b"TZS", response.data)
 
-            # kurejesha kunaondoa uzuiaji na kuarifu faini
+            # kurejesha kunaondoa uzuiaji na kuarifu siku zilizochelewa
             response = client.post(
                 "/loans/1/return", data={"csrf_token": token}, follow_redirects=True
             )
-            self.assertIn("Kimechelewa siku 5; faini TZS 5000".encode(), response.data)
+            self.assertIn("Kimechelewa siku 5".encode(), response.data)
             self.assertEqual(
                 client.post(
                     "/loans/new",

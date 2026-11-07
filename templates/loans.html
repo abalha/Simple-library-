@@ -29,7 +29,7 @@ block content %}
   <table>
     <thead>
       <tr>
-        <th>{{ t('Kitabu') }}</th><th>{{ t('Mwanachama') }}</th><th>{{ t('Tarehe ya kuazima') }}</th><th>{{ t('Tarehe ya mwisho') }}</th><th>{{ t('Hali') }}</th><th>{{ t('Faini (TZS)') }}</th><th>{{ t('Vitendo') }}</th>
+        <th>{{ t('Kitabu') }}</th><th>{{ t('Mwanachama') }}</th><th>{{ t('Tarehe ya kuazima') }}</th><th>{{ t('Tarehe ya mwisho') }}</th><th>{{ t('Hali') }}</th><th>{{ t('Vitendo') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -47,11 +47,6 @@ block content %}
           endif %}
         </td>
         <td>
-          {{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not
-          loan.returned_at and loan.overdue_days > 0 %} ({{ t('inayokadiriwa') }}){% endif
-          %}
-        </td>
-        <td>
           {% if not loan.returned_at %}<a
             href="{{ url_for('return_loan', loan_id=loan.id) }}"
             >{{ t('Rejesha') }}</a
@@ -60,7 +55,7 @@ block content %}
       </tr>
       {% else %}
       <tr>
-        <td colspan="7">
+        <td colspan="6">
           {{ t('Hakuna matokeo ya utafutaji.') if query else t('Hakuna vitabu vilivyoazimwa bado. Anza kwa kuazima kitabu.') }}
         </td>
       </tr>
@@ -69,8 +64,6 @@ block content %}
   </table>
 </div>
 <p>
-  {{ t('Faini ni TZS') }} {{ fine_per_day }} {{ t('kwa siku ya kuchelewa') }}.
   {{ t('Mwanachama mwenye kitabu kilichochelewa hawezi kuazima kingine mpaka akirejeshe.') }}
-  {{ t('Faini ya vitabu vilivyoazimwa bado ni makadirio tu — inahesabiwa kamili siku ya kurejesha; mfumo huu bado hauhifadhi malipo.') }}
 </p>
 {% endblock %}

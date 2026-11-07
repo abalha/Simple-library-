@@ -19,9 +19,6 @@
   <div>
     <strong>{{ overdue_count }}</strong><span>{{ t('Vitabu vilivyochelewa') }}</span>
   </div>
-  <div>
-    <strong>TZS {{ estimated_fines }}</strong><span>{{ t('Makadirio ya faini') }}</span>
-  </div>
 </div>
 <div class="table">
   <table>
@@ -32,7 +29,6 @@
         <th>{{ t('Alikopa') }}</th>
         <th>{{ t('Tarehe ya mwisho') }}</th>
         <th>{{ t('Hali') }}</th>
-        <th>{{ t('Faini (TZS)') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -47,21 +43,16 @@
           }}{% elif loan.overdue_days > 0 %}{{ t('Imechelewa siku') }} {{ loan.overdue_days
           }}{% else %}{{ t('Kwenye mikono') }}{% endif %}
         </td>
-        <td>
-          {{ loan.fine if loan.overdue_days > 0 else 0 }}{% if not
-          loan.returned_at and loan.overdue_days > 0 %} ({{ t('makadirio') }}){% endif %}
-        </td>
       </tr>
       {% else %}
       <tr>
-        <td colspan="6">{{ t('Hakuna vitabu vilivyoazimwa bado.') }}</td>
+        <td colspan="5">{{ t('Hakuna vitabu vilivyoazimwa bado.') }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
 <p>
-  {{ t('Makadirio ya faini yanahusu vitabu vilivyochelewa ambavyo havijarejeshwa.') }}
-  {{ t('Faini ya kitabu kilichorejeshwa huhesabiwa kwa tarehe yake ya kurejesha.') }}
+  {{ t('Mwanachama mwenye kitabu kilichochelewa hawezi kuazima kingine mpaka akirejeshe.') }}
 </p>
 {% endblock %}
