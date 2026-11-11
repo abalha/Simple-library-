@@ -187,6 +187,53 @@ class LoginSecurityTest(unittest.TestCase):
         self.assertNotIn("{{", page.split("<script>")[1])
 
 
+class ReportsTest(unittest.TestCase):
+    def _client(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        app = create_app(Path(folder.name) / "test.db")
+        app.testing = True
+        return app.test_client()
+
+    def test_reports_explain_themselves(self):
+        client = self._client()
+        token = login(client)
+        for path in ["/reports/books", "/reports/loans", "/reports/members"]:
+            page = client.get(path).data
+            self.assertIn(b"Muhtasari", page)
+            self.assertIn(b"Maelezo ya kukokotoa", page)
+            self.assertIn(b"Maelezo ya safu", page)
+            self.assertIn(b"Msimamizi wa maktaba", page)
+        self.assertIn(
+            b"Kitabu = jina la kitabu kilichokopeshwa", client.get("/reports/loans").data
+        )
+        self.assertIn(
+            b"vitabu 3 kwa wakati mmoja", client.get("/reports/members").data
+        )
+
+    def test_reports_translate_to_english(self):
+        client = self._client()
+        client.get("/login")
+        with client.session_transaction() as session:
+            token = session["csrf_token"]
+        client.post("/language/en", data={"csrf_token": token})
+        client.get("/login")
+        with client.session_transaction() as session:
+            token = session["csrf_token"]
+        client.post(
+            "/login",
+            data={
+                "username": DEFAULT_LIBRARIAN_USERNAME,
+                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "csrf_token": token,
+            },
+        )
+        page = client.get("/reports/books").data
+        self.assertIn(b"Summary", page)
+        self.assertIn(b"How the figures are calculated", page)
+        self.assertIn(b"Meaning of each column", page)
+
+
 class BooksTest(unittest.TestCase):
     def test_crud_validation_and_persistence(self):
         with tempfile.TemporaryDirectory() as folder:

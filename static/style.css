@@ -459,6 +459,84 @@ footer {
   border: 1px solid #c7d7d1;
 }
 
+/* ---- Ripoti: muundo rasmi na maelezo ---- */
+.report-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 16px;
+}
+.report-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.report-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+.report-org {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.report-org-note {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.report-title {
+  flex: 1 1 300px;
+  text-align: center;
+}
+.report-title h1 {
+  margin: 0;
+  font-size: 24px;
+}
+.report-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.report-meta {
+  text-align: right;
+  font-size: 13px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.report-meta p {
+  margin: 0;
+}
+.report-section {
+  margin: 22px 0;
+  max-width: 980px;
+}
+.report-section h2 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--brand-strong);
+}
+.report-section p {
+  margin: 0;
+  line-height: 1.6;
+}
+.report-foot {
+  margin: 30px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
 /* ---- Login ---- */
 .login-screen {
   min-height: calc(100vh - 240px);
@@ -755,7 +833,7 @@ footer {
   }
   main.wrap {
     max-width: none;
-    padding: 0;
+    padding: 0 10mm 40px;
   }
   .table,
   .stats div,
@@ -765,6 +843,16 @@ footer {
   }
   tbody tr {
     break-inside: avoid;
+  }
+  .report-head,
+  .report-section {
+    break-inside: avoid;
+  }
+  .report-foot {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
   th {
     background: none;

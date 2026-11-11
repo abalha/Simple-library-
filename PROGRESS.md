@@ -145,6 +145,21 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Brute-force imejaribiwa dhidi ya server inayorusha kwa kweli: majaribio 4 ya bure, ya
   tano na zilizobaki zinakataliwa kwa 429; lockout inaendelea hata kwa session mpya.
 
+## Imekamilika katika hatua ya tisa — Ripoti za muundo wa kitaalamu (11 Novemba 2026)
+
+- Kila ripoti (vitabu, mikopo, wanachama) sasa ina muundo rasmi: kichwa chenye nembo, jina
+  la mfumo, jina la ripoti na subtituli, tarehe ya kutengenezwa na jina la msimamizi wa
+  maktaba; **Muhtasari**; kadi za takwimu; **Maelezo ya kukokotoa** (jinsi kila namba
+  ilivyopatikana, kwa mfano kinao); jedwali; **Maelezo ya safu** (maana ya kila safu);
+  **Maelezo ya hali**; **Kanuni zilizotumika** (muda wa kuazimaji na vikomo vya mwanafunzi
+  na mwalimu, vinavyotokana na `config.py` ili zibaki sahihi); na mguu wa ripoti.
+- Sehemu hizi zinatumika kwa madokezo yote matatu (`templates/_report.html`), hivyo
+  muundo wa ripoti unashirikiwa na hakuna kunakiliwa.
+- Uchapishaji: sidebar na header za app hazitakiwi; mguu wa ripoti unaonyesha kila
+  ukurasa; maelezo hayawezi kukatika katika ukurasa wa A4.
+- Maelezo yote yameongezwa kwenye `i18n.py` kwa Kiswahili na English; majaribio 15
+  (wawili 2 mpya) yanathibitisha kawa ripoti zinaeleweka na zina tafsiri kwa English.
+
 ## Hatua zinazofuata
 
 1. Kufanya walkthrough ya presentation kwa kutumia sample data, kisha kuthibitisha kanuni

@@ -1,22 +1,24 @@
-{% extends 'base.html' %}{% block eyebrow %}{{ t('RIPOTI') }}{% endblock %}{% block content
-%}
-<div class="heading">
-  <div>
-    <h1>{{ t('Ripoti ya vitabu') }}</h1><p>{{ t('Imetengenezwa tarehe') }} {{ generated_at|display_date }}.</p>
-  </div>
-  <div class="report-actions no-print">
-    <a class="button secondary-button" href="{{ url_for('loans_report') }}"
-      >{{ t('Vilivyoazimwa') }}</a
-    ><a class="button secondary-button" href="{{ url_for('members_report') }}"
-      >{{ t('Wanachama') }}</a
-    ><button class="button" onclick="window.print()">{{ t('Chapisha') }}</button>
-  </div>
+{% extends 'base.html' %} {% from '_report.html' import head, explanation, foot with
+context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %}
+{{ head(t('Ripoti ya vitabu'), t('Rekodi za vitabu zilizopo, nakala zake na zinazopatikana')) }}
+<div class="report-actions no-print">
+  <a class="button secondary-button" href="{{ url_for('loans_report') }}"
+    >{{ t('Vilivyoazimwa') }}</a
+  ><a class="button secondary-button" href="{{ url_for('members_report') }}"
+    >{{ t('Wanachama') }}</a
+  ><button class="button" onclick="window.print()">{{ t('Chapisha') }}</button>
 </div>
+{{ explanation(t('Muhtasari'), t('Ripoti hii inaonyesha kila kitabu kilichopo katika maktaba, idadi ya nakala zake, na idadi ya nakala zilizo huria zinazopatikana kwa sasa.')) }}
 <div class="stats">
-  <div><strong>{{ totals.titles }}</strong><span>{{ t('Rekodi za vitabu') }}</span></div>
+  <div>
+    <strong>{{ totals.titles }}</strong><span>{{ t('Rekodi za vitabu') }}</span>
+  </div>
   <div><strong>{{ totals.copies }}</strong><span>{{ t('Jumla ya nakala') }}</span></div>
-  <div><strong>{{ totals.available }}</strong><span>{{ t('Zinazopatikana') }}</span></div>
+  <div>
+    <strong>{{ totals.available }}</strong><span>{{ t('Zinazopatikana') }}</span>
+  </div>
 </div>
+{{ explanation(t('Maelezo ya kukokotoa'), t('Zinazopatikana = nakala za kitabu zote zilizopo minus mikopo yake isiyorejeshwa. Mfano: kitabu chenye nakala 4 na mkopo 1 usiyorejeshwa kinaonyesha zinazopatikana 3.')) }}
 <div class="table">
   <table>
     <thead>
@@ -47,4 +49,6 @@
     </tbody>
   </table>
 </div>
-{% endblock %}
+{{ explanation(t('Maelezo ya safu'), t('Kitabu = jina kamili la kitabu; Mwandishi = mwandishi wa kitabu; Aina = kategoria ya kitabu; Mwaka = mwaka wa kuchapishwa; Nakala = idadi ya nakala zilizopo; Zinazopatikana = nakala zilizo huria zinazoweza kukopeshwa.')) }}
+{{ explanation(t('Kanuni zilizotumika'), t('Hakuna sheria ya uazimaji inayotumika kwenye ripoti hii; takwimu zote zinatokana na rekodi za vitabu zilizopo.')) }}
+{{ foot(generated_at|display_date) }} {% endblock %}

@@ -72,12 +72,16 @@ def create_app(database=None):
             return value
 
     @app.context_processor
-    def inject_i18n():
+    def inject_globals():
         return {
             "t": translate,
             "language": current_language(),
             "languages": LANGUAGES,
             "current_year": date.today().year,
+            "loan_days": LOAN_DAYS,
+            "student_quota": MAX_STUDENT_LOANS,
+            "teacher_quota": MAX_TEACHER_LOANS,
+            "librarian": app.config["LIBRARIAN_USERNAME"],
         }
 
     app.teardown_appcontext(close_db)

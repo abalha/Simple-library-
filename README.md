@@ -108,6 +108,12 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
   nakala zinazopatikana, ripoti ya vitabu vilivyoazimwa kwenye `/reports/loans` yenye hali
   za mikopo na siku zilizochelewa, na ripoti ya wanachama kwenye `/reports/members`. Kila ripoti ina kitufe cha
   "Chapisha" kinachotumia print dialog ya browser.
+- Kila ripoti ina muundo wa kitaalamu: kichwa (nembo, jina la mfumo, jina la ripoti, tarehe
+  ya kutengenezwa na msimamizi wa maktaba), **Muhtasari**, **Maelezo ya kukokotoa** (jinsi
+  kila namba ilivyopatikana), jedwali, **Maelezo ya safu** (maana ya kila safu),
+  **Maelezo ya hali**, **Kanuni zilizotumika** (muda wa kuazimaji na vikomo vya mwanafunzi
+  na mwalimu, vinavyotokana na `config.py`), na mguu wa ripoti. Kwa hiyo ripoti inaeleweka
+  bila msimamizi.
 - Mfumo una mhudumu mmoja mwenye username na password moja tu kwa sasa; hakuna usajili wa watumiaji,
   reset ya password, wala roles tofauti.
 

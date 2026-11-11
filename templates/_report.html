@@ -1,0 +1,36 @@
+{# Sehemu zinazotumika na ripoti zote tatu: kichwa rasmi, maelezo na mguu. #}
+{% macro head(title, subtitle) %}
+<div class="report-head">
+  <div class="report-brand">
+    <img
+      class="report-logo"
+      src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
+      alt=""
+    />
+    <div>
+      <p class="report-org">{{ t('Mfumo wa Usimamizi wa Maktaba') }}</p>
+      <p class="report-org-note">{{ t('Msimamizi wa maktaba') }}: {{ librarian }}</p>
+    </div>
+  </div>
+  <div class="report-title">
+    <h1>{{ title }}</h1>
+    <p class="report-subtitle">{{ subtitle }}</p>
+  </div>
+  <div class="report-meta">
+    <p>{{ t('Imetengenezwa tarehe') }}: {{ generated_at|display_date }}</p>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro explanation(title, body) %}
+<section class="report-section">
+  <h2>{{ title }}</h2>
+  <p>{{ body }}</p>
+</section>
+{% endmacro %}
+
+{% macro foot(date) %}
+<p class="report-foot">
+  {{ t('Ripoti imetengenezwa kwa Mfumo wa Usimamizi wa Maktaba (Library MIS). Data zimechukuliwa kwenye kumbukumbu ya mfumo tarehe {date}.').format(date=date) }}
+</p>
+{% endmacro %}
