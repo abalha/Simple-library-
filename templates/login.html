@@ -3,6 +3,7 @@ content %}
 <section class="login-screen" aria-labelledby="login-title">
   <form class="card login-card" method="post">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="hidden" name="next" value="{{ next_url or '' }}" />
     <img
       class="login-logo"
       src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
@@ -53,6 +54,9 @@ content %}
           type="button"
           aria-controls="password"
           aria-pressed="false"
+          aria-label="{{ t('Onyesha au Ficha nenosiri') }}"
+          data-show-label="{{ t('Onyesha') }}"
+          data-hide-label="{{ t('Ficha') }}"
         >
           {{ t('Onyesha') }}
         </button>
@@ -71,7 +75,9 @@ content %}
   passwordToggle.addEventListener("click", () => {
     const showing = passwordInput.type === "text";
     passwordInput.type = showing ? "password" : "text";
-    passwordToggle.textContent = showing ? "{{ t('Onyesha') }}" : "{{ t('Ficha') }}";
+    passwordToggle.textContent = showing
+      ? passwordToggle.dataset.showLabel
+      : passwordToggle.dataset.hideLabel;
     passwordToggle.setAttribute("aria-pressed", String(!showing));
   });
 </script>

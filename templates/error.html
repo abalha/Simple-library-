@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block eyebrow %}{{ t('Hitilafu') }}{% endblock %} {% block
+content %}
+<section class="card error-card" aria-labelledby="error-title">
+  <h1 id="error-title">{{ t('Hitilafu') }}</h1>
+  <p class="errors error-message">{{ message }}</p>
+  <div class="actions">
+    <a class="button" href="{{ url_for('login') }}"
+      >{{ t('Rudi kwenye ukurasa wa kuingia') }}</a
+    >
+  </div>
+</section>
+{% endblock %}

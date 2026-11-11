@@ -1,5 +1,6 @@
 import sqlite3
 import tempfile
+import time
 import unittest
 from datetime import date, timedelta
 from pathlib import Path
@@ -38,7 +39,7 @@ class LoginTest(unittest.TestCase):
                 "/login",
                 data={"username": "admin", "password": "sipo", "csrf_token": token},
             )
-            self.assertIn(b"Username au password si sahihi", response.data)
+            self.assertIn(b"Jina la mtumiaji au nenosiri si sahihi", response.data)
             response = client.post(
                 "/login",
                 data={
@@ -47,7 +48,7 @@ class LoginTest(unittest.TestCase):
                     "csrf_token": token,
                 },
             )
-            self.assertIn(b"Username au password si sahihi", response.data)
+            self.assertIn(b"Jina la mtumiaji au nenosiri si sahihi", response.data)
             self.assertIn(b'value="sipo"', response.data)
             self.assertIn(b"password-toggle", response.data)
             self.assertEqual(client.get("/").status_code, 302)
@@ -63,6 +64,127 @@ class LoginTest(unittest.TestCase):
                 client.post("/logout", data={"csrf_token": token}).status_code, 302
             )
             self.assertEqual(client.get("/").status_code, 302)
+
+
+class LoginSecurityTest(unittest.TestCase):
+    def _client(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        app = create_app(Path(folder.name) / "test.db")
+        app.testing = True
+        self.app = app
+        return app.test_client()
+
+    def _token(self, client):
+        client.get("/login")
+        with client.session_transaction() as session:
+            return session["csrf_token"]
+
+    def test_non_ascii_input_returns_error_not_crash(self):
+        client = self._client()
+        token = self._token(client)
+        response = client.post(
+            "/login",
+            data={"username": "admiñ", "password": "x", "csrf_token": token},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Jina la mtumiaji au nenosiri si sahihi", response.data)
+        response = client.post(
+            "/login",
+            data={"username": "admin", "password": "nøsenøri", "csrf_token": token},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Jina la mtumiaji au nenosiri si sahihi", response.data)
+
+    def test_expired_form_shows_styled_page(self):
+        client = self._client()
+        self._token(client)
+        response = client.post(
+            "/login", data={"username": "admin", "password": "x", "csrf_token": "añ"}
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(b"Fomu imeisha muda", response.data)
+        self.assertIn(b"Rudi kwenye ukurasa wa kuingia", response.data)
+
+    def test_lockout_after_repeated_failures(self):
+        client = self._client()
+        token = self._token(client)
+        for _ in range(5):
+            client.post(
+                "/login",
+                data={"username": "admin", "password": "wrong", "csrf_token": token},
+            )
+        response = client.post(
+            "/login",
+            data={
+                "username": DEFAULT_LIBRARIAN_USERNAME,
+                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "csrf_token": token,
+            },
+        )
+        self.assertEqual(response.status_code, 429)
+        self.assertIn(b"Majaribio mengi yamefanywa", response.data)
+
+    def test_lockout_expires_and_grants_fresh_attempts(self):
+        client = self._client()
+        self.app.config["LOGIN_LOCKOUT_SECONDS"] = 1
+        token = self._token(client)
+        for _ in range(5):
+            client.post(
+                "/login",
+                data={"username": "admin", "password": "wrong", "csrf_token": token},
+            )
+        time.sleep(1.2)
+        response = client.post(
+            "/login",
+            data={
+                "username": DEFAULT_LIBRARIAN_USERNAME,
+                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "csrf_token": token,
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def test_intended_page_survives_login(self):
+        client = self._client()
+        response = client.get("/books/new")
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("next=/books/new", response.headers["Location"])
+        token = self._token(client)
+        response = client.post(
+            "/login",
+            data={
+                "username": DEFAULT_LIBRARIAN_USERNAME,
+                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "csrf_token": token,
+                "next": "/books/new",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.headers["Location"].endswith("/books/new"))
+
+    def test_open_redirect_is_rejected(self):
+        client = self._client()
+        for evil in ["//evil.com/x", "http://evil.com/x", "/\\evil.com/x"]:
+            token = self._token(client)
+            response = client.post(
+                "/login",
+                data={
+                    "username": DEFAULT_LIBRARIAN_USERNAME,
+                    "password": DEFAULT_LIBRARIAN_PASSWORD,
+                    "csrf_token": token,
+                    "next": evil,
+                },
+            )
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.headers["Location"], "/")
+
+    def test_password_toggle_keeps_stable_accessible_name(self):
+        client = self._client()
+        page = client.get("/login").data.decode()
+        self.assertIn('aria-label="Onyesha au Ficha nenosiri"', page)
+        self.assertIn('data-hide-label="Ficha"', page)
+        self.assertNotIn("{{", page.split("<script>")[1])
 
 
 class BooksTest(unittest.TestCase):

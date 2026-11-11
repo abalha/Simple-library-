@@ -510,14 +510,19 @@ footer {
 }
 .password-control {
   position: relative;
+  display: flex;
 }
 .password-control input {
+  flex: 1;
+  min-width: 0;
   padding-right: 86px;
 }
 .password-toggle {
   position: absolute;
   right: 5px;
   top: 5px;
+  bottom: 5px;
+  min-height: 0;
   background: transparent;
   color: var(--brand);
   padding: 7px 9px;
@@ -530,6 +535,10 @@ footer {
 }
 .password-toggle:active {
   transform: none;
+}
+.password-toggle[aria-pressed="true"] {
+  background: var(--wash-strong);
+  color: var(--brand-strong);
 }
 .login-submit {
   width: 100%;
@@ -547,6 +556,22 @@ footer {
   color: var(--ink-soft);
   font-size: 13px;
   line-height: 1.45;
+}
+
+/* ---- Ukurasa wa hitilafu ---- */
+.error-card {
+  max-width: 560px;
+}
+.error-card h1 {
+  font-size: 24px;
+  margin: 0 0 12px;
+}
+.error-message {
+  margin: 0;
+  line-height: 1.45;
+}
+.error-card .actions {
+  justify-content: flex-start;
 }
 
 /* ---- Vitufe vya ndani (logout, link-button) ---- */

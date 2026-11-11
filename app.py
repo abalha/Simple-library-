@@ -2,7 +2,7 @@
 
 import os
 import secrets
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from flask import Flask
@@ -53,7 +53,16 @@ def create_app(database=None):
         or DEFAULT_LIBRARIAN_USERNAME,
         LIBRARIAN_PASSWORD=os.environ.get("LIBRARIAN_PASSWORD")
         or DEFAULT_LIBRARIAN_PASSWORD,
+        PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
+        LOGIN_MAX_ATTEMPTS=5,
+        LOGIN_LOCKOUT_SECONDS=300,
     )
+    if not os.environ.get("LIBRARIAN_PASSWORD"):
+        app.logger.warning(
+            "Nenosiri la majaribio (%s) linatumika. Weka LIBRARIAN_PASSWORD "
+            "kabla ya matumizi halisi.",
+            DEFAULT_LIBRARIAN_PASSWORD,
+        )
 
     @app.template_filter("display_date")
     def display_date(value):

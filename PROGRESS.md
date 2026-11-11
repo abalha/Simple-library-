@@ -121,10 +121,39 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Test ya overdue imesasishwa: inathibitisha kurasa hazionyeshi "TZS" yoyote, na
   kuwa uzuiaji unaondolewa baada ya kurejesha.
 
+## Imekamilika katika hatua ya nane — Usalama wa ukurasa wa kuingia (11 Novemba 2026)
+
+- Ukurasa wa kuingia ulipitiwa kwa mabadiliko yote yaliyoelezwa hapa chini; majaribio 13
+  sasa yanapita (`test_app.py`, wawili 7 mpya).
+- `secrets.compare_digest` ilikuwa ikihitilafu `TypeError` kwa herufi za non-ASCII (jina
+  la mtumiaji au nenosiri lenye "ñ"), ikihitilafu ukurasa wa 500 badala ya ujumbe wa kosa.
+  Sasa `_same()` ina-encode UTF-8 kabla ya kulinganisha.
+- Kizuizi cha majaribio: baada ya 5 kumbukumbu za kufaili (`LOGIN_MAX_ATTEMPTS`) akaunti
+  hufungwa kwa sekunde 300 (`LOGIN_LOCKOUT_SECONDS`) kwa kila IP. Hesabu ipo kwenye
+  kumbukumbu ya app (moja kwa app moja); baada ya kifungu kuisha hesabu inaanza upya.
+- Ukurasa wa 400 (fomu ya CSRF iliyochaka) sasa unapanda kwa mtindo wa app kwenye
+  `templates/error.html` badala ya ukurasa chafu wa Flask, na ujumbe unatafsiriwa.
+- Ukurasa uliotarajiwa umehifadhiwa: `require_login` huingiza `?next=...` na baada ya
+  kuingia mtumiaji anarudi kwenye ukurasa uliotaka. URL za nje zinakataliwa (`_safe_next`).
+- Button ya kuonyesha nenosiri sasa ina jina la kile accessibility lililoshara (`aria-label`
+  ya kudumu + `aria-pressed`); maandishi ya "Onyesha/Ficha" yamewekwa kwenye `data-`
+  attributes badala ya Jinja ndani ya `<script>`.
+- CSS: `.password-control` sasa ni flex na button ya nenosiri imeondolewa 3px chini ya
+  input; kadi ya ukurasa wa hitilafu ina mitindo yake.
+- Session ina muda wa mwisho wa saa 8 (`PERMANENT_SESSION_LIFETIME`).
+- App inaonyesha onyo kwenye kuanzia ikiwa nenosiri la majaribio linatumika.
+- Brute-force imejaribiwa dhidi ya server inayorusha kwa kweli: majaribio 4 ya bure, ya
+  tano na zilizobaki zinakataliwa kwa 429; lockout inaendelea hata kwa session mpya.
+
 ## Hatua zinazofuata
 
 1. Kufanya walkthrough ya presentation kwa kutumia sample data, kisha kuthibitisha kanuni
    za muda wa uazimaji, kikomo cha vitabu na faini na msimamizi/mwalimu.
+2. Ikiwa app itaendeshwa kwa zaidi ya mmoja process au nyuma ya reverse proxy, counter ya
+   lockout inapaswa kushirikwa (database/Redis) na `ProxyFix` kuwasha ili `remote_addr`
+   iwe IP ya mteja — sasa wote watumiaji wangeishare hesabu moja.
+3. Nenosiri la mhudumu bado liko kwa plaintext kwenye `config.py`; kuihash ni mabadiliko
+   makubwa ya jinsi taarifa hiyo inavyowekwa, hivyo inahitaji maamuzi mapya.
 
 ## Maandalizi ya presentation
 

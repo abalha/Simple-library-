@@ -51,6 +51,7 @@ Mfumo una login ya mhudumu mmoja. Taarifa za majaribio ni username `admin` na pa
 environment variables `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD`; usitumie taarifa za
 majaribio kwenye kompyuta inayoshirikiwa.
 Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofauti ya watumiaji.
+Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 
 ## Yaliyopo — Vitabu
 
