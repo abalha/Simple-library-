@@ -3,3 +3,4 @@ __pycache__/
 *.db
 library.db.backup_*
 .secret_key
+.claude/settings.local.json
