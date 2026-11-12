@@ -121,7 +121,7 @@ def register(app):
         books = get_db().execute("""SELECT books.*, books.copies - coalesce(
             (SELECT count(*) FROM loans WHERE loans.book_id = books.id AND loans.returned_at IS NULL), 0) AS available
             FROM books ORDER BY title""").fetchall()
-        values, errors = {}, []
+        values, errors = {}, {}
         if request.method == "POST":
             values = {
                 key: request.form.get(key, "").strip()
@@ -144,30 +144,26 @@ def register(app):
                 else None
             )
             if member is None:
-                errors.append(
-                    translate(
-                        "Namba ya mwanachama haipo. Hakiki namba au msajili mwanachama kwanza."
-                    )
+                errors["member_number"] = translate(
+                    "Namba ya mwanachama haipo. Hakiki namba au msajili mwanachama kwanza."
                 )
             elif member["status"] != "active":
-                errors.append(
-                    translate("Mwanachama huyu si hai (inactive); hawezi kuazima kitabu.")
+                errors["member_number"] = translate(
+                    "Mwanachama huyu si hai (inactive); hawezi kuazima kitabu."
                 )
             elif member_has_overdue(member["id"]):
-                errors.append(
-                    translate(
-                        "Mwanachama huyu ana kitabu kilichochelewa ambacho bado hajarejesha; hawezi kuazima kingine mpaka akirejeshe."
-                    )
+                errors["member_number"] = translate(
+                    "Mwanachama huyu ana kitabu kilichochelewa ambacho bado hajarejesha; hawezi kuazima kingine mpaka akirejeshe."
                 )
             elif active_loans_for_member(member["id"]) >= loan_limit_for(member):
-                errors.append(
+                errors["member_number"] = (
                     f"{translate('Mwanachama huyu ana vitabu')} {loan_limit_for(member)} {translate('ambavyo bado hajarejesha; hawezi kuazima kingine')}."
                 )
             if book is None:
-                errors.append(translate("Chagua kitabu halali."))
+                errors["book_id"] = translate("Chagua kitabu halali.")
             elif active_loans_for_book(book["id"]) >= book["copies"]:
-                errors.append(
-                    translate("Hakuna nakala za kitabu hiki zilizobaki kwa sasa.")
+                errors["book_id"] = translate(
+                    "Hakuna nakala za kitabu hiki zilizobaki kwa sasa."
                 )
             if not errors:
                 borrowed_at = date.today()
@@ -184,12 +180,18 @@ def register(app):
                 get_db().commit()
                 flash(translate("Kitabu kimekopeshwa."))
                 return redirect(url_for("loans"))
+        members = get_db().execute(
+            """SELECT member_number, full_name FROM members
+            WHERE status = 'active' ORDER BY full_name"""
+        ).fetchall()
         return render_template(
             "loan_form.html",
             values=values,
             errors=errors,
             books=books,
+            members=members,
             loan_days=LOAN_DAYS,
+            due_date=(date.today() + timedelta(days=LOAN_DAYS)).isoformat(),
         )
 
     @app.route("/loans/<int:loan_id>/return", methods=["GET", "POST"])

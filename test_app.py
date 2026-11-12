@@ -256,6 +256,72 @@ class IconActionsTest(unittest.TestCase):
         self.assertIn(b"Ndiyo, futa", page)
 
 
+class FormUsabilityTest(unittest.TestCase):
+    def _client(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        app = create_app(Path(folder.name) / "test.db")
+        app.testing = True
+        return app.test_client()
+
+    def test_forms_explain_fields_and_show_errors_next_to_them(self):
+        client = self._client()
+        token = login(client)
+
+        # kila fomu ina maelezo ya kusaidia, alama ya "required" na autofocus
+        for path, hint in [
+            ("/books/new", b"Jina kamili la kitabu, kwa mfano"),
+            ("/members/new", b"Namba ya kipekee ya mwanachama"),
+            ("/loans/new", b"Jaza namba ya mwanachama"),
+        ]:
+            page = client.get(path).data
+            self.assertIn(hint, page)
+            self.assertIn(b'class="required"', page)
+            self.assertIn(b"autofocus", page)
+            self.assertIn(b'aria-describedby="', page)
+
+        # hitilafu zinaonyeshwa karibu na field husika, na muhtasari wa juu una viungo
+        response = client.post(
+            "/books/new",
+            data={
+                "title": "",
+                "author": "Amina",
+                "category": "Elimu",
+                "publication_year": "2020",
+                "copies": "2",
+                "csrf_token": token,
+            },
+        )
+        page = response.data
+        self.assertIn(b"Hitilafu zilizopatikana", page)
+        self.assertIn(b'href="#title"', page)
+        self.assertIn(b'aria-invalid="true"', page)
+        self.assertIn(b'id="title-error"', page)
+
+        # namba ya mwanachama haipo kwenye fomu ya kukopa inashikilia field yake
+        response = client.post(
+            "/loans/new",
+            data={"member_number": "ST999", "book_id": "", "csrf_token": token},
+        )
+        page = response.data
+        self.assertIn(b'id="member_number-error"', page)
+        self.assertIn(b'href="#member_number"', page)
+
+        # fomu ya kukopa ina orodha ya namba za wanachama waliopo (datalist)
+        client.post(
+            "/members/new",
+            data={
+                "member_number": "ST900",
+                "full_name": "Zainab Omar",
+                "member_type": "student",
+                "csrf_token": token,
+            },
+        )
+        page = client.get("/loans/new").data
+        self.assertIn(b'<datalist id="member-numbers">', page)
+        self.assertIn(b'value="ST900"', page)
+
+
 class ReportsTest(unittest.TestCase):
     def _client(self):
         folder = tempfile.TemporaryDirectory()

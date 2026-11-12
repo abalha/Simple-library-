@@ -1,60 +1,25 @@
-{% extends 'base.html' %}{% from '_icons.html' import icon %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
+{% extends 'base.html' %} {% from '_icons.html' import icon %} {% from '_form.html' import error_summary, text_field with context %} {% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %} {%
 block content %}
 <h1>{{ t('Badilisha taarifa') if editing else t('Ongeza kitabu') }}</h1>
-{% if errors %}
-<div class="errors" role="alert">
-  <ul>
-    {% for error in errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
-<form class="card" method="post">
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /> {%
-  for key,label in [('title','Jina la
-  kitabu'),('author','Mwandishi'),('category','Aina ya kitabu')] %}<label
-    for="{{ key }}"
-    >{{ t(label) }}</label
-  ><input
-    id="{{ key }}"
-    name="{{ key }}"
-    value="{{ values.get(key, '') }}"
-    required
-    maxlength="150"
-  />{% endfor %} <label for="publication_year">{{ t('Mwaka wa kuchapishwa') }}</label
-  ><input
-    id="publication_year"
-    name="publication_year"
-    type="number"
-    min="1"
-    max="{{ current_year }}"
-    value="{{ values.get('publication_year','') }}"
-    required
-  />
-  <label for="copies">{{ t('Idadi ya nakala') }}</label
-  ><input
-    id="copies"
-    name="copies"
-    type="number"
-    min="0"
-    max="1000000"
-    value="{{ values.get('copies','') }}"
-    required
-  />
+<p class="form-intro">{{ t('Fomu yenye * inahitaji kujazwa.') }}</p>
+{% set copies_hint = t('Hikiwezi kuwa chini ya {copies} zinazokopeshwa kwa sasa.').format(copies=borrowed_copies) if editing and borrowed_copies else t('Idadi ya nakala zinazopatikana katika maktaba.') %}
+{{ error_summary(errors) }}
+<form class="card form" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  {{ text_field('title', 'Jina la kitabu', values.get('title', ''), 'Jina kamili la kitabu, kwa mfano: Utenzi wa Maisha.', errors.get('title', ''), maxlength=150, autofocus=true) }}
+  {{ text_field('author', 'Mwandishi', values.get('author', ''), 'Jina la mwandishi, kwa mfano: Amina Said.', errors.get('author', ''), maxlength=150) }}
+  {{ text_field('category', 'Aina ya kitabu', values.get('category', ''), 'Aina ya kitabu, kwa mfano: Elimu.', errors.get('category', ''), maxlength=150) }}
+  <div class="form-grid">
+    {{ text_field('publication_year', 'Mwaka wa kuchapishwa', values.get('publication_year', ''), 'Mfano: 2020', errors.get('publication_year', ''), type='number', minimum=1, maximum=current_year, inputmode='numeric') }}
+    {{ text_field('copies', 'Idadi ya nakala', values.get('copies', ''), copies_hint, errors.get('copies', ''), type='number', minimum=0, maximum=1000000, inputmode='numeric') }}
+  </div>
   <div class="actions">
-    <button
-      class="icon-only"
-      title="{{ t('Hifadhi') }}"
-      aria-label="{{ t('Hifadhi') }}"
-    >
-      {{ icon('save') }}
+    <button class="button" type="submit">
+      {{ icon('save') }}<span>{{ t('Hifadhi') }}</span>
     </button><a
-      class="icon-link"
+      class="button secondary-button"
       href="{{ url_for('index') }}"
-      title="{{ t('Ghairi') }}"
-      aria-label="{{ t('Ghairi') }}"
-      >{{ icon('x') }}</a
+      >{{ icon('x') }}<span>{{ t('Ghairi') }}</span></a
     >
   </div>
 </form>

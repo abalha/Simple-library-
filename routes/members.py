@@ -46,7 +46,7 @@ def register(app):
         member = member_or_404(member_id) if member_id is not None else None
         editing = member_id is not None
         values = dict(member) if member is not None else {"status": "active"}
-        errors = []
+        errors = {}
         if request.method == "POST":
             values = {
                 key: request.form.get(key, "").strip()
@@ -56,19 +56,19 @@ def register(app):
             if not editing:
                 values["status"] = "active"
             if not values["member_number"] or len(values["member_number"]) > 50:
-                errors.append(
+                errors["member_number"] = (
                     f"{translate('Namba ya mwanachama')}: {translate('jaza herufi 1 hadi 50')}."
                 )
             if not values["full_name"] or len(values["full_name"]) > 150:
-                errors.append(
+                errors["full_name"] = (
                     f"{translate('Jina kamili')}: {translate('jaza herufi 1 hadi 150')}."
                 )
             if values["member_type"] not in ("student", "teacher"):
-                errors.append(
+                errors["member_type"] = (
                     f"{translate('Aina ya mwanachama')}: {translate('chagua mwanafunzi au mwalimu')}."
                 )
             if values["status"] not in ("active", "inactive"):
-                errors.append(
+                errors["status"] = (
                     f"{translate('Hali')}: {translate('chagua')} active {translate('au')} inactive."
                 )
             if not errors:
@@ -93,10 +93,8 @@ def register(app):
                     flash(translate("Taarifa za mwanachama zimehifadhiwa."))
                     return redirect(url_for("members"))
                 except sqlite3.IntegrityError:
-                    errors.append(
-                        translate(
-                            "Namba ya mwanachama hii tayari inatumika na mwanachama mwingine."
-                        )
+                    errors["member_number"] = translate(
+                        "Namba ya mwanachama hii tayari inatumika na mwanachama mwingine."
                     )
         return render_template(
             "member_form.html", values=values, errors=errors, editing=editing

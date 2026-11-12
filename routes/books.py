@@ -57,7 +57,8 @@ def register(app):
     def edit_book(book_id=None):
         book = book_or_404(book_id) if book_id is not None else None
         values = dict(book) if book is not None else {}
-        errors = []
+        errors = {}
+        borrowed = active_loans_for_book(book_id) if book_id is not None else 0
         if request.method == "POST":
             values = {
                 key: request.form.get(key, "").strip()
@@ -69,7 +70,7 @@ def register(app):
                 ("category", "Aina"),
             ):
                 if not values[key] or len(values[key]) > 150:
-                    errors.append(
+                    errors[key] = (
                         f"{translate(label)}: {translate('jaza herufi 1 hadi 150')}."
                     )
             numbers = {}
@@ -82,13 +83,12 @@ def register(app):
                     if not minimum <= numbers[key] <= maximum:
                         raise ValueError
                 except ValueError:
-                    errors.append(
+                    errors[key] = (
                         f"{translate(label)}: {translate('jaza namba kamili kati ya')} {minimum} {translate('na')} {maximum}."
                     )
             if book_id is not None and "copies" in numbers:
-                borrowed = active_loans_for_book(book_id)
                 if numbers["copies"] < borrowed:
-                    errors.append(
+                    errors["copies"] = (
                         f"{translate('Nakala')}: {translate('haziwezi kupungua chini ya')} {borrowed}, {translate('idadi inayokopeshwa kwa sasa')}."
                     )
             if not errors:
@@ -118,6 +118,7 @@ def register(app):
             errors=errors,
             editing=book_id is not None,
             current_year=date.today().year,
+            borrowed_copies=borrowed,
         )
 
     @app.route("/books/<int:book_id>/delete", methods=["GET", "POST"])

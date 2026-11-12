@@ -187,6 +187,25 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Majaribio 18 (moja mpya) yanathibitisha kuwa vitufe vina alama zilizo na majina yanayopatikana
   kwa kipeperushi, na kuwa maneno ya vitufe sasa yameondolewa kwenye vitufe vya hatua.
 
+## Imekamilika katika hatua ya kumi na mbili — Fomu rahisi kutumia (UI/UX) (12 Novemba 2026)
+
+- Fomu zote tatu (kitabu, mwanachama, kukopesha kitabu) sasa zinatumia mwundo mmoja
+  (`templates/_form.html`): lebo yenye alama ya `*`, maelezo ya kusaidia chini ya kila field,
+  `aria-describedby`, `aria-invalid` kwenye field zenye hitilafu, na autofocus kwenye field
+  ya kwanza.
+- Hitilafu sasa zinashikiliwa na field yake badala ya kuorodhesha tu: routes zinatumia
+  `errors` kama kamusi (dict) badala ya orodha, na kila fomu inaonyesha muhtasari wa hitilafu
+  mwandamoni wenye viungo vinavyounda kwenye field husika pamoja na ujumbe chini ya field.
+  Maadili ya yaliyojazwa hapo awali zinabaki.
+- Vitufe vya kuwasilisha na kughairi vina alama pamoja na maandishi ("Hifadhi", "Ghairi",
+  "Kopesha kitabu") ili hatua ya msingi ionekane wazi kabla ya kubofya.
+- Fomu ya kukopesha kitabu: orodha ya namba za wanachama walio hai (datalist), nakala
+  zinazopatikana kwa kila kitabu (zinazobaki hazichagulikiwi), na onyesho la tarehe ya
+  mwisho kabla ya kukopa.
+- Majaribio 19 (moja mpya) yanathibitisha maelezo ya kusaidia, alama za required, autofocus,
+  hitilafu zilizo karibu na field zake, muhtasari wa hitilafu wenye viungo, na datalist ya
+  wanachama.
+
 ## Hatua zinazofuata
 
 1. Kufanya walkthrough ya presentation kwa kutumia sample data, kisha kuthibitisha kanuni

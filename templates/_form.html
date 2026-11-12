@@ -1,0 +1,65 @@
+{# Mwongo wa fomu: maeneo ya lebo, maelezo ya kusaidia na hitilafu zinazohusika na kila field. #}
+{% macro error_summary(errors) %}
+  {% if errors %}
+    <div class="errors" role="alert" tabindex="-1" id="error-summary">
+      <p class="errors-title">{{ t('Hitilafu zilizopatikana') }}</p>
+      <ul>
+        {% for field, message in errors.items() %}
+          <li><a href="#{{ field }}">{{ message }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro text_field(id, label, value='', hint='', error='', type='text', placeholder='', maxlength='', minimum='', maximum='', inputmode='', autocomplete='', datalist='', autofocus=false) %}
+  <div class="field">
+    <label for="{{ id }}">{{ t(label) }} <span class="required" aria-hidden="true">*</span></label>
+    <input
+      id="{{ id }}"
+      name="{{ id }}"
+      type="{{ type }}"
+      value="{{ value }}"
+      {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+      {% if maxlength %}maxlength="{{ maxlength }}"{% endif %}
+      {% if minimum != '' %}min="{{ minimum }}"{% endif %}
+      {% if maximum != '' %}max="{{ maximum }}"{% endif %}
+      {% if inputmode %}inputmode="{{ inputmode }}"{% endif %}
+      {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+      {% if datalist %}list="{{ datalist }}"{% endif %}
+      {% if autofocus %}autofocus{% endif %}
+      required
+      aria-describedby="{{ id }}-hint{% if error %} {{ id }}-error{% endif %}"
+      {% if error %}aria-invalid="true"{% endif %}
+    />
+    {% if hint %}<p class="hint" id="{{ id }}-hint">{{ t(hint) }}</p>{% endif %}
+    {% if error %}<p class="field-error" id="{{ id }}-error">{{ error }}</p>{% endif %}
+  </div>
+{% endmacro %}
+
+{# options: (thamani, maandishi, imezuiwa) #}
+{% macro select_field(id, label, options, value='', hint='', error='', placeholder='') %}
+  <div class="field">
+    <label for="{{ id }}">{{ t(label) }} <span class="required" aria-hidden="true">*</span></label>
+    <select
+      id="{{ id }}"
+      name="{{ id }}"
+      required
+      aria-describedby="{{ id }}-hint{% if error %} {{ id }}-error{% endif %}"
+      {% if error %}aria-invalid="true"{% endif %}
+    >
+      {% if placeholder %}<option value="">{{ placeholder }}</option>{% endif %}
+      {% for option in options %}
+        <option
+          value="{{ option[0] }}"
+          {% if value|string == option[0]|string %}selected{% endif %}
+          {% if option|length > 2 and option[2] %}disabled{% endif %}
+        >
+          {{- option[1] -}}
+        </option>
+      {% endfor %}
+    </select>
+    {% if hint %}<p class="hint" id="{{ id }}-hint">{{ t(hint) }}</p>{% endif %}
+    {% if error %}<p class="field-error" id="{{ id }}-error">{{ error }}</p>{% endif %}
+  </div>
+{% endmacro %}

@@ -111,6 +111,22 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
   kwenye `i18n.py`, hivyo inaendelea kutumika na watu wanaotumia screen reader.
 - Majiko ya uthibitisho ("Ndiyo, futa" / "Ghairi") na kitufe cha kuingia bado zina maneno.
 
+## Yaliyopo — Fomu rahisi kutumia
+
+- Fomu zote tatu (kuongeza/badilisha kitabu, kusajili/badilisha mwanachama, kukopesha kitabu)
+  zina mwundo mmoja: lebo yenye alama ya `*` ya maeneo yaliyohitajika, maelezo mafupi ya
+  kusaidia chini ya kila field (mfano wa muundo, kikomo cha herufi, kikomo cha vitabu), na
+  autofocus kwenye field ya kwanza.
+- Hitilafu zinaonyeshwa **karibu na field iliyo tatizo** (mwaka wa pembe, ujumbe chini ya
+  field) na pia kama muhtasari mwandamoni mwenye viungo vinavyounda kwenye field husika.
+  Maadili ya kila field zinabaki zile za awali baada ya kosa.
+- Vitufe vya kuwasilisha na kughairi sasa vina alama **na** maandishi ("Hifadhi", "Ghairi"),
+  ili mhudumu asikilize kitufe kikubwa kabla ya kubofya.
+- Fomu ya kukopesha kitabu ina orodha ya namba za wanachama walio hai (unapopekeza namba
+  unaona majina), inaonyesha nakala zinazopatikana kwa kila kitabu (kitabu kisichobaki
+  nakala hazichagulikiwi), na inaonyesha tarehe ya mwisho itakayotokea kabla ya kukopa.
+- Maeneo ya mwaka na idadi ya nakala yako kwenye mstari mmoja ili fomu isiwe ndefu.
+
 ## Yaliyopo — Login na ripoti
 
 - Kurasa zote za mfumo zinalindwa kwa login ya mhudumu; mhudumu anaweza kutoka kwa kutumia

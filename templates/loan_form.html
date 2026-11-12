@@ -1,43 +1,43 @@
 {% extends 'base.html' %}
 {% from '_icons.html' import icon %}
+{% from '_form.html' import error_summary, text_field, select_field with context %}
 {% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}
 {% block content %}
 <h1>{{ t('Kopesha kitabu') }}</h1>
-
-{% if errors %}
-<div class="errors" role="alert">
-  <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
-</div>
-{% endif %}
-
-<form class="card" method="post">
+<p class="form-intro">{{ t('Fomu yenye * inahitaji kujazwa.') }}</p>
+{{ error_summary(errors) }}
+{% set book_options = [] %}
+{% for book in books %}
+  {% set label = book.title ~ ' — ' ~ t('nakala') ~ ' ' ~ book.available ~ ' ' ~ t('zinazopatikana') %}
+  {% if book.available <= 0 %}
+    {% set label = label ~ ' (' ~ t('Hakuna nakala zilizobaki kwa kitabu hiki.') ~ ')' %}
+  {% endif %}
+  {% set _ = book_options.append((book.id|string, label, book.available <= 0 and book.id|string != values.get('book_id'))) %}
+{% endfor %}
+<form class="card form" method="post">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 
-  <label for="member_number">{{ t('Namba ya mwanachama') }}</label>
-  <input id="member_number" name="member_number" value="{{ values.get('member_number', '') }}" required maxlength="50" placeholder="Mfano: ST001">
-
-  <label for="book_id">{{ t('Kitabu') }}</label>
-  <select id="book_id" name="book_id" required>
-    <option value="">-- {{ t('Chagua kitabu') }} --</option>
-    {% for book in books %}
-    <option value="{{ book.id }}" {{ 'selected' if values.get('book_id') == book.id|string }}>{{ book.title }} &mdash; {{ t('nakala') }} {{ book.available }} {{ t('zinazopatikana') }}</option>
+  <datalist id="member-numbers">
+    {% for member in members %}
+      <option value="{{ member.member_number }}">{{ member.full_name }}</option>
     {% endfor %}
-  </select>
+  </datalist>
 
-  <p>{{ t('Muda wa kuazima ni siku') }} {{ loan_days }}.</p>
+  {{ text_field('member_number', 'Namba ya mwanachama', values.get('member_number', ''), 'Jaza namba ya mwanachama aliyosajiliwa, kwa mfano ST001.', errors.get('member_number', ''), maxlength=50, autofocus=true, autocomplete='off', datalist='member-numbers') }}
+
+  {{ select_field('book_id', 'Kitabu', book_options, values.get('book_id', ''), 'Kila kitabu huonyeshwa pamoja na nakala zinazopatikana kwa sasa.', errors.get('book_id', ''), '-- ' ~ t('Chagua kitabu') ~ ' --') }}
+
+  <p class="form-note">
+    {{ t('Muda wa kuazima ni siku') }} {{ loan_days }}. {{ t('Kitabu utaazimwa leo; tarehe ya mwisho itakuwa {due}.').format(due=due_date|display_date) }}
+  </p>
+
   <div class="actions">
-    <button
-      class="icon-only"
-      title="{{ t('Azima kitabu') }}"
-      aria-label="{{ t('Azima kitabu') }}"
-    >
-      {{ icon('loans') }}
+    <button class="button" type="submit">
+      {{ icon('loans') }}<span>{{ t('Kopesha kitabu') }}</span>
     </button><a
-      class="icon-link"
+      class="button secondary-button"
       href="{{ url_for('loans') }}"
-      title="{{ t('Ghairi') }}"
-      aria-label="{{ t('Ghairi') }}"
-      >{{ icon('x') }}</a
+      >{{ icon('x') }}<span>{{ t('Ghairi') }}</span></a
     >
   </div>
 </form>

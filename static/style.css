@@ -308,6 +308,57 @@ input::placeholder {
   white-space: nowrap;
 }
 
+/* ---- Fomu: maeneo, maelezo ya kusaidia na hitilafu ---- */
+.field {
+  margin-top: 18px;
+}
+.field label {
+  margin: 0 0 6px;
+}
+.required {
+  color: var(--danger);
+}
+.hint {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.field-error {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--danger-strong);
+}
+input[aria-invalid='true'],
+select[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+.form-intro {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.form-note {
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  background: var(--wash);
+  border-radius: var(--radius-s);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0 20px;
+}
+.errors-title {
+  margin: 0;
+  font-weight: 700;
+}
+.errors a {
+  color: inherit;
+}
+
 /* ---- Tables ---- */
 .table {
   overflow: auto;

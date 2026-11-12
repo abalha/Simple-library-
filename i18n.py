@@ -178,6 +178,21 @@ ENGLISH = {
     "Alikopa tarehe": "Borrowed on",
     "tarehe ya mwisho ilikuwa": "the due date was",
     "Kitabu hiki kimechelewa kwa siku": "This book is overdue by",
+    # Fomu: maeneo, maelezo ya kusaidia na hitilafu
+    "Hitilafu zilizopatikana": "Errors found",
+    "Fomu yenye * inahitaji kujazwa.": "Fields marked with * are required.",
+    "Jina kamili la kitabu, kwa mfano: Utenzi wa Maisha.": "Full book title, for example: Utenzi wa Maisha.",
+    "Jina la mwandishi, kwa mfano: Amina Said.": "Author name, for example: Amina Said.",
+    "Aina ya kitabu, kwa mfano: Elimu.": "Book category, for example: Elimu.",
+    "Mfano: 2020": "Example: 2020",
+    "Idadi ya nakala zinazopatikana katika maktaba.": "Number of copies the library holds.",
+    "Hikiwezi kuwa chini ya {copies} zinazokopeshwa kwa sasa.": "Cannot be lower than the {copies} copies currently on loan.",
+    "Namba ya kipekee ya mwanachama, kwa mfano ST001 — hadi herufi 50.": "Unique member number, for example ST001 — up to 50 characters.",
+    "Jina kamili, kwa mfano: Amina Said — hadi herufi 150.": "Full name, for example: Amina Said — up to 150 characters.",
+    "Jaza namba ya mwanachama aliyosajiliwa, kwa mfano ST001.": "Enter the number of a registered member, for example ST001.",
+    "Kila kitabu huonyeshwa pamoja na nakala zinazopatikana kwa sasa.": "Each book is shown with the copies available right now.",
+    "Hakuna nakala zilizobaki kwa kitabu hiki.": "No copies left for this book.",
+    "Kitabu utaazimwa leo; tarehe ya mwisho itakuwa {due}.": "The book will be lent today; the due date will be {due}.",
 }
 
 
