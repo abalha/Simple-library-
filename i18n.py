@@ -193,6 +193,21 @@ ENGLISH = {
     "Kila kitabu huonyeshwa pamoja na nakala zinazopatikana kwa sasa.": "Each book is shown with the copies available right now.",
     "Hakuna nakala zilizobaki kwa kitabu hiki.": "No copies left for this book.",
     "Kitabu utaazimwa leo; tarehe ya mwisho itakuwa {due}.": "The book will be lent today; the due date will be {due}.",
+    # Paneli ya kanuni kando ya fomu
+    "Kanuni za kitabu": "Book rules",
+    "Kanuni za uanachama": "Membership rules",
+    "Kanuni za kukopa": "Borrowing rules",
+    "Jina, mwandishi na aina: hadi herufi 150 kila moja.": "Title, author and category: up to 150 characters each.",
+    "Mwaka wa kuchapishwa: kati ya 1 na {year}.": "Publication year: between 1 and {year}.",
+    "Idadi ya nakala ni nakala zote za kitabu hiki; zinazopatikana zinachungwa na mikopo inayoendelea.": "The number of copies is the total the library holds; the available ones are reduced by the loans still out.",
+    "Kitabu chenye historia ya mikopo hakiwezi kufutwa.": "A book with borrowing history cannot be deleted.",
+    "Namba ya mwanachama ni ya kipekee; ST001 na st001 ni mwanachama mmoja.": "Member numbers are unique; ST001 and st001 are the same member.",
+    "Mwanafunzi anaweza kukopa vitabu {student}; mwalimu {teacher} kwa wakati mmoja.": "A student may borrow {student} books; a teacher {teacher} at a time.",
+    "Mwanachama si hai hawezi kukopa, lakini bado anaweza kurejesha vitabu alizokopa.": "An inactive member cannot borrow, but can still return the books they have.",
+    "Hakuna kufuta mwanachama; badala yake hali inabadilishwa kuwa \"Haifanyi kazi\".": "Members are never deleted; their status is changed to \"Inactive\" instead.",
+    "Muda wa kuazimaji ni siku {days}; tarehe ya mwisho inapatikana kwa kuongeza siku {days} kwa tarehe ya leo.": "The loan period is {days} days; the due date is today's date plus {days} days.",
+    "Mwanachama mwenye kitabu kilichochelewa huzuiwa kukopa kitabu kingine mpaka akirejeshe.": "A member with an overdue book may not borrow another until they return it.",
+    "Maktaba haijaweka faini; adhabu ya uchelewa ni kuzuia kukopa pekee.": "The library sets no fines; the penalty for overdue books is borrowing restriction only.",
 }
 
 

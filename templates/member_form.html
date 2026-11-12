@@ -1,35 +1,47 @@
 {% extends 'base.html' %}
 {% from '_icons.html' import icon %}
-{% from '_form.html' import error_summary, text_field, select_field with context %}
+{% from '_form.html' import error_summary, guidance, text_field, select_field with context %}
 {% block eyebrow %}{{ t('USIMAMIZI WA WANACHAMA') }}{% endblock %}
 {% block content %}
+<div class="form-page">
 <h1>{{ t('Badilisha taarifa') if editing else t('Sajili mwanachama') }}</h1>
 <p class="form-intro">{{ t('Fomu yenye * inahitaji kujazwa.') }}</p>
-{{ error_summary(errors) }}
 {% set member_types = [('student', t('Mwanafunzi'), false), ('teacher', t('Mwalimu'), false)] %}
 {% set statuses = [('active', t('Hai'), false), ('inactive', t('Haifanyi kazi'), false)] %}
 {% set type_hint = t('Mwanafunzi anaweza kukopa vitabu {student} kwa wakati mmoja; mwalimu anaweza kukopa vitabu {teacher} kwa wakati mmoja.').format(student=student_quota, teacher=teacher_quota) %}
 {% set status_hint = t('Hai = mwanachama anaweza kukopa vitabu. Haifanyi kazi = mwanachama huzuiwa kukopa vitabu mpaka msimamizi wa maktaba aumrudishie kuwa hai.') %}
-<form class="card form" method="post">
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<div class="form-layout">
+  <div class="form-main">
+    {{ error_summary(errors) }}
+    <form class="card form" method="post">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 
-  {{ text_field('member_number', 'Namba ya mwanachama', values.get('member_number', ''), 'Namba ya kipekee ya mwanachama, kwa mfano ST001 — hadi herufi 50.', errors.get('member_number', ''), maxlength=50, autofocus=true, autocomplete='off') }}
-  {{ text_field('full_name', 'Jina kamili', values.get('full_name', ''), 'Jina kamili, kwa mfano: Amina Said — hadi herufi 150.', errors.get('full_name', ''), maxlength=150) }}
+      {{ text_field('member_number', 'Namba ya mwanachama', values.get('member_number', ''), 'Namba ya kipekee ya mwanachama, kwa mfano ST001 — hadi herufi 50.', errors.get('member_number', ''), maxlength=50, autofocus=true, autocomplete='off') }}
+      {{ text_field('full_name', 'Jina kamili', values.get('full_name', ''), 'Jina kamili, kwa mfano: Amina Said — hadi herufi 150.', errors.get('full_name', ''), maxlength=150) }}
 
-  {{ select_field('member_type', 'Aina ya mwanachama', member_types, values.get('member_type', ''), type_hint, errors.get('member_type', ''), '-- ' ~ t('Chagua') ~ ' --') }}
+      {{ select_field('member_type', 'Aina ya mwanachama', member_types, values.get('member_type', ''), type_hint, errors.get('member_type', ''), '-- ' ~ t('Chagua') ~ ' --') }}
 
-  {% if editing %}
-    {{ select_field('status', 'Hali ya uanachama', statuses, values.get('status', ''), status_hint, errors.get('status', '')) }}
-  {% endif %}
+      {% if editing %}
+        {{ select_field('status', 'Hali ya uanachama', statuses, values.get('status', ''), status_hint, errors.get('status', '')) }}
+      {% endif %}
 
-  <div class="actions">
-    <button class="button" type="submit">
-      {{ icon('save') }}<span>{{ t('Hifadhi') }}</span>
-    </button><a
-      class="button secondary-button"
-      href="{{ url_for('members') }}"
-      >{{ icon('x') }}<span>{{ t('Ghairi') }}</span></a
-    >
+      <div class="actions">
+        <button class="button" type="submit">
+          {{ icon('save') }}<span>{{ t('Hifadhi') }}</span>
+        </button><a
+          class="button secondary-button"
+          href="{{ url_for('members') }}"
+          >{{ icon('x') }}<span>{{ t('Ghairi') }}</span></a
+        >
+      </div>
+    </form>
   </div>
-</form>
+  {{ guidance('Kanuni za uanachama', [
+    t('Namba ya mwanachama ni ya kipekee; ST001 na st001 ni mwanachama mmoja.'),
+    t('Mwanafunzi anaweza kukopa vitabu {student}; mwalimu {teacher} kwa wakati mmoja.').format(student=student_quota, teacher=teacher_quota),
+    t('Mwanachama si hai hawezi kukopa, lakini bado anaweza kurejesha vitabu alizokopa.'),
+    t('Hakuna kufuta mwanachama; badala yake hali inabadilishwa kuwa "Haifanyi kazi".')
+  ]) }}
+</div>
+</div>
 {% endblock %}

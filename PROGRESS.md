@@ -205,6 +205,9 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Majaribio 19 (moja mpya) yanathibitisha maelezo ya kusaidia, alama za required, autofocus,
   hitilafu zilizo karibu na field zake, muhtasari wa hitilafu wenye viungo, na datalist ya
   wanachama.
+- Mzigo wa ukurasa wa fomu ulibadilishwa: fomu (650px) kushoto, paneli ya kanuni (320px)
+  kulia, na kifungu kizima kimepangwa kati ya nafasi ili isielewe upande mmoja. Kwenye skrini
+  chini ya 1080px paneli huanguka chini ya fomu.
 
 ## Hatua zinazofuata
 

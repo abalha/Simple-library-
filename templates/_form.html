@@ -1,4 +1,15 @@
 {# Mwongo wa fomu: maeneo ya lebo, maelezo ya kusaidia na hitilafu zinazohusika na kila field. #}
+{% macro guidance(title, items) %}
+  <aside class="guidance">
+    <p class="guidance-title">{{ t(title) }}</p>
+    <ul>
+      {% for item in items %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </aside>
+{% endmacro %}
+
 {% macro error_summary(errors) %}
   {% if errors %}
     <div class="errors" role="alert" tabindex="-1" id="error-summary">

@@ -126,6 +126,9 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
   unaona majina), inaonyesha nakala zinazopatikana kwa kila kitabu (kitabu kisichobaki
   nakala hazichagulikiwi), na inaonyesha tarehe ya mwisho itakayotokea kabla ya kukopa.
 - Maeneo ya mwaka na idadi ya nakala yako kwenye mstari mmoja ili fomu isiwe ndefu.
+- Kwenye skrini mpana, ukurasa wa fomu una mistari miwili: fomu kushoto na paneli ya
+  "kanuni" kulia (kikomo cha vitabu, muda wa kuazimaji, mfumo wa hali ya mwanachama);
+  paneli huanguka chini ya fomu kwenye skrini nyembu.
 
 ## Yaliyopo — Login na ripoti
 
