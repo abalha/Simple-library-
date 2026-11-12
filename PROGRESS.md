@@ -160,6 +160,19 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Maelezo yote yameongezwa kwenye `i18n.py` kwa Kiswahili na English; majaribio 15
   (wawili 2 mpya) yanathibitisha kawa ripoti zinaeleweka na zina tafsiri kwa English.
 
+## Imekamilika katika hatua ya kumi — Footer ya kiwango cha mfumo (12 Novemba 2026)
+
+- Kila ukurasa (kuwa ndogo ya ukurasa wa kuingia) sasa una footer ya kizana: nembo na jina
+  la mfumo, viungo vya menyu (Vitabu, Wanachama, Vilivyoazimwa, Ripoti — zinaonekana tu
+  mtu ameingia), jina la msimamizi wa maktaba na taarifa ya toleo la mafunzo, na mguu wa
+  haki za uandikishaji (`© 2026 Maktaba — Library MIS`).
+- Footer imewekwa ndani ya kila maudhui (`.shell-body`), kwa hiyo inalingana na safu ya
+  ukurasa huku ya upande wa kulia; sidebar inabaki kwa urefu wote. Kwenye ukurasa wa
+  kuingia footer huwa nafasi ya kati, ili isionekane kuwa tupu.
+- Mguu wa mfumo ni `no-print`: kuchapisha ripoti hupangi na footer ya app (kila ripoti
+  ina mguu wake wa data). Majaribio 17 (wawili 2 mpya) yanathibitisha kuwango, mchango
+  wa haki za uandikishaji na tafsiri ya English.
+
 ## Hatua zinazofuata
 
 1. Kufanya walkthrough ya presentation kwa kutumia sample data, kisha kuthibitisha kanuni

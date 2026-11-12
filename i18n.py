@@ -136,6 +136,7 @@ ENGLISH = {
     "Kitabu kimerejeshwa.": "Book has been returned.",
     "Kitabu hiki tayari kimerejeshwa.": "This book has already been returned.",
     "Menyu": "Menu",
+    "Haki zote zimehifadhiwa.": "All rights reserved.",
     "Kopesha kitabu": "Lend a book",
     "nakala": "copies",
     "zinazopatikana": "available",

@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block eyebrow %}{{ t('INGIA') }}{% endblock %} {% block
-content %}
+main_class %}wrap login-main{% endblock %} {% block content %}
 <section class="login-screen" aria-labelledby="login-title">
   <form class="card login-card" method="post">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

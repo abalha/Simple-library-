@@ -116,6 +116,9 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
   bila msimamizi.
 - Mfumo una mhudumu mmoja mwenye username na password moja tu kwa sasa; hakuna usajili wa watumiaji,
   reset ya password, wala roles tofauti.
+- Kila ukurasa una footer ya taasisi: nembo na jina la mfumo, viungo vya menyu (Vitabu,
+  Wanachama, Vilivyoazimwa, Ripoti), jina la msimamizi wa maktaba, na mguu wa haki za
+  uandikishaji. Footer haichapishwi pamoja na ripoti — kila ripoti ina mguu wake wa data.
 
 ## Usalama na uhakiki (vitabu, wanachama, mikopo na login)
 

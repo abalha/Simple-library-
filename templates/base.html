@@ -85,19 +85,50 @@
         </nav>
       </aside>
       {% endif %}
-      <main class="wrap">
-        <p class="eyebrow">{% block eyebrow %}{% endblock %}</p>
-        {% for message in get_flashed_messages() %}
-        <p class="notice" role="status">{{ message }}</p>
-        {% endfor %}{% block content %}{% endblock %}
-      </main>
+      <div class="shell-body">
+        <main class="{% block main_class %}wrap{% endblock %}">
+          <p class="eyebrow">{% block eyebrow %}{% endblock %}</p>
+          {% for message in get_flashed_messages() %}
+          <p class="notice" role="status">{{ message }}</p>
+          {% endfor %}{% block content %}{% endblock %}
+        </main>
+        <footer
+          class="app-footer no-print{% if not session.logged_in %} footer-centered{% endif %}"
+        >
+          <div class="footer-top">
+            <div class="footer-brand">
+              <img
+                src="{{ url_for('static', filename='images/library-mis-logo.png') }}"
+                alt=""
+              />
+              <div>
+                <p class="footer-name">Maktaba</p>
+                <p class="footer-tagline">Library Management Information System</p>
+              </div>
+            </div>
+            {% if session.logged_in %}
+            <nav class="footer-links" aria-label="{{ t('Menyu') }}">
+              <p class="footer-label">{{ t('Menyu') }}</p>
+              <a href="{{ url_for('index') }}">{{ t('Vitabu') }}</a>
+              <a href="{{ url_for('members') }}">{{ t('Wanachama') }}</a>
+              <a href="{{ url_for('loans') }}">{{ t('Vilivyoazimwa') }}</a>
+              <a href="{{ url_for('books_report') }}">{{ t('Ripoti') }}</a>
+            </nav>
+            {% endif %}
+            <div class="footer-contact">
+              <p class="footer-label">{{ t('Msimamizi wa maktaba') }}</p>
+              <p class="footer-value">{{ librarian }}</p>
+              <p class="footer-note">
+                {{ t('Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado') }}
+              </p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span>© {{ current_year }} Maktaba — Library MIS. {{ t('Haki zote zimehifadhiwa.') }}</span>
+            <span>{{ t('Mfumo wa Usimamizi wa Maktaba') }}</span>
+          </div>
+        </footer>
+      </div>
     </div>
-    <footer class="wrap no-print">
-      <span class="footer-brand">Maktaba — Library MIS</span>
-      <span>
-        · {{ t('Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado') }} ·
-        © {{ current_year }}</span
-      >
-    </footer>
   </body>
 </html>

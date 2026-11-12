@@ -187,6 +187,39 @@ class LoginSecurityTest(unittest.TestCase):
         self.assertNotIn("{{", page.split("<script>")[1])
 
 
+class FooterTest(unittest.TestCase):
+    def _client(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        app = create_app(Path(folder.name) / "test.db")
+        app.testing = True
+        return app.test_client()
+
+    def test_footer_shows_institution_and_is_not_printed(self):
+        client = self._client()
+        login_page = client.get("/login").data
+        self.assertIn(b'class="app-footer no-print footer-centered"', login_page)
+        self.assertIn(b"Library MIS. Haki zote zimehifadhiwa.", login_page)
+        self.assertNotIn(b'class="footer-links"', login_page)
+
+        login(client)
+        page = client.get("/").data
+        self.assertIn(b'class="app-footer no-print"', page)
+        self.assertIn(b'class="footer-links"', page)
+        self.assertIn(b"Library MIS. Haki zote zimehifadhiwa.", page)
+        # footer iko baada ya maudhui, ili iwe chini ya kila ukurasa
+        self.assertLess(page.index(b"</main>"), page.index(b"app-footer"))
+
+    def test_footer_translates_to_english(self):
+        client = self._client()
+        client.get("/login")
+        with client.session_transaction() as session:
+            token = session["csrf_token"]
+        client.post("/language/en", data={"csrf_token": token})
+        page = client.get("/login").data
+        self.assertIn(b"All rights reserved.", page)
+
+
 class ReportsTest(unittest.TestCase):
     def _client(self):
         folder = tempfile.TemporaryDirectory()
