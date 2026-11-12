@@ -1,11 +1,18 @@
-{% extends 'base.html' %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
+{% extends 'base.html' %}{% from '_icons.html' import icon %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
 block content %}
 <div class="heading">
   <div>
     <h1>{{ t('Vitabu vya maktaba') }}</h1>
     <p>{{ t('Ongeza na simamia taarifa za vitabu.') }}</p>
   </div>
-  <a class="button" href="{{ url_for('edit_book') }}">{{ t('+ Ongeza kitabu') }}</a>
+  <a
+    class="button icon-only"
+    href="{{ url_for('edit_book') }}"
+    title="{{ t('Ongeza kitabu') }}"
+    aria-label="{{ t('Ongeza kitabu') }}"
+  >
+    {{ icon('plus') }}
+  </a>
 </div>
 <section class="dashboard-summary" aria-labelledby="summary-title">
   <h2 id="summary-title">{{ t('Muhtasari wa maktaba') }}</h2>
@@ -33,7 +40,19 @@ block content %}
       name="q"
       value="{{ query }}"
       placeholder="Mfano: Kiswahili"
-    /><button>{{ t('Tafuta') }}</button><a href="{{ url_for('index') }}">{{ t('Onyesha vyote') }}</a>
+    /><button
+      class="icon-only"
+      title="{{ t('Tafuta') }}"
+      aria-label="{{ t('Tafuta') }}"
+    >
+      {{ icon('search') }}
+    </button><a
+      class="icon-link"
+      href="{{ url_for('index') }}"
+      title="{{ t('Onyesha vyote') }}"
+      aria-label="{{ t('Onyesha vyote') }}"
+      >{{ icon('list') }}</a
+    >
   </div>
 </form>
 <div class="table">
@@ -53,14 +72,22 @@ block content %}
         <td>{{ book.copies }}</td>
         <td>{{ book.available }}</td>
         <td>
-          <a href="{{ url_for('edit_book', book_id=book.id) }}">{{ t('Badilisha') }}</a>
+          <a
+            class="icon-link"
+            href="{{ url_for('edit_book', book_id=book.id) }}"
+            title="{{ t('Badilisha') }}"
+            aria-label="{{ t('Badilisha') }}"
+            >{{ icon('pencil') }}</a
+          >
           <button
-            class="link-button danger delete-trigger"
+            class="link-button danger icon-link delete-trigger"
             type="button"
+            title="{{ t('Futa') }}"
+            aria-label="{{ t('Futa') }}"
             data-delete-url="{{ url_for('delete_book', book_id=book.id) }}"
             data-book-title="{{ book.title }}"
           >
-            {{ t('Futa') }}
+            {{ icon('trash') }}
           </button>
         </td>
       </tr>

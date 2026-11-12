@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 {% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}
 {% block content %}
 <h1>{{ t('Kopesha kitabu') }}</h1>
@@ -24,6 +25,20 @@
   </select>
 
   <p>{{ t('Muda wa kuazima ni siku') }} {{ loan_days }}.</p>
-  <div class="actions"><button>{{ t('Azima kitabu') }}</button><a href="{{ url_for('loans') }}">{{ t('Ghairi') }}</a></div>
+  <div class="actions">
+    <button
+      class="icon-only"
+      title="{{ t('Azima kitabu') }}"
+      aria-label="{{ t('Azima kitabu') }}"
+    >
+      {{ icon('loans') }}
+    </button><a
+      class="icon-link"
+      href="{{ url_for('loans') }}"
+      title="{{ t('Ghairi') }}"
+      aria-label="{{ t('Ghairi') }}"
+      >{{ icon('x') }}</a
+    >
+  </div>
 </form>
 {% endblock %}

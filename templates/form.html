@@ -1,4 +1,4 @@
-{% extends 'base.html' %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
+{% extends 'base.html' %}{% from '_icons.html' import icon %}{% block eyebrow %}{{ t('USIMAMIZI WA VITABU') }}{% endblock %}{%
 block content %}
 <h1>{{ t('Badilisha taarifa') if editing else t('Ongeza kitabu') }}</h1>
 {% if errors %}
@@ -43,7 +43,19 @@ block content %}
     required
   />
   <div class="actions">
-    <button>{{ t('Hifadhi') }}</button><a href="{{ url_for('index') }}">{{ t('Ghairi') }}</a>
+    <button
+      class="icon-only"
+      title="{{ t('Hifadhi') }}"
+      aria-label="{{ t('Hifadhi') }}"
+    >
+      {{ icon('save') }}
+    </button><a
+      class="icon-link"
+      href="{{ url_for('index') }}"
+      title="{{ t('Ghairi') }}"
+      aria-label="{{ t('Ghairi') }}"
+      >{{ icon('x') }}</a
+    >
   </div>
 </form>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}{%
+{% extends 'base.html' %}{% from '_icons.html' import icon %}{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}{%
 block content %}
 <h1>{{ t('Thibitisha kurejesha') }}</h1>
 <div class="card">
@@ -21,8 +21,19 @@ block content %}
   <form method="post">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <div class="actions">
-      <button>{{ t('Ndiyo, imerejeshwa') }}</button
-      ><a href="{{ url_for('loans') }}">{{ t('Ghairi') }}</a>
+      <button
+        class="icon-only"
+        title="{{ t('Ndiyo, imerejeshwa') }}"
+        aria-label="{{ t('Ndiyo, imerejeshwa') }}"
+      >
+        {{ icon('undo') }}
+      </button><a
+        class="icon-link"
+        href="{{ url_for('loans') }}"
+        title="{{ t('Ghairi') }}"
+        aria-label="{{ t('Ghairi') }}"
+        >{{ icon('x') }}</a
+      >
     </div>
   </form>
 </div>

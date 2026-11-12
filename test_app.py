@@ -220,6 +220,42 @@ class FooterTest(unittest.TestCase):
         self.assertIn(b"All rights reserved.", page)
 
 
+class IconActionsTest(unittest.TestCase):
+    def _client(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        app = create_app(Path(folder.name) / "test.db")
+        app.testing = True
+        return app.test_client()
+
+    def test_action_buttons_use_icons_with_accessible_names(self):
+        client = self._client()
+        token = login(client)
+        client.post(
+            "/books/new",
+            data={
+                "title": "Kitabu cha majaribio",
+                "author": "Amina",
+                "category": "Elimu",
+                "publication_year": "2020",
+                "copies": "3",
+                "csrf_token": token,
+            },
+        )
+        page = client.get("/").data
+        # vitufe vya actions zina icon (SVG) na jina linaloonekana kwa screen reader
+        self.assertIn(b"<svg", page)
+        self.assertIn(b'class="icon"', page)
+        self.assertIn(b'aria-label="Ongeza kitabu"', page)
+        self.assertIn(b'aria-label="Tafuta"', page)
+        self.assertIn(b'aria-label="Badilisha"', page)
+        self.assertIn(b'aria-label="Futa"', page)
+        # text haisomi kama maandishi kwenye vitufe hivi
+        self.assertNotIn(b">Tafuta</button>", page)
+        # dialog ya kufuta bado ina maandishi (hatari haipotokezi kwa icon tu)
+        self.assertIn(b"Ndiyo, futa", page)
+
+
 class ReportsTest(unittest.TestCase):
     def _client(self):
         folder = tempfile.TemporaryDirectory()

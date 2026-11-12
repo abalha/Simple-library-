@@ -173,6 +173,20 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   ina mguu wake wa data). Majaribio 17 (wawili 2 mpya) yanathibitisha kuwango, mchango
   wa haki za uandikishaji na tafsiri ya English.
 
+## Imekamilika katika hatua ya kumi na moja — Vitufe kwa alama (icons) badala ya maneno (12 Novemba 2026)
+
+- Kila kitufe na kiungo cha hatua sasa kinaonyesha alama (icon) badala ya maneno: kuongeza
+  (+), kutafuta (kioo), kuonyesha vyote (orodha), kubadilisha (karatasi), kufuta (chupa),
+  kurejesha (←), kuhifadhi (diski), kufuta (×), kupinga (printer) na kutoka (kufungua mlango).
+- Alama zimeandikwa ndani ya `templates/_icons.html` kama macro ya SVG — hakuna dependency
+  ya nje na hakuna internet, hivyo mfumo bado unaenda offline kama ulivyokuwa.
+- Kila kitufe chenye alama pekee lina `title` (tooltip) na `aria-label` yenye maana tafsiri
+  iliyopo tayari kwenye `i18n.py`; maana hizi hazihitaji mistari mpya ya tafsiri.
+- Majiko ya uthibitisho ("Ndiyo, futa" / "Ghairi") na kitufe cha kuingia bado zinaonyesha
+  maneno, ili hatari ionekane wazi kabla ya kufanya jambo lisio reversible.
+- Majaribio 18 (moja mpya) yanathibitisha kuwa vitufe vina alama zilizo na majina yanayopatikana
+  kwa kipeperushi, na kuwa maneno ya vitufe sasa yameondolewa kwenye vitufe vya hatua.
+
 ## Hatua zinazofuata
 
 1. Kufanya walkthrough ya presentation kwa kutumia sample data, kisha kuthibitisha kanuni

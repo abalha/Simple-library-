@@ -1,10 +1,17 @@
-{% extends 'base.html' %}{% block eyebrow %}{{ t('USIMAMIZI WA WANACHAMA') }}{% endblock
+{% extends 'base.html' %}{% from '_icons.html' import icon %}{% block eyebrow %}{{ t('USIMAMIZI WA WANACHAMA') }}{% endblock
 %}{% block content %}
 <div class="heading">
   <div>
     <h1>{{ t('Wanachama wa maktaba') }}</h1><p>{{ t('Sajili na simamia taarifa za wanachama.') }}</p>
   </div>
-  <a class="button" href="{{ url_for('edit_member') }}">{{ t('+ Sajili mwanachama') }}</a>
+  <a
+    class="button icon-only"
+    href="{{ url_for('edit_member') }}"
+    title="{{ t('Sajili mwanachama') }}"
+    aria-label="{{ t('Sajili mwanachama') }}"
+  >
+    {{ icon('plus') }}
+  </a>
 </div>
 <div class="stats">
   <div>
@@ -20,7 +27,19 @@
       name="q"
       value="{{ query }}"
       placeholder="Mfano: ST001 au Amina"
-    /><button>{{ t('Tafuta') }}</button><a href="{{ url_for('members') }}">{{ t('Onyesha vyote') }}</a>
+    /><button
+      class="icon-only"
+      title="{{ t('Tafuta') }}"
+      aria-label="{{ t('Tafuta') }}"
+    >
+      {{ icon('search') }}
+    </button><a
+      class="icon-link"
+      href="{{ url_for('members') }}"
+      title="{{ t('Onyesha vyote') }}"
+      aria-label="{{ t('Onyesha vyote') }}"
+      >{{ icon('list') }}</a
+    >
   </div>
 </form>
 <div class="table">
@@ -40,8 +59,12 @@
         </td>
         <td>{{ t('Hai') if member.status == 'active' else t('Haifanyi kazi') }}</td>
         <td>
-          <a href="{{ url_for('edit_member', member_id=member.id) }}"
-            >{{ t('Badilisha') }}</a
+          <a
+            class="icon-link"
+            href="{{ url_for('edit_member', member_id=member.id) }}"
+            title="{{ t('Badilisha') }}"
+            aria-label="{{ t('Badilisha') }}"
+            >{{ icon('pencil') }}</a
           >
         </td>
       </tr>

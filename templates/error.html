@@ -1,11 +1,15 @@
-{% extends 'base.html' %} {% block eyebrow %}{{ t('Hitilafu') }}{% endblock %} {% block
+{% extends 'base.html' %} {% from '_icons.html' import icon %} {% block eyebrow %}{{ t('Hitilafu') }}{% endblock %} {% block
 content %}
 <section class="card error-card" aria-labelledby="error-title">
   <h1 id="error-title">{{ t('Hitilafu') }}</h1>
   <p class="errors error-message">{{ message }}</p>
   <div class="actions">
-    <a class="button" href="{{ url_for('login') }}"
-      >{{ t('Rudi kwenye ukurasa wa kuingia') }}</a
+    <a
+      class="button icon-only"
+      href="{{ url_for('login') }}"
+      title="{{ t('Rudi kwenye ukurasa wa kuingia') }}"
+      aria-label="{{ t('Rudi kwenye ukurasa wa kuingia') }}"
+      >{{ icon('arrow-left') }}</a
     >
   </div>
 </section>

@@ -1,10 +1,17 @@
-{% extends 'base.html' %}{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}{%
+{% extends 'base.html' %}{% from '_icons.html' import icon %}{% block eyebrow %}{{ t('VITABU VILIVYOAZIMWA') }}{% endblock %}{%
 block content %}
 <div class="heading">
   <div>
     <h1>{{ t('Vitabu vilivyoazimwa') }}</h1><p>{{ t('Kopesha na pokea vitabu vilivyorejeshwa.') }}</p>
   </div>
-  <a class="button" href="{{ url_for('new_loan') }}">{{ t('+ Azima kitabu') }}</a>
+  <a
+    class="button icon-only"
+    href="{{ url_for('new_loan') }}"
+    title="{{ t('Azima kitabu') }}"
+    aria-label="{{ t('Azima kitabu') }}"
+  >
+    {{ icon('plus') }}
+  </a>
 </div>
 <div class="stats">
   <div>
@@ -22,7 +29,19 @@ block content %}
       name="q"
       value="{{ query }}"
       placeholder="Mfano: ST001 au Amina"
-    /><button>{{ t('Tafuta') }}</button><a href="{{ url_for('loans') }}">{{ t('Onyesha vyote') }}</a>
+    /><button
+      class="icon-only"
+      title="{{ t('Tafuta') }}"
+      aria-label="{{ t('Tafuta') }}"
+    >
+      {{ icon('search') }}
+    </button><a
+      class="icon-link"
+      href="{{ url_for('loans') }}"
+      title="{{ t('Onyesha vyote') }}"
+      aria-label="{{ t('Onyesha vyote') }}"
+      >{{ icon('list') }}</a
+    >
   </div>
 </form>
 <div class="table">
@@ -48,8 +67,11 @@ block content %}
         </td>
         <td>
           {% if not loan.returned_at %}<a
+            class="icon-link"
             href="{{ url_for('return_loan', loan_id=loan.id) }}"
-            >{{ t('Rejesha') }}</a
+            title="{{ t('Rejesha') }}"
+            aria-label="{{ t('Rejesha') }}"
+            >{{ icon('undo') }}</a
           >{% endif %}
         </td>
       </tr>

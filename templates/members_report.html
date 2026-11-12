@@ -1,10 +1,21 @@
-{% extends 'base.html' %} {% from '_report.html' import head, explanation, foot with
+{% extends 'base.html' %} {% from '_icons.html' import icon %} {% from '_report.html' import head, explanation, foot with
 context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %}
 {{ head(t('Ripoti ya wanachama'), t('Kila wanachama aliyosajiliwa na hali ya uanachama wake')) }}
 <div class="report-actions no-print">
-  <a class="button secondary-button" href="{{ url_for('books_report') }}"
-    >{{ t('Ripoti ya vitabu') }}</a
-  ><button class="button" onclick="window.print()">{{ t('Chapisha') }}</button>
+  <a
+    class="button secondary-button icon-only"
+    href="{{ url_for('books_report') }}"
+    title="{{ t('Ripoti ya vitabu') }}"
+    aria-label="{{ t('Ripoti ya vitabu') }}"
+    >{{ icon('book') }}</a
+  ><button
+    class="button icon-only"
+    onclick="window.print()"
+    title="{{ t('Chapisha') }}"
+    aria-label="{{ t('Chapisha') }}"
+  >
+    {{ icon('printer') }}
+  </button>
 </div>
 {{ explanation(t('Muhtasari'), t('Ripoti hii inaonyesha kila wanachama aliyosajiliwa, namba yake, aina yake (mwanafunzi au mwalimu) na hali ya uanachama wake.')) }}
 <div class="stats">

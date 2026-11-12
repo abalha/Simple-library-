@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 {% block eyebrow %}{{ t('USIMAMIZI WA WANACHAMA') }}{% endblock %}
 {% block content %}
 <h1>{{ t('Badilisha taarifa') if editing else t('Sajili mwanachama') }}</h1>
@@ -33,6 +34,20 @@
   </select>
   {% endif %}
 
-  <div class="actions"><button>{{ t('Hifadhi') }}</button><a href="{{ url_for('members') }}">{{ t('Ghairi') }}</a></div>
+  <div class="actions">
+    <button
+      class="icon-only"
+      title="{{ t('Hifadhi') }}"
+      aria-label="{{ t('Hifadhi') }}"
+    >
+      {{ icon('save') }}
+    </button><a
+      class="icon-link"
+      href="{{ url_for('members') }}"
+      title="{{ t('Ghairi') }}"
+      aria-label="{{ t('Ghairi') }}"
+      >{{ icon('x') }}</a
+    >
+  </div>
 </form>
 {% endblock %}

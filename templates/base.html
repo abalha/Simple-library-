@@ -1,4 +1,4 @@
-<!doctype html>
+{% from '_icons.html' import icon %}<!doctype html>
 <html lang="{{ language }}">
   <head>
     <meta charset="utf-8" />
@@ -36,7 +36,14 @@
               name="csrf_token"
               value="{{ session.csrf_token }}"
             />
-            <button type="submit">{{ t('Toka') }}</button>
+            <button
+              class="icon-only"
+              type="submit"
+              title="{{ t('Toka') }}"
+              aria-label="{{ t('Toka') }}"
+            >
+              {{ icon('logout') }}
+            </button>
           </form>
           {% endif %}
           <form

@@ -1,12 +1,27 @@
-{% extends 'base.html' %} {% from '_report.html' import head, explanation, foot with
+{% extends 'base.html' %} {% from '_icons.html' import icon %} {% from '_report.html' import head, explanation, foot with
 context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %}
 {{ head(t('Ripoti ya vitabu'), t('Rekodi za vitabu zilizopo, nakala zake na zinazopatikana')) }}
 <div class="report-actions no-print">
-  <a class="button secondary-button" href="{{ url_for('loans_report') }}"
-    >{{ t('Vilivyoazimwa') }}</a
-  ><a class="button secondary-button" href="{{ url_for('members_report') }}"
-    >{{ t('Wanachama') }}</a
-  ><button class="button" onclick="window.print()">{{ t('Chapisha') }}</button>
+  <a
+    class="button secondary-button icon-only"
+    href="{{ url_for('loans_report') }}"
+    title="{{ t('Vilivyoazimwa') }}"
+    aria-label="{{ t('Vilivyoazimwa') }}"
+    >{{ icon('loans') }}</a
+  ><a
+    class="button secondary-button icon-only"
+    href="{{ url_for('members_report') }}"
+    title="{{ t('Wanachama') }}"
+    aria-label="{{ t('Wanachama') }}"
+    >{{ icon('users') }}</a
+  ><button
+    class="button icon-only"
+    onclick="window.print()"
+    title="{{ t('Chapisha') }}"
+    aria-label="{{ t('Chapisha') }}"
+  >
+    {{ icon('printer') }}
+  </button>
 </div>
 {{ explanation(t('Muhtasari'), t('Ripoti hii inaonyesha kila kitabu kilichopo katika maktaba, idadi ya nakala zake, na idadi ya nakala zilizo huria zinazopatikana kwa sasa.')) }}
 <div class="stats">

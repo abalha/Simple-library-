@@ -100,10 +100,21 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 - Ukurasa wa kurejesha unaonyesha siku zilizochelewa kabla ya mhudumu kuthibitisha;
   baada ya kurejesha, ujumbe unaarifu siku zilizochelewa.
 
+## Yaliyopo — Vitufe kwa alama
+
+- Vitufe vya hatua (kuongeza, kutafuta, kuonyesha vyote, kubadilisha, kufuta, kurejesha,
+  kuhifadhi, kupinga, kutoka) vinaonyesha alama (icon) badala ya maneno, ili kila hatua
+  inaonekana haraka kwenye jedwali.
+- Alama zimeandikwa ndani ya `templates/_icons.html` (SVG ya ndani) — hakuna package
+  ya ziada wala internet; mfumo bado unaenda offline.
+- Kila kitufe chenye alama pekee lina `title` na `aria-label` yenye maana tafsiri iliyopo
+  kwenye `i18n.py`, hivyo inaendelea kutumika na watu wanaotumia screen reader.
+- Majiko ya uthibitisho ("Ndiyo, futa" / "Ghairi") na kitufe cha kuingia bado zina maneno.
+
 ## Yaliyopo — Login na ripoti
 
 - Kurasa zote za mfumo zinalindwa kwa login ya mhudumu; mhudumu anaweza kutoka kwa kutumia
-  kiungo cha "Toka".
+  kitufe cha kutoka (alama ya kufungua mlango) kwenye kichwa cha ukurasa.
 - Kuna ripoti ya vitabu kwenye `/reports/books`, yenye rekodi za vitabu, nakala zote na
   nakala zinazopatikana, ripoti ya vitabu vilivyoazimwa kwenye `/reports/loans` yenye hali
   za mikopo na siku zilizochelewa, na ripoti ya wanachama kwenye `/reports/members`. Kila ripoti ina kitufe cha
