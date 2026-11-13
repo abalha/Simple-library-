@@ -190,9 +190,10 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 ## Imekamilika katika hatua ya kumi na mbili — Fomu rahisi kutumia (UI/UX) (12 Novemba 2026)
 
 - Fomu zote tatu (kitabu, mwanachama, kukopesha kitabu) sasa zinatumia mwundo mmoja
-  (`templates/_form.html`): lebo yenye alama ya `*`, maelezo ya kusaidia chini ya kila field,
-  `aria-describedby`, `aria-invalid` kwenye field zenye hitilafu, na autofocus kwenye field
-  ya kwanza.
+  (`templates/_form.html`): lebo yenye alama ya `*`, **mfano ndani ya field** (placeholder)
+  unaonyesha muundo unaotarajiwa, `aria-describedby`, `aria-invalid` kwenye field zenye
+  hitilafu, na autofocus kwenye field ya kwanza. Maelezo ya kusaidia yaliyo chini ya field
+  yamemovedwa kwenye paneli ya "kanuni" ili sehemu ya kuingiza isichukue nafasi nyingi.
 - Hitilafu sasa zinashikiliwa na field yake badala ya kuorodhesha tu: routes zinatumia
   `errors` kama kamusi (dict) badala ya orodha, na kila fomu inaonyesha muhtasari wa hitilafu
   mwandamoni wenye viungo vinavyounda kwenye field husika pamoja na ujumbe chini ya field.
@@ -202,12 +203,16 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 - Fomu ya kukopesha kitabu: orodha ya namba za wanachama walio hai (datalist), nakala
   zinazopatikana kwa kila kitabu (zinazobaki hazichagulikiwi), na onyesho la tarehe ya
   mwisho kabla ya kukopa.
-- Majaribio 19 (moja mpya) yanathibitisha maelezo ya kusaidia, alama za required, autofocus,
-  hitilafu zilizo karibu na field zake, muhtasari wa hitilafu wenye viungo, na datalist ya
-  wanachama.
+- Majaribio 19 (moja mpya) yanathibitisha placeholder (mfano ndani ya field), alama za
+  required, autofocus, hitilafu zilizo karibu na field zake, muhtasari wa hitilafu wenye
+  viungo, na datalist ya wanachama.
 - Mzigo wa ukurasa wa fomu ulibadilishwa: fomu (650px) kushoto, paneli ya kanuni (320px)
   kulia, na kifungu kizima kimepangwa kati ya nafasi ili isielewe upande mmoja. Kwenye skrini
   chini ya 1080px paneli huanguka chini ya fomu.
+- Maudhui yote ya mfumo sasa yana ukingo wa 1600px na yako kati ya skrini ili layout
+  isichanike kwenye skrini pana sana; sehemu za kuingiza za fomu hazipanuliwi (mtihani wa
+  mstari mrefu wa macho ni tatizo la kutumia). Stylesheet ya print haijibadilishwa —
+  ripoti bado inachapishwa kwa ukingo wa kamili.
 
 ## Hatua zinazofuata
 

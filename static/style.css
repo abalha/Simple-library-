@@ -42,6 +42,12 @@ body {
 .wrap {
   padding: 28px 24px 40px;
 }
+/* Maudhui hafikwi kwenye skrini pana — hubaki nafasi ya kusoma */
+main.wrap {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+}
 
 /* ---- Header na urambulisho ---- */
 header {
@@ -318,10 +324,9 @@ input::placeholder {
 .required {
   color: var(--danger);
 }
-.hint {
-  margin: 6px 0 0;
-  font-size: 13px;
-  color: var(--ink-soft);
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-faint);
 }
 .field-error {
   margin: 6px 0 0;

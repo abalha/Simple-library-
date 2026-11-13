@@ -1,4 +1,4 @@
-{# Mwongo wa fomu: maeneo ya lebo, maelezo ya kusaidia na hitilafu zinazohusika na kila field. #}
+{# Mwongo wa fomu: maeneo ya lebo, mfano ndani ya field na hitilafu zinazohusika na kila field. #}
 {% macro guidance(title, items) %}
   <aside class="guidance">
     <p class="guidance-title">{{ t(title) }}</p>
@@ -23,7 +23,7 @@
   {% endif %}
 {% endmacro %}
 
-{% macro text_field(id, label, value='', hint='', error='', type='text', placeholder='', maxlength='', minimum='', maximum='', inputmode='', autocomplete='', datalist='', autofocus=false) %}
+{% macro text_field(id, label, value='', error='', type='text', placeholder='', maxlength='', minimum='', maximum='', inputmode='', autocomplete='', datalist='', autofocus=false) %}
   <div class="field">
     <label for="{{ id }}">{{ t(label) }} <span class="required" aria-hidden="true">*</span></label>
     <input
@@ -31,7 +31,7 @@
       name="{{ id }}"
       type="{{ type }}"
       value="{{ value }}"
-      {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+      {% if placeholder %}placeholder="{{ t(placeholder) }}"{% endif %}
       {% if maxlength %}maxlength="{{ maxlength }}"{% endif %}
       {% if minimum != '' %}min="{{ minimum }}"{% endif %}
       {% if maximum != '' %}max="{{ maximum }}"{% endif %}
@@ -40,24 +40,21 @@
       {% if datalist %}list="{{ datalist }}"{% endif %}
       {% if autofocus %}autofocus{% endif %}
       required
-      aria-describedby="{{ id }}-hint{% if error %} {{ id }}-error{% endif %}"
-      {% if error %}aria-invalid="true"{% endif %}
+      {% if error %}aria-describedby="{{ id }}-error" aria-invalid="true"{% endif %}
     />
-    {% if hint %}<p class="hint" id="{{ id }}-hint">{{ t(hint) }}</p>{% endif %}
     {% if error %}<p class="field-error" id="{{ id }}-error">{{ error }}</p>{% endif %}
   </div>
 {% endmacro %}
 
 {# options: (thamani, maandishi, imezuiwa) #}
-{% macro select_field(id, label, options, value='', hint='', error='', placeholder='') %}
+{% macro select_field(id, label, options, value='', error='', placeholder='') %}
   <div class="field">
     <label for="{{ id }}">{{ t(label) }} <span class="required" aria-hidden="true">*</span></label>
     <select
       id="{{ id }}"
       name="{{ id }}"
       required
-      aria-describedby="{{ id }}-hint{% if error %} {{ id }}-error{% endif %}"
-      {% if error %}aria-invalid="true"{% endif %}
+      {% if error %}aria-describedby="{{ id }}-error" aria-invalid="true"{% endif %}
     >
       {% if placeholder %}<option value="">{{ placeholder }}</option>{% endif %}
       {% for option in options %}
@@ -70,7 +67,6 @@
         </option>
       {% endfor %}
     </select>
-    {% if hint %}<p class="hint" id="{{ id }}-hint">{{ t(hint) }}</p>{% endif %}
     {% if error %}<p class="field-error" id="{{ id }}-error">{{ error }}</p>{% endif %}
   </div>
 {% endmacro %}

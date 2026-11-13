@@ -268,17 +268,18 @@ class FormUsabilityTest(unittest.TestCase):
         client = self._client()
         token = login(client)
 
-        # kila fomu ina maelezo ya kusaidia, alama ya "required" na autofocus
-        for path, hint in [
-            ("/books/new", b"Jina kamili la kitabu, kwa mfano"),
-            ("/members/new", b"Namba ya kipekee ya mwanachama"),
-            ("/loans/new", b"Jaza namba ya mwanachama"),
+        # kila fomu ina mfano ndani ya field (placeholder), alama ya "required" na autofocus
+        for path, placeholder in [
+            ("/books/new", b'placeholder="Jina kamili la kitabu, kwa mfano: Utenzi wa Maisha."'),
+            ("/members/new", b'placeholder="Mfano: ST001"'),
+            ("/loans/new", b'placeholder="Mfano: ST001"'),
         ]:
             page = client.get(path).data
-            self.assertIn(hint, page)
+            self.assertIn(placeholder, page)
             self.assertIn(b'class="required"', page)
             self.assertIn(b"autofocus", page)
-            self.assertIn(b'aria-describedby="', page)
+            # paneli ya kanuni ipo kando ya fomu ili kutumia nafasi ya widescreen
+            self.assertIn(b'class="guidance"', page)
 
         # hitilafu zinaonyeshwa karibu na field husika, na muhtasari wa juu una viungo
         response = client.post(

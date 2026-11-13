@@ -26,9 +26,9 @@
         {% endfor %}
       </datalist>
 
-      {{ text_field('member_number', 'Namba ya mwanachama', values.get('member_number', ''), 'Jaza namba ya mwanachama aliyosajiliwa, kwa mfano ST001.', errors.get('member_number', ''), maxlength=50, autofocus=true, autocomplete='off', datalist='member-numbers') }}
+      {{ text_field('member_number', 'Namba ya mwanachama', values.get('member_number', ''), errors.get('member_number', ''), placeholder='Mfano: ST001', maxlength=50, autofocus=true, autocomplete='off', datalist='member-numbers') }}
 
-      {{ select_field('book_id', 'Kitabu', book_options, values.get('book_id', ''), 'Kila kitabu huonyeshwa pamoja na nakala zinazopatikana kwa sasa.', errors.get('book_id', ''), '-- ' ~ t('Chagua kitabu') ~ ' --') }}
+      {{ select_field('book_id', 'Kitabu', book_options, values.get('book_id', ''), errors.get('book_id', ''), '-- ' ~ t('Chagua kitabu') ~ ' --') }}
 
       <p class="form-note">
         {{ t('Muda wa kuazima ni siku') }} {{ loan_days }}. {{ t('Kitabu utaazimwa leo; tarehe ya mwisho itakuwa {due}.').format(due=due_date|display_date) }}

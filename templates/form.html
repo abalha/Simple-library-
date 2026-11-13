@@ -3,18 +3,18 @@ block content %}
 <div class="form-page">
 <h1>{{ t('Badilisha taarifa') if editing else t('Ongeza kitabu') }}</h1>
 <p class="form-intro">{{ t('Fomu yenye * inahitaji kujazwa.') }}</p>
-{% set copies_hint = t('Hikiwezi kuwa chini ya {copies} zinazokopeshwa kwa sasa.').format(copies=borrowed_copies) if editing and borrowed_copies else t('Idadi ya nakala zinazopatikana katika maktaba.') %}
+{% set copies_rule = t('Hikiwezi kuwa chini ya {copies} zinazokopeshwa kwa sasa.').format(copies=borrowed_copies) if editing and borrowed_copies else t('Nakala hazipunguzwi chini ya zile zinazokopeshwa kwa sasa.') %}
 <div class="form-layout">
   <div class="form-main">
     {{ error_summary(errors) }}
     <form class="card form" method="post">
       <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-      {{ text_field('title', 'Jina la kitabu', values.get('title', ''), 'Jina kamili la kitabu, kwa mfano: Utenzi wa Maisha.', errors.get('title', ''), maxlength=150, autofocus=true) }}
-      {{ text_field('author', 'Mwandishi', values.get('author', ''), 'Jina la mwandishi, kwa mfano: Amina Said.', errors.get('author', ''), maxlength=150) }}
-      {{ text_field('category', 'Aina ya kitabu', values.get('category', ''), 'Aina ya kitabu, kwa mfano: Elimu.', errors.get('category', ''), maxlength=150) }}
+      {{ text_field('title', 'Jina la kitabu', values.get('title', ''), errors.get('title', ''), placeholder='Jina kamili la kitabu, kwa mfano: Utenzi wa Maisha.', maxlength=150, autofocus=true) }}
+      {{ text_field('author', 'Mwandishi', values.get('author', ''), errors.get('author', ''), placeholder='Jina la mwandishi, kwa mfano: Amina Said.', maxlength=150) }}
+      {{ text_field('category', 'Aina ya kitabu', values.get('category', ''), errors.get('category', ''), placeholder='Aina ya kitabu, kwa mfano: Elimu.', maxlength=150) }}
       <div class="form-grid">
-        {{ text_field('publication_year', 'Mwaka wa kuchapishwa', values.get('publication_year', ''), 'Mfano: 2020', errors.get('publication_year', ''), type='number', minimum=1, maximum=current_year, inputmode='numeric') }}
-        {{ text_field('copies', 'Idadi ya nakala', values.get('copies', ''), copies_hint, errors.get('copies', ''), type='number', minimum=0, maximum=1000000, inputmode='numeric') }}
+        {{ text_field('publication_year', 'Mwaka wa kuchapishwa', values.get('publication_year', ''), errors.get('publication_year', ''), type='number', placeholder='Mfano: 2020', minimum=1, maximum=current_year, inputmode='numeric') }}
+        {{ text_field('copies', 'Idadi ya nakala', values.get('copies', ''), errors.get('copies', ''), type='number', placeholder='Mfano: 4', minimum=0, maximum=1000000, inputmode='numeric') }}
       </div>
       <div class="actions">
         <button class="button" type="submit">
@@ -31,6 +31,7 @@ block content %}
     t('Jina, mwandishi na aina: hadi herufi 150 kila moja.'),
     t('Mwaka wa kuchapishwa: kati ya 1 na {year}.').format(year=current_year),
     t('Idadi ya nakala ni nakala zote za kitabu hiki; zinazopatikana zinachungwa na mikopo inayoendelea.'),
+    copies_rule,
     t('Kitabu chenye historia ya mikopo hakiwezi kufutwa.')
   ]) }}
 </div>

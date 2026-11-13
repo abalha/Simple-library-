@@ -114,9 +114,8 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 ## Yaliyopo — Fomu rahisi kutumia
 
 - Fomu zote tatu (kuongeza/badilisha kitabu, kusajili/badilisha mwanachama, kukopesha kitabu)
-  zina mwundo mmoja: lebo yenye alama ya `*` ya maeneo yaliyohitajika, maelezo mafupi ya
-  kusaidia chini ya kila field (mfano wa muundo, kikomo cha herufi, kikomo cha vitabu), na
-  autofocus kwenye field ya kwanza.
+  zina mwundo mmoja: lebo yenye alama ya `*` ya maeneo yaliyohitajika, **mfano ndani ya
+  field** (placeholder) unaonyesha muundo unaotarajiwa, na autofocus kwenye field ya kwanza.
 - Hitilafu zinaonyeshwa **karibu na field iliyo tatizo** (mwaka wa pembe, ujumbe chini ya
   field) na pia kama muhtasari mwandamoni mwenye viungo vinavyounda kwenye field husika.
   Maadili ya kila field zinabaki zile za awali baada ya kosa.
@@ -128,7 +127,10 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 - Maeneo ya mwaka na idadi ya nakala yako kwenye mstari mmoja ili fomu isiwe ndefu.
 - Kwenye skrini mpana, ukurasa wa fomu una mistari miwili: fomu kushoto na paneli ya
   "kanuni" kulia (kikomo cha vitabu, muda wa kuazimaji, mfumo wa hali ya mwanachama);
-  paneli huanguka chini ya fomu kwenye skrini nyembu.
+  paneli huanguka chini ya fomu kwenye skrini nyembu. Fomu yenyewe haikupanuliwa zaidi ya
+  650px — sehemu za kuingiza zinapotea sana kuwa ndefu, hivyo mtu hashikii mstari mrefu.
+- Maudhui yote ya mfumo yana ukingo wa 1600px na yako kati ya skrini, ili layout
+  isichanike kwenye skrini pana sana.
 
 ## Yaliyopo — Login na ripoti
 
