@@ -82,15 +82,15 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 - Hakuna kufuta mwanachama; "inactive" hutumika kusimamisha uanachama bila kupoteza historia.
 - Namba ya mwanachama huhifadhiwa kwa herufi kubwa (uppercase) na ni ya kipekee
   bila kujali herufi kubwa/ndogo (ST001 na st001 ni mwanachama mmoja).
-- Mwanachama `active` pekee ndiye anayeruhusiwa kukopa kitabu kipya; aliye `inactive`
-  anaweza kurejesha kitabu alichonacho, lakini hawezi kukopa kingine. Mhudumu ndiye
+- Mwanachama `active` pekee ndiye anayeruhusiwa kuazima kitabu kipya; aliye `inactive`
+  anaweza kurejesha kitabu alichonacho, lakini hawezi kuazima kingine. Mhudumu ndiye
   anayehakiki kitambulisho cha chuo kabla ya kusajili; hakuna integration na mfumo wa chuo.
 
 ## Yaliyopo — Mikopo (uazimaji na urejeshaji)
 
 - Kukopesha kitabu: mhudumu anaandika namba ya mwanachama na kuchagua kitabu. Tarehe ya
-  mwisho (due date) huwekwa kiotomatiki siku 30 kutoka tarehe ya kukopa.
-- Masharti ya kukopa: mwanachama awe "active" (inactive hawezi kukopa kipya, lakini bado
+  mwisho (due date) huwekwa kiotomatiki siku 30 kutoka tarehe ya kuazima.
+- Masharti ya kuazima: mwanachama awe "active" (inactive hawezi kuazima kipya, lakini bado
   anaweza kurejesha mkopo wake uliopo); kitabu kiwe na nakala zinazopatikana (copies za jumla
   minus zinazokopeshwa kwa sasa); mwanafunzi hawezi kuwa na mikopo zaidi ya 3, mwalimu
   zaidi ya 5, ambazo bado hajairejesha kwa wakati mmoja.
@@ -107,7 +107,7 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 - Mfumo HAUWEKI faini — hii ni maamuzi rasmi ya maktaba (7 Novemba 2026): hakuna pesa
   inayohesabiwa wala kurekodiwa; orodha inaonyesha siku zilizochelewa tu kama taarifa.
 - Mwanachama mwenye angalau mkopo mmoja uliochelewa (returned_at ni tupu na due_date imepita)
-  hawezi kukopa kitabu kingine chochote mpaka arejeshe ulio nyuma — hii inazuiwa upande wa server,
+  hawezi kuazima kitabu kingine chochote mpaka arejeshe ulio nyuma — hii inazuiwa upande wa server,
   bila kujali kama bado hajafikia kikomo cha mikopo (mwanafunzi 3, mwalimu 5). Hii ndiyo
   adhabu pekee ya kuchelewa kurejesha.
 - Ukurasa wa kurejesha unaonyesha siku zilizochelewa kabla ya mhudumu kuthibitisha;
@@ -136,7 +136,7 @@ Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
   ili mhudumu asikilize kitufe kikubwa kabla ya kubofya.
 - Fomu ya kukopesha kitabu ina orodha ya namba za wanachama walio hai (unapopekeza namba
   unaona majina), inaonyesha nakala zinazopatikana kwa kila kitabu (kitabu kisichobaki
-  nakala hazichagulikiwi), na inaonyesha tarehe ya mwisho itakayotokea kabla ya kukopa.
+  nakala hazichagulikiwi), na inaonyesha tarehe ya mwisho itakayotokea kabla ya kuazima.
 - Maeneo ya mwaka na idadi ya nakala yako kwenye mstari mmoja ili fomu isiwe ndefu.
 - Kwenye skrini mpana, ukurasa wa fomu una mistari miwili: fomu kushoto na paneli ya
   "kanuni" kulia (kikomo cha vitabu, muda wa kuazimaji, mfumo wa hali ya mwanachama);
@@ -224,4 +224,4 @@ Eleza tofauti kati ya rekodi moja ya kitabu na nakala zake, na tofauti kati ya "
 
 Hili ni toleo la local kwenye PC moja, lenye login ya mhudumu mmoja tu. Usiweke kwenye internet.
 Wanachama hawafutwi kabisa — "inactive" pekee. Mfumo hauweki faini: mwenye mkopo uliochelewa
-anazuiwa kukopa tu. Hakuna akaunti nyingi wala roles. Sample data ipo kupitia `seed_data.py`.
+anazuiwa kuazima tu. Hakuna akaunti nyingi wala roles. Sample data ipo kupitia `seed_data.py`.

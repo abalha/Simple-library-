@@ -62,7 +62,7 @@ def main():
         loans = [
             # Mkopo wa kawaida ulio mikononi.
             (1, 1, today - timedelta(days=10), today + timedelta(days=20), None),
-            # Mkopo uliochelewa, wa kuonyesha overdue na uzuiaji wa kukopa.
+            # Mkopo uliochelewa, wa kuonyesha overdue na uzuiaji wa kuazima.
             (2, 2, today - timedelta(days=35), today - timedelta(days=5), None),
             # Mkopo uliorejeshwa kwa wakati.
             (

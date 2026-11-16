@@ -23,7 +23,7 @@ context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %
   <div><strong>{{ totals.active }}</strong><span>{{ t('Wanachama hai') }}</span></div>
   <div><strong>{{ totals.inactive }}</strong><span>{{ t('Wasio hai') }}</span></div>
 </div>
-{{ explanation(t('Maelezo ya kukokotoa'), t('Jumla ya wanachama = kila wanachama aliyosajiliwa. Hai = wanaochema na msimamizi. Wasio hai = waliohairishwa au waliositishwa na kukopa.')) }}
+{{ explanation(t('Maelezo ya kukokotoa'), t('Jumla ya wanachama = kila wanachama aliyosajiliwa. Hai = wanaochema na msimamizi. Wasio hai = waliohairishwa au waliositishwa na kuazima.')) }}
 <div class="table">
   <table>
     <thead>
@@ -53,6 +53,6 @@ context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %
   </table>
 </div>
 {{ explanation(t('Maelezo ya safu'), t('Namba = namba ya mwanachama; Jina kamili = jina la mwanachama; Aina = mwanafunzi au mwalimu; Hali = hai au haifanyi kazi.')) }}
-{{ explanation(t('Kanuni zilizotumika'), t('Mwanafunzi anaweza kukopa vitabu {student} kwa wakati mmoja; mwalimu anaweza kukopa vitabu {teacher} kwa wakati mmoja.').format(student=student_quota, teacher=teacher_quota)) }}
-{{ explanation(t('Maelezo ya hali'), t('Hai = mwanachama anaweza kukopa vitabu. Haifanyi kazi = mwanachama huzuiwa kukopa vitabu mpaka msimamizi wa maktaba aumrudishie kuwa hai.')) }}
+{{ explanation(t('Kanuni zilizotumika'), t('Mwanafunzi anaweza kuazima vitabu {student} kwa wakati mmoja; mwalimu anaweza kuazima vitabu {teacher} kwa wakati mmoja.').format(student=student_quota, teacher=teacher_quota)) }}
+{{ explanation(t('Maelezo ya hali'), t('Hai = mwanachama anaweza kuazima vitabu. Haifanyi kazi = mwanachama huzuiwa kuazima vitabu mpaka msimamizi wa maktaba aumrudishie kuwa hai.')) }}
 {{ foot(generated_at|display_date) }} {% endblock %}

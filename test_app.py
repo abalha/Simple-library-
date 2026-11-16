@@ -305,7 +305,7 @@ class FormUsabilityTest(unittest.TestCase):
         self.assertIn(b'aria-invalid="true"', page)
         self.assertIn(b'id="title-error"', page)
 
-        # namba ya mwanachama haipo kwenye fomu ya kukopa inashikilia field yake
+        # namba ya mwanachama haipo kwenye fomu ya kuazima inashikilia field yake
         response = client.post(
             "/loans/new",
             data={"member_number": "ST999", "book_id": "", "csrf_token": token},
@@ -314,7 +314,7 @@ class FormUsabilityTest(unittest.TestCase):
         self.assertIn(b'id="member_number-error"', page)
         self.assertIn(b'href="#member_number"', page)
 
-        # fomu ya kukopa ina orodha ya namba za wanachama waliopo (datalist)
+        # fomu ya kuazima ina orodha ya namba za wanachama waliopo (datalist)
         client.post(
             "/members/new",
             data={
@@ -626,7 +626,7 @@ class LoansTest(unittest.TestCase):
                 ).status_code,
                 302,
             )
-            # nakala 2 za kitabu A zote zimekopeshwa; mwanachama mwingine hawezi kukopa hicho kitabu
+            # nakala 2 za kitabu A zote zimekopeshwa; mwanachama mwingine hawezi kuazima hicho kitabu
             new_member("st004", "Khamis", kind="teacher")
             response = client.post(
                 "/loans/new",
@@ -710,7 +710,7 @@ class LoansTest(unittest.TestCase):
                 "/loans/new",
                 data=dict(member_number="st003", book_id="1", csrf_token=token),
             )
-            # st003 bado ni inactive, hivyo bado hawezi kukopa; hii inathibitisha available iliongezeka lakini status inazuia
+            # st003 bado ni inactive, hivyo bado hawezi kuazima; hii inathibitisha available iliongezeka lakini status inazuia
             self.assertIn("hawezi kuazima kitabu".encode(), response.data)
 
             self.assertEqual(client.get("/loans/999/return").status_code, 404)
@@ -769,7 +769,7 @@ class LoansTest(unittest.TestCase):
             )
 
             # Rudisha nyuma tarehe zote ili kuiga mkopo uliochelewa kwa siku 5,
-            # huku due date ikiendelea kuwa baada ya tarehe ya kukopa.
+            # huku due date ikiendelea kuwa baada ya tarehe ya kuazima.
             con = sqlite3.connect(path)
             overdue_due_date = (date.today() - timedelta(days=5)).isoformat()
             con.execute(
@@ -783,7 +783,7 @@ class LoansTest(unittest.TestCase):
             self.assertIn(b"Imechelewa siku 5", page)
             self.assertNotIn(b"TZS", page)  # faini zimeondolewa kabisa
 
-            # mwanachama mwenye mkopo uliochelewa hawezi kukopa kingine, hata kitabu tofauti
+            # mwanachama mwenye mkopo uliochelewa hawezi kuazima kingine, hata kitabu tofauti
             response = client.post(
                 "/loans/new",
                 data=dict(member_number="st010", book_id="2", csrf_token=token),

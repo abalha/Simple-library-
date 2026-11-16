@@ -31,7 +31,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   kwenye `config.py` — maamuzi ya mwanzo, yanaweza kubadilishwa pindi sheria rasmi itakapojulikana.
 - Routes: GET /loans (orodha yenye hali Kwenye mikono/Imechelewa/Imerejeshwa),
   GET+POST /loans/new (kukopesha), GET+POST /loans/<id>/return (kurejesha).
-- Masharti ya kukopa yanayohakikiwa server-side: mwanachama awe active; kitabu kiwe na
+- Masharti ya kuazima yanayohakikiwa server-side: mwanachama awe active; kitabu kiwe na
   nakala zinazopatikana (copies jumla minus zinazokopeshwa); mwanachama asivuke kikomo
   cha mikopo isiyorejeshwa. Mwanachama inactive bado anaweza kurejesha mkopo wake uliopo.
 - Ukurasa wa vitabu (`/`) sasa unaonyesha safu "Zinazopatikana" kando ya "Nakala" za jumla.
@@ -41,7 +41,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
 ## Imekamilika katika hatua ya nne — Overdue na faini
 
 - Maamuzi ya mtumiaji: faini TZS 1000 kwa siku ya kuchelewa (`FINE_PER_DAY` kwenye config.py);
-  mwanachama mwenye mkopo uliochelewa azuiwe kukopa kingine mpaka arejeshe.
+  mwanachama mwenye mkopo uliochelewa azuiwe kuazima kingine mpaka arejeshe.
 - `overdue_days(loan, today)`: siku za kuchelewa zinazokokotolewa kutoka due_date mpaka
   returned_at (kama tayari amerejesha) au mpaka leo (kama bado kwenye mikono — makadirio).
 - Orodha ya /loans sasa inaonyesha safu ya "Faini (TZS)" na idadi ya mikopo yaliyochelewa;
@@ -57,7 +57,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   schema mpya, logic tu, lakini backup ilitengenezwa kwa tahadhari).
 - Majaribio ya moja kwa moja (`test_app.py`, sasa tests 4) yanathibitisha: nakala/jedwali
   la awali, usajili/update/uniqueness ya wanachama, kukopesha/kurejesha/kikomo/kuzuia
-  kufuta-kupunguza-nakala, na sasa overdue/faini/uzuiaji wa kukopa kwa mwenye mkopo
+  kufuta-kupunguza-nakala, na sasa overdue/faini/uzuiaji wa kuazima kwa mwenye mkopo
   uliochelewa (kwa kuiga due_date ya zamani moja kwa moja kwenye test database).
 
 ## Bado haijathibitishwa
@@ -116,7 +116,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   onyo la faini kwenye ukurasa wa kurejesha, ujumbe wa faini baada ya kurejesha,
   na tafsiri zake zote kwenye i18n.py.
 - Adhabu pekee ya kuchelewa ni uzuiaji: mwanachama mwenye mkopo uliochelewa hawezi
-  kukopa kitabu kingine mpaka arejeshe (`member_has_overdue` kwenye routes/loans.py).
+  kuazima kitabu kingine mpaka arejeshe (`member_has_overdue` kwenye routes/loans.py).
 - Siku zilizochelewa bado zinaonyeshwa ("Imechelewa siku X") kama taarifa, si pesa.
 - Test ya overdue imesasishwa: inathibitisha kurasa hazionyeshi "TZS" yoyote, na
   kuwa uzuiaji unaondolewa baada ya kurejesha.
@@ -202,7 +202,7 @@ Deadline: 20 Novemba 2026. Delivery: Presentation.
   "Kopesha kitabu") ili hatua ya msingi ionekane wazi kabla ya kubofya.
 - Fomu ya kukopesha kitabu: orodha ya namba za wanachama walio hai (datalist), nakala
   zinazopatikana kwa kila kitabu (zinazobaki hazichagulikiwi), na onyesho la tarehe ya
-  mwisho kabla ya kukopa.
+  mwisho kabla ya kuazima.
 - Majaribio 19 (moja mpya) yanathibitisha placeholder (mfano ndani ya field), alama za
   required, autofocus, hitilafu zilizo karibu na field zake, muhtasari wa hitilafu wenye
   viungo, na datalist ya wanachama.
