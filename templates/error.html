@@ -6,9 +6,9 @@ content %}
   <div class="actions">
     <a
       class="button icon-only"
-      href="{{ url_for('login') }}"
-      title="{{ t('Rudi kwenye ukurasa wa kuingia') }}"
-      aria-label="{{ t('Rudi kwenye ukurasa wa kuingia') }}"
+      href="{{ url_for('index') if session.logged_in else url_for('login') }}"
+      title="{{ t('Rudi kwenye mfumo') if session.logged_in else t('Rudi kwenye ukurasa wa kuingia') }}"
+      aria-label="{{ t('Rudi kwenye mfumo') if session.logged_in else t('Rudi kwenye ukurasa wa kuingia') }}"
       >{{ icon('arrow-left') }}</a
     >
   </div>

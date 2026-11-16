@@ -17,7 +17,10 @@ DATABASE = (
 
 
 def main():
-    create_app(DATABASE)
+    create_app(
+        DATABASE,
+        {"LIBRARIAN_USERNAME": "seed", "LIBRARIAN_PASSWORD": "seed-only"},
+    )
     connection = sqlite3.connect(DATABASE)
     connection.execute("PRAGMA foreign_keys = ON")
     try:

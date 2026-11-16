@@ -5,6 +5,7 @@ import time
 from urllib.parse import urlsplit
 
 from flask import abort, flash, redirect, render_template, request, session, url_for
+from werkzeug.security import check_password_hash
 
 from i18n import LANGUAGES, translate
 
@@ -61,16 +62,23 @@ def register(app):
         target = request.full_path.rstrip("?") if request.method == "GET" else request.path
         return redirect(url_for("login", next=target))
 
-    @app.errorhandler(400)
-    def bad_request(error):
+    def error_page(code, message):
         return (
             render_template(
                 "error.html",
-                code=400,
-                message=translate(CSRF_EXPIRED_MESSAGE),
+                code=code,
+                message=translate(message),
             ),
-            400,
+            code,
         )
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return error_page(400, CSRF_EXPIRED_MESSAGE)
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return error_page(404, "Ukurasa huu haupatikani.")
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
@@ -79,7 +87,8 @@ def register(app):
         next_url = _safe_next(
             request.form.get("next") or request.args.get("next") or ""
         )
-        key = request.remote_addr or "unknown"
+        username_key = (request.form.get("username") or "").strip().casefold()
+        key = (request.remote_addr or "unknown", username_key)
         max_attempts = app.config.get("LOGIN_MAX_ATTEMPTS", MAX_LOGIN_ATTEMPTS)
         lockout_seconds = app.config.get("LOGIN_LOCKOUT_SECONDS", LOCKOUT_SECONDS)
         now = time.time()
@@ -102,7 +111,12 @@ def register(app):
             username = request.form.get("username", "").strip()
             password = request.form.get("password", "")
             username_ok = _same(username, app.config["LIBRARIAN_USERNAME"])
-            password_ok = _same(password, app.config["LIBRARIAN_PASSWORD"])
+            password_hash = app.config["LIBRARIAN_PASSWORD_HASH"]
+            password_ok = (
+                check_password_hash(password_hash, password)
+                if password_hash
+                else _same(password, app.config["LIBRARIAN_PASSWORD"])
+            )
             if username_ok and password_ok:
                 attempts.pop(key, None)
                 language = session.get("language")

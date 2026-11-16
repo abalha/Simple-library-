@@ -14,6 +14,24 @@ context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %
     title="{{ t('Wanachama') }}"
     aria-label="{{ t('Wanachama') }}"
     >{{ icon('users') }}</a
+  ><a
+    class="button secondary-button icon-only"
+    href="{{ url_for('current_loans_report') }}"
+    title="{{ t('Ripoti ya mikopo inayoendelea') }}"
+    aria-label="{{ t('Ripoti ya mikopo inayoendelea') }}"
+    >{{ icon('loans') }}</a
+  ><a
+    class="button secondary-button icon-only"
+    href="{{ url_for('overdue_report') }}"
+    title="{{ t('Ripoti ya vilivyochelewa') }}"
+    aria-label="{{ t('Ripoti ya vilivyochelewa') }}"
+    >{{ icon('search') }}</a
+  ><a
+    class="button secondary-button icon-only"
+    href="{{ url_for('low_stock_report') }}"
+    title="{{ t('Ripoti ya stock ndogo') }}"
+    aria-label="{{ t('Ripoti ya stock ndogo') }}"
+    >{{ icon('book') }}</a
   ><button
     class="button icon-only"
     onclick="window.print()"
@@ -23,7 +41,7 @@ context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %
     {{ icon('printer') }}
   </button>
 </div>
-{{ explanation(t('Muhtasari'), t('Ripoti hii inaonyesha kila kitabu kilichopo katika maktaba, idadi ya nakala zake, na idadi ya nakala zilizo huria zinazopatikana kwa sasa.')) }}
+{{ explanation(t('Muhtasari'), t('Ripoti hii inaonyesha kila kitabu kilichopo katika maktaba, idadi ya nakala zake, na idadi ya nakala zinazopatikana kwa sasa.')) }}
 <div class="stats">
   <div>
     <strong>{{ totals.titles }}</strong><span>{{ t('Rekodi za vitabu') }}</span>
@@ -33,7 +51,7 @@ context %} {% block eyebrow %}{{ t('RIPOTI') }}{% endblock %} {% block content %
     <strong>{{ totals.available }}</strong><span>{{ t('Zinazopatikana') }}</span>
   </div>
 </div>
-{{ explanation(t('Maelezo ya kukokotoa'), t('Zinazopatikana = nakala za kitabu zote zilizopo minus mikopo yake isiyorejeshwa. Mfano: kitabu chenye nakala 4 na mkopo 1 usiyorejeshwa kinaonyesha zinazopatikana 3.')) }}
+<!-- {{ explanation(t('Maelezo ya kukokotoa'), t('Zinazopatikana = nakala za kitabu zote zilizopo minus mikopo yake isiyorejeshwa. Mfano: kitabu chenye nakala 4 na mkopo 1 usiyorejeshwa kinaonyesha zinazopatikana 3.')) }} -->
 <div class="table">
   <table>
     <thead>

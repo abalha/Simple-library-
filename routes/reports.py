@@ -8,6 +8,18 @@ from database import get_db
 from routes.loans import enrich_loans, loan_rows
 
 
+def active_loan_rows(where="", parameters=()):
+    return get_db().execute(
+        f"""SELECT loans.*, books.title AS book_title, books.author AS book_author,
+        members.member_number AS member_number, members.full_name AS member_name
+        FROM loans JOIN books ON books.id = loans.book_id
+        JOIN members ON members.id = loans.member_id
+        WHERE loans.returned_at IS NULL {where}
+        ORDER BY loans.due_date, loans.borrowed_at, loans.id""",
+        parameters,
+    ).fetchall()
+
+
 def register(app):
     @app.get("/reports/books")
     def books_report():
@@ -41,6 +53,51 @@ def register(app):
             active_count=active_count,
             overdue_count=overdue_count,
             generated_at=today.isoformat(),
+        )
+
+    @app.get("/reports/current-loans")
+    def current_loans_report():
+        today = date.today()
+        loans = enrich_loans(active_loan_rows(), today)
+        return render_template(
+            "current_loans_report.html", loans=loans, generated_at=today.isoformat()
+        )
+
+    @app.get("/reports/overdue")
+    def overdue_report():
+        today = date.today()
+        loans = enrich_loans(
+            active_loan_rows("AND loans.due_date < ?", (today.isoformat(),)), today
+        )
+        return render_template(
+            "overdue_report.html", loans=loans, generated_at=today.isoformat()
+        )
+
+    @app.get("/reports/low-stock")
+    def low_stock_report():
+        connection = get_db()
+        books = connection.execute(
+            """SELECT books.*, books.copies - coalesce(
+                (SELECT count(*) FROM loans
+                 WHERE loans.book_id = books.id AND loans.returned_at IS NULL), 0
+            ) AS available
+            FROM books
+            WHERE books.copies - coalesce(
+                (SELECT count(*) FROM loans
+                 WHERE loans.book_id = books.id AND loans.returned_at IS NULL), 0
+            ) <= 1
+            ORDER BY available, title, id"""
+        ).fetchall()
+        totals = {
+            "titles": len(books),
+            "out_of_stock": sum(book["available"] == 0 for book in books),
+            "one_left": sum(book["available"] == 1 for book in books),
+        }
+        return render_template(
+            "low_stock_report.html",
+            books=books,
+            totals=totals,
+            generated_at=date.today().isoformat(),
         )
 
     @app.get("/reports/members")

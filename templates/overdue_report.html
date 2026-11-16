@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% from '_report.html' import head, explanation, foot with context %}
+{% block eyebrow %}{{ t('RIPOTI') }}{% endblock %}
+{% block content %}
+{{ head(t('Ripoti ya vilivyochelewa'), t('Mikopo ambayo tarehe yake ya mwisho imepita na haijarejeshwa')) }}
+<div class="report-actions no-print">
+  <a class="button secondary-button icon-only" href="{{ url_for('current_loans_report') }}" title="{{ t('Ripoti ya mikopo inayoendelea') }}" aria-label="{{ t('Ripoti ya mikopo inayoendelea') }}">{{ icon('loans') }}</a>
+  <button class="button icon-only" onclick="window.print()" title="{{ t('Chapisha') }}" aria-label="{{ t('Chapisha') }}">{{ icon('printer') }}</button>
+</div>
+{{ explanation(t('Muhtasari'), t('Tumia ripoti hii kufuatilia wanachama wanaotakiwa kurejesha vitabu. Mfumo hauweki faini; siku zilizochelewa ni taarifa ya ufuatiliaji.')) }}
+{{ explanation(t('Maelezo ya kukokotoa'), t('Mkopo umechelewa ikiwa haujarejeshwa na tarehe ya mwisho imepita.')) }}
+<div class="table"><table>
+  <thead><tr><th>{{ t('Kitabu') }}</th><th>{{ t('Mwanachama') }}</th><th>{{ t('Tarehe ya mwisho') }}</th><th>{{ t('Imechelewa siku') }}</th></tr></thead>
+  <tbody>{% for loan in loans %}<tr>
+    <td>{{ loan.book_title }}</td><td>{{ loan.member_name }} ({{ loan.member_number }})</td>
+    <td>{{ loan.due_date|display_date }}</td><td>{{ loan.overdue_days }}</td>
+  </tr>{% else %}<tr><td colspan="4">{{ t('Hakuna mikopo iliyochelewa.') }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{{ explanation(t('Maelezo ya safu'), t('Imechelewa siku = tofauti kati ya leo na tarehe ya mwisho ya mkopo.')) }}
+{{ explanation(t('Kanuni zilizotumika'), t('Mwanachama mwenye mkopo uliochelewa hawezi kukopa kitabu kingine mpaka arejeshe.')) }}
+{{ foot(generated_at|display_date) }}
+{% endblock %}

@@ -1,6 +1,7 @@
 """Book borrowing, returns, overdue rules, and loan query helpers."""
 
 from datetime import date, timedelta
+import sqlite3
 
 from flask import abort, flash, redirect, render_template, request, url_for
 
@@ -128,58 +129,65 @@ def register(app):
                 for key in ("member_number", "book_id")
             }
             values["member_number"] = values["member_number"].upper()
-            member = (
-                get_db()
-                .execute(
+            connection = get_db()
+            # This transaction serializes the availability and quota checks with
+            # the INSERT, so simultaneous requests cannot lend the same copy.
+            try:
+                connection.execute("BEGIN IMMEDIATE")
+                member = connection.execute(
                     "SELECT * FROM members WHERE member_number = ? COLLATE NOCASE",
                     (values["member_number"],),
+                ).fetchone()
+                book = (
+                    connection.execute(
+                        "SELECT * FROM books WHERE id = ?", (values["book_id"],)
+                    ).fetchone()
+                    if values["book_id"].isdigit()
+                    else None
                 )
-                .fetchone()
-            )
-            book = (
-                get_db()
-                .execute("SELECT * FROM books WHERE id = ?", (values["book_id"],))
-                .fetchone()
-                if values["book_id"].isdigit()
-                else None
-            )
-            if member is None:
-                errors["member_number"] = translate(
-                    "Namba ya mwanachama haipo. Hakiki namba au msajili mwanachama kwanza."
-                )
-            elif member["status"] != "active":
-                errors["member_number"] = translate(
-                    "Mwanachama huyu si hai (inactive); hawezi kuazima kitabu."
-                )
-            elif member_has_overdue(member["id"]):
-                errors["member_number"] = translate(
-                    "Mwanachama huyu ana kitabu kilichochelewa ambacho bado hajarejesha; hawezi kuazima kingine mpaka akirejeshe."
-                )
-            elif active_loans_for_member(member["id"]) >= loan_limit_for(member):
-                errors["member_number"] = (
-                    f"{translate('Mwanachama huyu ana vitabu')} {loan_limit_for(member)} {translate('ambavyo bado hajarejesha; hawezi kuazima kingine')}."
-                )
-            if book is None:
-                errors["book_id"] = translate("Chagua kitabu halali.")
-            elif active_loans_for_book(book["id"]) >= book["copies"]:
+                if member is None:
+                    errors["member_number"] = translate(
+                        "Namba ya mwanachama haipo. Hakiki namba au msajili mwanachama kwanza."
+                    )
+                elif member["status"] != "active":
+                    errors["member_number"] = translate(
+                        "Mwanachama huyu si hai (inactive); hawezi kuazima kitabu."
+                    )
+                elif member_has_overdue(member["id"]):
+                    errors["member_number"] = translate(
+                        "Mwanachama huyu ana kitabu kilichochelewa ambacho bado hajarejesha; hawezi kuazima kingine mpaka akirejeshe."
+                    )
+                elif active_loans_for_member(member["id"]) >= loan_limit_for(member):
+                    errors["member_number"] = (
+                        f"{translate('Mwanachama huyu ana vitabu')} {loan_limit_for(member)} {translate('ambavyo bado hajarejesha; hawezi kuazima kingine')}."
+                    )
+                if book is None:
+                    errors["book_id"] = translate("Chagua kitabu halali.")
+                elif active_loans_for_book(book["id"]) >= book["copies"]:
+                    errors["book_id"] = translate(
+                        "Hakuna nakala za kitabu hiki zilizobaki kwa sasa."
+                    )
+                if not errors:
+                    borrowed_at = date.today()
+                    due_date = borrowed_at + timedelta(days=LOAN_DAYS)
+                    connection.execute(
+                        "INSERT INTO loans (book_id, member_id, borrowed_at, due_date) VALUES (?, ?, ?, ?)",
+                        (
+                            book["id"],
+                            member["id"],
+                            borrowed_at.isoformat(),
+                            due_date.isoformat(),
+                        ),
+                    )
+                    connection.commit()
+                    flash(translate("Kitabu kimekopeshwa."))
+                    return redirect(url_for("loans"))
+                connection.rollback()
+            except sqlite3.OperationalError:
+                connection.rollback()
                 errors["book_id"] = translate(
-                    "Hakuna nakala za kitabu hiki zilizobaki kwa sasa."
+                    "Mfumo una shughuli nyingine ya kukopesha. Jaribu tena."
                 )
-            if not errors:
-                borrowed_at = date.today()
-                due_date = borrowed_at + timedelta(days=LOAN_DAYS)
-                get_db().execute(
-                    "INSERT INTO loans (book_id, member_id, borrowed_at, due_date) VALUES (?, ?, ?, ?)",
-                    (
-                        book["id"],
-                        member["id"],
-                        borrowed_at.isoformat(),
-                        due_date.isoformat(),
-                    ),
-                )
-                get_db().commit()
-                flash(translate("Kitabu kimekopeshwa."))
-                return redirect(url_for("loans"))
         members = get_db().execute(
             """SELECT member_number, full_name FROM members
             WHERE status = 'active' ORDER BY full_name"""

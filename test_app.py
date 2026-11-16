@@ -1,10 +1,16 @@
+import os
 import sqlite3
 import tempfile
 import time
 import unittest
 from datetime import date, timedelta
 from pathlib import Path
-from app import create_app, DEFAULT_LIBRARIAN_PASSWORD, DEFAULT_LIBRARIAN_USERNAME
+from app import create_app
+
+TEST_LIBRARIAN_USERNAME = "test-librarian"
+TEST_LIBRARIAN_PASSWORD = "test-password-not-for-production"
+os.environ.setdefault("LIBRARIAN_USERNAME", TEST_LIBRARIAN_USERNAME)
+os.environ.setdefault("LIBRARIAN_PASSWORD", TEST_LIBRARIAN_PASSWORD)
 
 
 def login(client):
@@ -14,8 +20,8 @@ def login(client):
     response = client.post(
         "/login",
         data={
-            "username": DEFAULT_LIBRARIAN_USERNAME,
-            "password": DEFAULT_LIBRARIAN_PASSWORD,
+            "username": TEST_LIBRARIAN_USERNAME,
+            "password": TEST_LIBRARIAN_PASSWORD,
             "csrf_token": token,
         },
     )
@@ -44,7 +50,7 @@ class LoginTest(unittest.TestCase):
                 "/login",
                 data={
                     "username": "sipo",
-                    "password": DEFAULT_LIBRARIAN_PASSWORD,
+                    "password": TEST_LIBRARIAN_PASSWORD,
                     "csrf_token": token,
                 },
             )
@@ -112,13 +118,13 @@ class LoginSecurityTest(unittest.TestCase):
         for _ in range(5):
             client.post(
                 "/login",
-                data={"username": "admin", "password": "wrong", "csrf_token": token},
+                data={"username": TEST_LIBRARIAN_USERNAME, "password": "wrong", "csrf_token": token},
             )
         response = client.post(
             "/login",
             data={
-                "username": DEFAULT_LIBRARIAN_USERNAME,
-                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "username": TEST_LIBRARIAN_USERNAME,
+                "password": TEST_LIBRARIAN_PASSWORD,
                 "csrf_token": token,
             },
         )
@@ -132,14 +138,14 @@ class LoginSecurityTest(unittest.TestCase):
         for _ in range(5):
             client.post(
                 "/login",
-                data={"username": "admin", "password": "wrong", "csrf_token": token},
+                data={"username": TEST_LIBRARIAN_USERNAME, "password": "wrong", "csrf_token": token},
             )
         time.sleep(1.2)
         response = client.post(
             "/login",
             data={
-                "username": DEFAULT_LIBRARIAN_USERNAME,
-                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "username": TEST_LIBRARIAN_USERNAME,
+                "password": TEST_LIBRARIAN_PASSWORD,
                 "csrf_token": token,
             },
         )
@@ -154,8 +160,8 @@ class LoginSecurityTest(unittest.TestCase):
         response = client.post(
             "/login",
             data={
-                "username": DEFAULT_LIBRARIAN_USERNAME,
-                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "username": TEST_LIBRARIAN_USERNAME,
+                "password": TEST_LIBRARIAN_PASSWORD,
                 "csrf_token": token,
                 "next": "/books/new",
             },
@@ -170,8 +176,8 @@ class LoginSecurityTest(unittest.TestCase):
             response = client.post(
                 "/login",
                 data={
-                    "username": DEFAULT_LIBRARIAN_USERNAME,
-                    "password": DEFAULT_LIBRARIAN_PASSWORD,
+                    "username": TEST_LIBRARIAN_USERNAME,
+                    "password": TEST_LIBRARIAN_PASSWORD,
                     "csrf_token": token,
                     "next": evil,
                 },
@@ -199,14 +205,14 @@ class FooterTest(unittest.TestCase):
         client = self._client()
         login_page = client.get("/login").data
         self.assertIn(b'class="app-footer no-print footer-centered"', login_page)
-        self.assertIn(b"Library MIS. Haki zote zimehifadhiwa.", login_page)
+        self.assertIn(b"Library MIS (Assignment1) Haki zote zimehifadhiwa.", login_page)
         self.assertNotIn(b'class="footer-links"', login_page)
 
         login(client)
         page = client.get("/").data
         self.assertIn(b'class="app-footer no-print"', page)
         self.assertIn(b'class="footer-links"', page)
-        self.assertIn(b"Library MIS. Haki zote zimehifadhiwa.", page)
+        self.assertIn(b"Library MIS (Assignment1) Haki zote zimehifadhiwa.", page)
         # footer iko baada ya maudhui, ili iwe chini ya kila ukurasa
         self.assertLess(page.index(b"</main>"), page.index(b"app-footer"))
 
@@ -334,7 +340,14 @@ class ReportsTest(unittest.TestCase):
     def test_reports_explain_themselves(self):
         client = self._client()
         token = login(client)
-        for path in ["/reports/books", "/reports/loans", "/reports/members"]:
+        for path in [
+            "/reports/books",
+            "/reports/loans",
+            "/reports/members",
+            "/reports/current-loans",
+            "/reports/overdue",
+            "/reports/low-stock",
+        ]:
             page = client.get(path).data
             self.assertIn(b"Muhtasari", page)
             self.assertIn(b"Maelezo ya kukokotoa", page)
@@ -359,8 +372,8 @@ class ReportsTest(unittest.TestCase):
         client.post(
             "/login",
             data={
-                "username": DEFAULT_LIBRARIAN_USERNAME,
-                "password": DEFAULT_LIBRARIAN_PASSWORD,
+                "username": TEST_LIBRARIAN_USERNAME,
+                "password": TEST_LIBRARIAN_PASSWORD,
                 "csrf_token": token,
             },
         )
@@ -755,11 +768,13 @@ class LoansTest(unittest.TestCase):
                 302,
             )
 
-            # rudisha nyuma tarehe ya mwisho (due_date) ili kuiga mkopo uliochelewa kwa siku 5
+            # Rudisha nyuma tarehe zote ili kuiga mkopo uliochelewa kwa siku 5,
+            # huku due date ikiendelea kuwa baada ya tarehe ya kukopa.
             con = sqlite3.connect(path)
             overdue_due_date = (date.today() - timedelta(days=5)).isoformat()
             con.execute(
-                "UPDATE loans SET due_date = ? WHERE id = 1", (overdue_due_date,)
+                "UPDATE loans SET borrowed_at = ?, due_date = ? WHERE id = 1",
+                ((date.today() - timedelta(days=35)).isoformat(), overdue_due_date),
             )
             con.commit()
             con.close()
@@ -813,8 +828,8 @@ class LanguageTest(unittest.TestCase):
                 client.post(
                     "/login",
                     data={
-                        "username": DEFAULT_LIBRARIAN_USERNAME,
-                        "password": DEFAULT_LIBRARIAN_PASSWORD,
+                        "username": TEST_LIBRARIAN_USERNAME,
+                        "password": TEST_LIBRARIAN_PASSWORD,
                         "csrf_token": token,
                     },
                 ).status_code,

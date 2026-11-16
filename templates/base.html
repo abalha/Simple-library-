@@ -85,7 +85,7 @@
             >{{ t('Vilivyoazimwa') }}</a
           >
           <a
-            class="{{ 'active' if request.endpoint in ('books_report', 'loans_report', 'members_report') }}"
+            class="{{ 'active' if request.endpoint in ('books_report', 'loans_report', 'members_report', 'current_loans_report', 'overdue_report', 'low_stock_report') }}"
             href="{{ url_for('books_report') }}"
             >{{ t('Ripoti') }}</a
           >
@@ -125,13 +125,10 @@
             <div class="footer-contact">
               <p class="footer-label">{{ t('Msimamizi wa maktaba') }}</p>
               <p class="footer-value">{{ librarian }}</p>
-              <p class="footer-note">
-                {{ t('Toleo la mafunzo · Mhudumu mmoja pekee; hakuna akaunti nyingi bado') }}
-              </p>
             </div>
           </div>
           <div class="footer-bottom">
-            <span>© {{ current_year }} Maktaba — Library MIS. {{ t('Haki zote zimehifadhiwa.') }}</span>
+            <span>© {{ current_year }} Maktaba — Library MIS (Assignment1) {{ t('Haki zote zimehifadhiwa.') }}</span>
             <span>{{ t('Mfumo wa Usimamizi wa Maktaba') }}</span>
           </div>
         </footer>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% from '_report.html' import head, explanation, foot with context %}
+{% block eyebrow %}{{ t('RIPOTI') }}{% endblock %}
+{% block content %}
+{{ head(t('Ripoti ya stock ndogo'), t('Vitabu vyenye nakala 1 au chini zinazopatikana')) }}
+<div class="report-actions no-print">
+  <a class="button secondary-button icon-only" href="{{ url_for('current_loans_report') }}" title="{{ t('Ripoti ya mikopo inayoendelea') }}" aria-label="{{ t('Ripoti ya mikopo inayoendelea') }}">{{ icon('loans') }}</a>
+  <button class="button icon-only" onclick="window.print()" title="{{ t('Chapisha') }}" aria-label="{{ t('Chapisha') }}">{{ icon('printer') }}</button>
+</div>
+{{ explanation(t('Muhtasari'), t('Ripoti hii husaidia kutambua vitabu vilivyoisha au vilivyobakiwa na nakala moja inayoweza kukopeshwa.')) }}
+<div class="stats"><div><strong>{{ totals.titles }}</strong><span>{{ t('Vitabu vya kufuatilia') }}</span></div><div><strong>{{ totals.out_of_stock }}</strong><span>{{ t('Vilivyoisha') }}</span></div><div><strong>{{ totals.one_left }}</strong><span>{{ t('Nakala moja imebaki') }}</span></div></div>
+<div class="table"><table>
+  <thead><tr><th>{{ t('Kitabu') }}</th><th>{{ t('Mwandishi') }}</th><th>{{ t('Nakala') }}</th><th>{{ t('Zinazopatikana') }}</th></tr></thead>
+  <tbody>{% for book in books %}<tr><td>{{ book.title }}</td><td>{{ book.author }}</td><td>{{ book.copies }}</td><td>{{ book.available }}</td></tr>{% else %}<tr><td colspan="4">{{ t('Hakuna vitabu vya stock ndogo kwa sasa.') }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{{ explanation(t('Maelezo ya kukokotoa'), t('Stock ndogo = nakala zinazopatikana 1 au 0, baada ya kutoa mikopo ambayo bado haijarejeshwa.')) }}
+{{ explanation(t('Maelezo ya safu'), t('Nakala ni idadi yote ya vitabu; Zinazopatikana ni nakala ambazo zinaweza kukopeshwa sasa.')) }}
+{{ explanation(t('Kanuni zilizotumika'), t('Ripoti huonyesha vitabu vyenye nakala 1 au chini zinazopatikana.')) }}
+{{ foot(generated_at|display_date) }}
+{% endblock %}

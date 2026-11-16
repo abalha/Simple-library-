@@ -27,8 +27,20 @@ SCHEMA = (
         member_id INTEGER NOT NULL REFERENCES members(id),
         borrowed_at TEXT NOT NULL,
         due_date TEXT NOT NULL,
-        returned_at TEXT
+        returned_at TEXT,
+        CHECK(due_date >= borrowed_at),
+        CHECK(returned_at IS NULL OR returned_at >= borrowed_at)
     )""",
+    """CREATE TRIGGER IF NOT EXISTS validate_loan_dates_insert
+    BEFORE INSERT ON loans
+    WHEN NEW.due_date < NEW.borrowed_at
+      OR (NEW.returned_at IS NOT NULL AND NEW.returned_at < NEW.borrowed_at)
+    BEGIN SELECT RAISE(ABORT, 'invalid loan dates'); END""",
+    """CREATE TRIGGER IF NOT EXISTS validate_loan_dates_update
+    BEFORE UPDATE OF borrowed_at, due_date, returned_at ON loans
+    WHEN NEW.due_date < NEW.borrowed_at
+      OR (NEW.returned_at IS NOT NULL AND NEW.returned_at < NEW.borrowed_at)
+    BEGIN SELECT RAISE(ABORT, 'invalid loan dates'); END""",
 )
 
 

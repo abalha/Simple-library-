@@ -46,10 +46,23 @@ script; usifanye hivyo ukiwa unahitaji data zako halisi.
 
 ## Kuingia
 
-Mfumo una login ya mhudumu mmoja. Taarifa za majaribio ni username `admin` na password
-`maktaba2026`. Kwa matumizi halisi, badilisha taarifa hizi kabla ya kuendesha app kwa kuweka
-environment variables `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD`; usitumie taarifa za
-majaribio kwenye kompyuta inayoshirikiwa.
+Mfumo hauna username au password ya default. Kabla ya kuendesha app, weka environment
+variables `LIBRARIAN_USERNAME` na `LIBRARIAN_PASSWORD` (au `LIBRARIAN_PASSWORD_HASH` kwa
+hash ya Werkzeug). Usihifadhi password kwenye source code au log.
+
+Windows PowerShell:
+
+```powershell
+$env:LIBRARIAN_USERNAME = "librarian"
+$env:LIBRARIAN_PASSWORD = "weka-nenosiri-refu-la-siri"
+```
+
+macOS/Linux:
+
+```bash
+export LIBRARIAN_USERNAME="librarian"
+export LIBRARIAN_PASSWORD="weka-nenosiri-refu-la-siri"
+```
 Login hii ni ulinzi wa mwanzo tu: bado hakuna akaunti nyingi wala majukumu tofauti ya watumiaji.
 Baada ya majaribio 5 yaliyof faili, akaunti hufungwa kwa dakika 5 (kwa kila IP).
 

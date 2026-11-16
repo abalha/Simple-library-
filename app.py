@@ -8,8 +8,6 @@ from pathlib import Path
 from flask import Flask
 
 from config import (
-    DEFAULT_LIBRARIAN_PASSWORD,
-    DEFAULT_LIBRARIAN_USERNAME,
     LOAN_DAYS,
     MAX_STUDENT_LOANS,
     MAX_TEACHER_LOANS,
@@ -20,8 +18,6 @@ from routes import auth, books, loans, members, reports
 
 __all__ = [
     "create_app",
-    "DEFAULT_LIBRARIAN_PASSWORD",
-    "DEFAULT_LIBRARIAN_USERNAME",
     "LOAN_DAYS",
     "MAX_STUDENT_LOANS",
     "MAX_TEACHER_LOANS",
@@ -41,7 +37,7 @@ def load_or_create_secret_key():
     return key
 
 
-def create_app(database=None):
+def create_app(database=None, test_config=None):
     app = Flask(__name__)
     app.config.update(
         SECRET_KEY=os.environ.get("SECRET_KEY") or load_or_create_secret_key(),
@@ -49,19 +45,21 @@ def create_app(database=None):
         MAX_CONTENT_LENGTH=64 * 1024,
         # CSS/mizingo ipate ETag revalidation kila refresh — mabadiliko ya UI yaonekane bila hard refresh
         SEND_FILE_MAX_AGE_DEFAULT=0,
-        LIBRARIAN_USERNAME=os.environ.get("LIBRARIAN_USERNAME")
-        or DEFAULT_LIBRARIAN_USERNAME,
-        LIBRARIAN_PASSWORD=os.environ.get("LIBRARIAN_PASSWORD")
-        or DEFAULT_LIBRARIAN_PASSWORD,
+        LIBRARIAN_USERNAME=os.environ.get("LIBRARIAN_USERNAME"),
+        LIBRARIAN_PASSWORD=os.environ.get("LIBRARIAN_PASSWORD"),
+        LIBRARIAN_PASSWORD_HASH=os.environ.get("LIBRARIAN_PASSWORD_HASH"),
         PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
         LOGIN_MAX_ATTEMPTS=5,
         LOGIN_LOCKOUT_SECONDS=300,
     )
-    if not os.environ.get("LIBRARIAN_PASSWORD"):
-        app.logger.warning(
-            "Nenosiri la majaribio (%s) linatumika. Weka LIBRARIAN_PASSWORD "
-            "kabla ya matumizi halisi.",
-            DEFAULT_LIBRARIAN_PASSWORD,
+    if test_config:
+        app.config.update(test_config)
+    if not app.config["LIBRARIAN_USERNAME"] or not (
+        app.config["LIBRARIAN_PASSWORD"] or app.config["LIBRARIAN_PASSWORD_HASH"]
+    ):
+        raise RuntimeError(
+            "Weka LIBRARIAN_USERNAME na LIBRARIAN_PASSWORD (au "
+            "LIBRARIAN_PASSWORD_HASH) kabla ya kuanzisha mfumo."
         )
 
     @app.template_filter("display_date")
